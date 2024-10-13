@@ -1,5 +1,4 @@
-package main.java.edu.ntnu.idi.idatt;
-
+package test.java.edu.ntnu.idi.idatt;
 
 //importerer testmodulene fra JUnit5
 import org.junit.jupiter.api.Test;
