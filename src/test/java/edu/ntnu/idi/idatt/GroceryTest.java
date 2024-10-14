@@ -1,15 +1,7 @@
-package test.java.edu.ntnu.idi.idatt;
-
 //importerer testmodulene fra JUnit5
 import org.junit.jupiter.api.Test;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.beans.Transient;
-
-
-
-
 
 public class GroceryTest {
 
