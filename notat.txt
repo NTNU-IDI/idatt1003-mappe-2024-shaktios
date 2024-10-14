@@ -1,0 +1,1 @@
+hva skal jeg ha i pom filen?? må jeg ha noe i pom.xml?? fikk 500 feilmeldinger og skjønte seriøst ikke hvorfor 
