@@ -8,7 +8,7 @@ public class Grocery {
     private double amount; //mengde matvare
     private String measuringUnit; //enhet på matvaren
     private Date bestBeforeDate ; //dato med hjelp av java.util bibloteket
-    private double pricePerUnit; 
+    private double pricePerUnit; //pris per enhet 
     
     
     //konstruktør 
