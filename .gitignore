@@ -1,0 +1,2 @@
+#forteller til git å ignorere maven mappen target
+target/
