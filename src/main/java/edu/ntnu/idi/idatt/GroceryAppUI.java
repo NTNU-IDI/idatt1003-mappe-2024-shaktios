@@ -3,6 +3,14 @@ package edu.ntnu.idi.idatt;
 
 public class GroceryAppUI {
 
+    private Fridge fridge; // Legger til et kjøleskap
+
+    // Konstruktør
+    public GroceryAppUI() {
+        this.fridge = new Fridge();
+    }
+
+
     //metode for å starte applikasjonen
     public void init(){
 
@@ -28,6 +36,18 @@ public class GroceryAppUI {
          printGroceryDetails(egg);
          printGroceryDetails(brød);
          printGroceryDetails(epler);
+
+
+        fridge.addItem(melk);
+        fridge.addItem(egg);
+        fridge.addItem(brød);
+        fridge.addItem(epler);
+
+        // Viser alle varer i kjøleskapet
+        fridge.displayItems();
+
+        // Viser varer som går ut på dato snart (innen 3 dager)
+        fridge.displayExpiringSoon(3);
     }
 
 
