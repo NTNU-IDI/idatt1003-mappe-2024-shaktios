@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: edu.ntnu.idi.idatt.GroceryTests
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s - in edu.ntnu.idi.idatt.GroceryTests
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! - in edu.ntnu.idi.idatt.GroceryTests
+testValidGrocery  Time elapsed: 0.018 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <10> but was: <9>
+	at edu.ntnu.idi.idatt.GroceryTests.testValidGrocery(GroceryTests.java:21)
+
+testNegativeDaysUntilExpiryThrowsException  Time elapsed: 0 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+	at edu.ntnu.idi.idatt.GroceryTests.testNegativeDaysUntilExpiryThrowsException(GroceryTests.java:43)
+

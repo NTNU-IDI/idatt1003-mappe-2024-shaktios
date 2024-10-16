@@ -1,2 +1,7 @@
 hva skal jeg ha i pom filen?? må jeg ha noe i pom.xml?? fikk 500 feilmeldinger og skjønte seriøst ikke hvorfor . løst, måtte bare sette det i riktig gren
 
+ting å fikse på:
+bestBeforeDate er bare dagens dato... 
+sette opp dagens dato og best beforedate, funksjon for å se hvor lenge til en vare går ut på dato. 
+fjerne og legge til varer. 
+sjekke hvilke varer man har i kjøleskapet. 

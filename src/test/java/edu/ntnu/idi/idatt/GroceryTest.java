@@ -1,46 +1,51 @@
 package edu.ntnu.idi.idatt;
-import java.util.Date;
+
+// Importerer JUnit-modulene fra JUnit 5
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 public class GroceryTest {
 
-    public static void main(String[] args) {
-        // Kjør testene direkte fra main()
-        testValidGrocery();
-        testNegativeAmountThrowsException();
-        testEmptyNameThrowsException();
+  @Test
+   
+    public void testValidGrocery() {
+    Grocery melk = new Grocery("Melk", 1.5, "liter", 10, 20.0); // Opprett melk med 10 dager til utløp
+
+    // Tester om feltene i Grocery-objektet har riktig verdi
+    assertEquals("Melk", melk.getName());
+    assertEquals(1.5, melk.getAmount());
+    assertEquals("liter", melk.getMeasuringUnit());
+    assertEquals(20.0, melk.getPricePerUnit());
+
+    // Test på antall dager til utløp, tillater en liten forskjell på +/- 1 dag
+    int daysUntilExpiry = melk.getDaysUntilExpiry();
+    assertTrue(daysUntilExpiry == 10 || daysUntilExpiry == 9, "Forventet 10 eller 9 dager til utløp, men var: " + daysUntilExpiry);
+}
+
+
+    @Test
+    // Sjekker hva som skjer ved negative mengder
+    public void testNegativeAmountThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Grocery("Melk", -1.0, "liter", 10, 20.0); // Opprett med negativ mengde
+        });
     }
 
-    public static void testValidGrocery() {
-        Date date = new Date(); // oppretter dagens dato
-        Grocery melk = new Grocery("Melk", 1.5, "liter", date, 20.0); // setter opp melk som en "Grocery"
-
-        // Tester om feltene i Grocery-objektet har riktig verdi
-        if ("Melk".equals(melk.getName()) &&
-            1.5 == melk.getAmount() &&
-            "liter".equals(melk.getMeasuringUnit()) &&
-            20.0 == melk.getPricePerUnit()) {
-            System.out.println("testValidGrocery: OK");
-        } else {
-            System.out.println("testValidGrocery: FEILET");
-        }
+    @Test
+    // Sjekker hva som skjer ved tomt navn
+    public void testEmptyNameThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Grocery("", 1.0, "liter", 10, 20.0); // Opprett med tomt navn
+        });
     }
 
-    public static void testNegativeAmountThrowsException() {
-        Date date = new Date();
-        try {
-            new Grocery("Melk", -1.0, "liter", date, 20.0);
-            System.out.println("testNegativeAmountThrowsException: FEILET (Forventet unntak ble ikke kastet)");
-        } catch (IllegalArgumentException e) {
-            System.out.println("testNegativeAmountThrowsException: OK");
-        }
-    }
-
-    public static void testEmptyNameThrowsException() {
-        Date date = new Date();
-        try {
-            new Grocery("", 1.0, "liter", date, 20.0);
-            System.out.println("testEmptyNameThrowsException: FEILET (Forventet unntak ble ikke kastet)");
-        } catch (IllegalArgumentException e) {
-            System.out.println("testEmptyNameThrowsException: OK");
-        }
+    @Test
+    // Sjekker hva som skjer ved negativ verdi for dager til utløp
+    public void testNegativeDaysUntilExpiryThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Grocery("Melk", 1.0, "liter", -5, 20.0); // Opprett med negativ dager til utløp
+        });
     }
 }

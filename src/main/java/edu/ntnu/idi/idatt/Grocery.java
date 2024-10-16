@@ -1,4 +1,6 @@
 package edu.ntnu.idi.idatt;
+
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -9,11 +11,12 @@ public class Grocery {
     private String measuringUnit; //enhet på matvaren
     private Date bestBeforeDate ; //dato med hjelp av java.util bibloteket
     private double pricePerUnit; //pris per enhet 
-    
+    private Date today; //dagens dato
+    //har ingen "daysUntilExpiry", koden er dynamisk og oppdaterer seg hver gang den kjøres på denne måten.  
     
     //konstruktør 
 
-    public Grocery(String name, double amount, String measuringUnit, Date bestBeforeDate,double pricePerUnit){
+    public Grocery(String name, double amount, String measuringUnit,int daysUntilExpiry ,double pricePerUnit){
 
         if (name==null || name.isEmpty()){
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn");
@@ -24,12 +27,25 @@ public class Grocery {
         if(pricePerUnit<0){
             throw new IllegalArgumentException("Pris per enhet kan ikke være mindre enn 0");
         }
+        if (daysUntilExpiry < 0) {
+            throw new IllegalArgumentException("Antall dager til utløp kan ikke være negativt.");
+        }
 
         this.name = name; 
         this.amount = amount; 
         this.measuringUnit = measuringUnit; 
-        this.bestBeforeDate = bestBeforeDate; 
         this.pricePerUnit = pricePerUnit; 
+
+        //setter dagens dato
+        this.today = new Date();
+
+        //setter best før dato ved å legge til dager til dagens dato
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DAY_OF_YEAR,daysUntilExpiry);
+        this.bestBeforeDate = cal.getTime();
+        
     }
 
     //setter opp mine gettere og settere 
@@ -55,6 +71,14 @@ public class Grocery {
     public double getPricePerUnit(){
         return pricePerUnit;
     }
+    
+    public int getDaysUntilExpiry() {
+        Date currentDate = new Date(); // Hent dagens faktiske dato
+        long diffInMillies = bestBeforeDate.getTime() - currentDate.getTime(); // Forskjell i millisekunder
+        int daysUntilExpiry = (int) (diffInMillies / (1000 * 60 * 60 * 24)); // Konverter millisekunder til dager
+        return daysUntilExpiry;
+    }
+
     
    
     //setters; 

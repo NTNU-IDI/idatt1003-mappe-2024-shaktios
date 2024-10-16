@@ -1,7 +1,5 @@
 package edu.ntnu.idi.idatt;
 
-import java.util.Date;
-
 
 public class GroceryAppUI {
 
@@ -19,11 +17,11 @@ public class GroceryAppUI {
 
 
          // tester instanser av Grocery-klassen
-         Date today = new Date(); // Bruker dagens dato som best før-dato for alle varer
-         Grocery melk = new Grocery("Melk", 1.5, "liter", today, 20.0);
-         Grocery egg = new Grocery("Egg", 12, "stk", today, 30.0);
-         Grocery brød = new Grocery("Brød", 1, "stk", today, 25.0);
-         Grocery epler = new Grocery("Epler", 6, "stk", today, 15.0);
+
+         Grocery melk = new Grocery("Melk", 1.5, "liter", 10, 20.0);
+         Grocery egg = new Grocery("Egg", 12, "stk", 14, 30.0);
+         Grocery brød = new Grocery("Brød", 1, "stk", 3, 25.0);
+         Grocery epler = new Grocery("Epler", 6, "stk", 7, 15.0);
  
          // Skriver ut detaljene for hver vare
          printGroceryDetails(melk);
