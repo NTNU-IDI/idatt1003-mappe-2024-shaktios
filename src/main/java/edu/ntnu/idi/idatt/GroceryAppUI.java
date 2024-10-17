@@ -51,7 +51,11 @@ public class GroceryAppUI {
         fridge.removeItem("sukker",20);
 
         searchAndDisplayItem("epler");
-        searchAndDisplayItem("Appelsiner");
+        searchAndDisplayItem("appelsiner");
+        searchAndDisplayItem("APPELSINER");
+        searchAndDisplayItem("aPpElSiNeR");
+
+
 
     }
 
