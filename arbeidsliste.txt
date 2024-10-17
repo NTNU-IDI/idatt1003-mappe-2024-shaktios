@@ -1,0 +1,25 @@
+hva skal jeg ha i pom filen?? må jeg ha noe i pom.xml?? fikk 500 feilmeldinger og skjønte seriøst ikke hvorfor . løst, måtte bare sette det i riktig gren
+
+ting å fikse på:
+bestBeforeDate er bare dagens dato... 
+sette opp dagens dato og best beforedate, funksjon for å se hvor lenge til en vare går ut på dato. check (nå skriver jeg inn hvor lenge det er til varen går ut på dato, tar dagens dato å legger til antall dager til den går ut.)
+
+fjerne og legge til varer. -- setter opp en fridge.java; mest skalerbare og ryddige løsningen. gir mer fleksibilitet, modularitet, og enkelhet på sikt. ansvarskode holdes seperat, blir enklere for andre å forstå, vedlikeholde og teste. 
+sjekke hvilke varer man har i kjøleskapet.  check^^ implementert i fridge.java 
+
+
+til neste gang (17 okt)
+Kostnad på varen; 
+    legge til en private float kostnad på grocery.java og implementere denne i resten av koden
+    
+Søke etter en vare i kjøleskapet:   
+    implementer en metode i Fridge-klassen som bruker søke etter en spesifikk vare basert på navn eller en annen egenskap, og returnerer om varen finnes i kjøleskapet eller ikke.
+
+Fjerne en spesifikk mengde av en vare:
+    Utvid logikken slik at bruker kan trekke en viss mengde av en vare fra det totale antallet i kjøleskapet. For eksempel, ta ut 1 liter melk fra 4 liter, og oppdater mengden.
+
+Skrive ut en oversikt over varer som har gått ut på dato:
+    Lag en metode som lister opp alle varer som har gått ut på dato, og som samtidig beregner og viser den samlede verdien av disse varene (summen av prisene på varene som har gått ut).
+
+Beregne samlet verdi av alle varer i kjøleskapet:
+    Lag en metode som går gjennom alle varene i kjøleskapet og beregner den totale verdien (basert på pris per enhet og mengde).
