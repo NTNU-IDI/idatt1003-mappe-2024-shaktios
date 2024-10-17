@@ -56,6 +56,7 @@ public class Fridge {
         }
     }
 
+    //metode for å søke etter varer    
     public Grocery searchItem(String name){
         //lager en løkke for å gå gjennom alle varene i kjøleskapet
         for(Grocery item: items){
@@ -64,6 +65,36 @@ public class Fridge {
             }
         }
         return null; //retunerer ingenting hvis den ikke finner varen.
+    }
+
+
+    //metode for å fjerne vare fra kjøleskapet
+    public void removeItem(String itemName, double amountToRemove){
+        //går gjennom listen over varer i kjøleskapet for å finne varen
+        for (Grocery item:items){
+            if (item.getName().equalsIgnoreCase(itemName.trim())){
+                // Sjekk om vi har nok mengde til å fjerne alt 
+                if(item.getAmount()>= amountToRemove){
+                    //fjerner den spesifikke mengden
+                    double newAmount = item.getAmount() - amountToRemove;
+                    item.setAmount(newAmount);
+
+                    System.out.println(amountToRemove + " av " + itemName + " ble fjernet fra kjøleskapet.");
+
+                    // Hvis mengden er null eller mindre, fjern varen helt fra kjøleskapet
+                    if(item.getAmount() <= 0){
+                        items.remove(item);
+                        System.out.println(item + " Ble fjernet helt fra kjøleskapet");
+                    }
+                    
+                }else{
+                    System.out.println("Kan ikke fjerne " + amountToRemove + " av varen " + itemName + " fordi du har kun " + item.getAmount() + " igjen." );
+                }
+                return; // Avslutter metoden når varen er funnet og behandlet
+            }
+        }
+         // Hvis varen ikke ble funnet
+        System.out.println(itemName + " finnes ikke i kjøleskapet.");
     }
 
 

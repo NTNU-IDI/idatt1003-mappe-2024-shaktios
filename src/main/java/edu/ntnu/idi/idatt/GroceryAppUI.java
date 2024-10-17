@@ -43,6 +43,9 @@ public class GroceryAppUI {
         fridge.addItem(brød);
         fridge.addItem(epler);
 
+    
+        
+
         // Viser alle varer i kjøleskapet
         fridge.displayItems();
 
@@ -51,6 +54,12 @@ public class GroceryAppUI {
 
         searchAndDisplayItem("Melk"); // Søker etter "Melk"
         searchAndDisplayItem("Appelsin"); // Søker etter en vare som ikke er der
+
+        fridge.removeItem("epler",5);
+        fridge.removeItem("appelsin",12);
+        fridge.removeItem("melk",1.7);
+
+        searchAndDisplayItem("epler");
     }
 
 
