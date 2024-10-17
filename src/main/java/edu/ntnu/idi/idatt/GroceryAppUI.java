@@ -48,12 +48,25 @@ public class GroceryAppUI {
 
         // Viser varer som går ut på dato snart (innen 3 dager)
         fridge.displayExpiringSoon(3);
+
+        searchAndDisplayItem("Melk"); // Søker etter "Melk"
+        searchAndDisplayItem("Appelsin"); // Søker etter en vare som ikke er der
     }
 
 
      // Metode for å skrive ut detaljene for en vare
      public void printGroceryDetails(Grocery grocery) {
         System.out.println(grocery);  
+    }
+
+    public void searchAndDisplayItem(String name){
+        Grocery item = fridge.searchItem(name); //bruker søkemetoden vi lagde i fridge.java
+        if (item != null){
+            System.out.println("Varen ble funnet! " + item);
+        }
+        else{
+            System.out.println("Varen " + name + " finnes dessverre ikke i kjøleskapet ");
+        }
     }
 
 

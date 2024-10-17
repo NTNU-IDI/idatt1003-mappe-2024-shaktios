@@ -12,6 +12,8 @@ public class Grocery {
     private Date bestBeforeDate ; //dato med hjelp av java.util bibloteket
     private double pricePerUnit; //pris per enhet 
     private Date today; //dagens dato
+    
+
     //har ingen "daysUntilExpiry", koden er dynamisk og oppdaterer seg hver gang den kjøres på denne måten.  
     
     //konstruktør 
@@ -35,6 +37,7 @@ public class Grocery {
         this.amount = amount; 
         this.measuringUnit = measuringUnit; 
         this.pricePerUnit = pricePerUnit; 
+    
 
         //setter dagens dato
         this.today = new Date();
@@ -71,6 +74,8 @@ public class Grocery {
     public double getPricePerUnit(){
         return pricePerUnit;
     }
+
+    
     
     public int getDaysUntilExpiry() {
         Date currentDate = new Date(); // Hent dagens faktiske dato

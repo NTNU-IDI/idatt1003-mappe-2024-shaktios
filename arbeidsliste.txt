@@ -11,7 +11,7 @@ sjekke hvilke varer man har i kjøleskapet.  check^^ implementert i fridge.java
 til neste gang (17 okt)
 Kostnad på varen; 
     legge til en private float kostnad på grocery.java og implementere denne i resten av koden
-    
+
 Søke etter en vare i kjøleskapet:   
     implementer en metode i Fridge-klassen som bruker søke etter en spesifikk vare basert på navn eller en annen egenskap, og returnerer om varen finnes i kjøleskapet eller ikke.
 
@@ -23,3 +23,6 @@ Skrive ut en oversikt over varer som har gått ut på dato:
 
 Beregne samlet verdi av alle varer i kjøleskapet:
     Lag en metode som går gjennom alle varene i kjøleskapet og beregner den totale verdien (basert på pris per enhet og mengde).
+
+VIKTIG!!!
+Satt opp ett issueboard på github, bruker dette aktivt fremover

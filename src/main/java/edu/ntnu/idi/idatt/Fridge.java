@@ -56,6 +56,16 @@ public class Fridge {
         }
     }
 
+    public Grocery searchItem(String name){
+        //lager en løkke for å gå gjennom alle varene i kjøleskapet
+        for(Grocery item: items){
+            if(item.getName().equals(name)){ // Sammenlign navnene i listen med input fra bruker (case-insensitive)
+                return item; //returnerer hvis den finner varen. 
+            }
+        }
+        return null; //retunerer ingenting hvis den ikke finner varen.
+    }
+
 
 
 
