@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-
 public class Grocery {
     private String name; //Navn på matvaren
     private double amount; //mengde matvare

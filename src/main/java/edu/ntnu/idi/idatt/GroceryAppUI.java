@@ -22,44 +22,37 @@ public class GroceryAppUI {
         System.out.println("Velkommen til Best før appen!");
         // Kommer til å implementere logikk for å håndtere brukerens input
         // lage menyvalg, ta imot data osv
+        // Tester kun fjerning og logging for enkel feilsøking
 
-
-         // tester instanser av Grocery-klassen
-
-         Grocery melk = new Grocery("Melk", 1.5, "liter", 10, 20.0);
-         Grocery egg = new Grocery("Egg", 12, "stk", 14, 30.0);
-         Grocery brød = new Grocery("Brød", 1, "stk", 3, 25.0);
-         Grocery epler = new Grocery("Epler", 6, "stk", 7, 15.0);
- 
-         // Skriver ut detaljene for hver vare
-         printGroceryDetails(melk);
-         printGroceryDetails(egg);
-         printGroceryDetails(brød);
-         printGroceryDetails(epler);
-
-
-        fridge.addItem(melk);
-        fridge.addItem(egg);
-        fridge.addItem(brød);
+        Grocery epler = new Grocery("Epler", 6, "stk", 7, 15.0);
         fridge.addItem(epler);
 
-    
-        
-
-        // Viser alle varer i kjøleskapet
+        System.out.println("Før fjerning:");
         fridge.displayItems();
 
-        // Viser varer som går ut på dato snart (innen 3 dager)
-        fridge.displayExpiringSoon(3);
+        fridge.removeItem("epler", 5);  // Prøv å fjerne 5 epler
 
-        searchAndDisplayItem("Melk"); // Søker etter "Melk"
-        searchAndDisplayItem("Appelsin"); // Søker etter en vare som ikke er der
+        System.out.println("Etter fjerning av 5 epler:");
+        fridge.displayItems();
 
-        fridge.removeItem("epler",5);
-        fridge.removeItem("appelsin",12);
-        fridge.removeItem("melk",1.7);
+        fridge.removeItem("epler", 1);  // Prøv å fjerne resten av eplene
+
+        System.out.println("Etter fjerning av siste eple:");
+        fridge.displayItems();
+
+        Grocery appelsiner = new Grocery("Appelsiner", 20, "stk", 7, 15.0);
+        fridge.addItem(appelsiner);
+
+        System.out.println("Før fjerning:");
+        fridge.displayItems();
+
+        fridge.removeItem("appelsiner", 21);  // Prøv å fjerne 5 epler
+
+        fridge.removeItem("sukker",20);
 
         searchAndDisplayItem("epler");
+        searchAndDisplayItem("Appelsiner");
+
     }
 
 

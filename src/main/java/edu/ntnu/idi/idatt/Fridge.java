@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 
 
 public class Fridge {
@@ -68,34 +70,41 @@ public class Fridge {
     }
 
 
-    //metode for å fjerne vare fra kjøleskapet
-    public void removeItem(String itemName, double amountToRemove){
-        //går gjennom listen over varer i kjøleskapet for å finne varen
-        for (Grocery item:items){
-            if (item.getName().equalsIgnoreCase(itemName.trim())){
-                // Sjekk om vi har nok mengde til å fjerne alt 
-                if(item.getAmount()>= amountToRemove){
-                    //fjerner den spesifikke mengden
-                    double newAmount = item.getAmount() - amountToRemove;
-                    item.setAmount(newAmount);
+// Metode for å fjerne vare fra kjøleskapet
+public void removeItem(String itemName, double amountToRemove) {
+    Iterator<Grocery> iterator = items.iterator();
+    
+    while (iterator.hasNext()) {
+        Grocery item = iterator.next();
 
-                    System.out.println(amountToRemove + " av " + itemName + " ble fjernet fra kjøleskapet.");
+        if (item.getName().equalsIgnoreCase(itemName.trim())) {
+            System.out.println("Varen " + item.getName() + " ble funnet! Opprinnelig mengde: " + item.getAmount());
 
-                    // Hvis mengden er null eller mindre, fjern varen helt fra kjøleskapet
-                    if(item.getAmount() <= 0){
-                        items.remove(item);
-                        System.out.println(item + " Ble fjernet helt fra kjøleskapet");
-                    }
-                    
-                }else{
-                    System.out.println("Kan ikke fjerne " + amountToRemove + " av varen " + itemName + " fordi du har kun " + item.getAmount() + " igjen." );
+            // Sjekk om vi har nok mengde til å fjerne alt
+            if (item.getAmount() >= amountToRemove) {
+                double newAmount = item.getAmount() - amountToRemove;
+                item.setAmount(newAmount);
+
+                System.out.println("Mengden etter fjerning: " + newAmount);
+
+                // Fjern kun varen hvis mengden er null eller negativ
+                if (newAmount <= 0) {
+                    iterator.remove(); // Bruk iteratorens remove-metode for å unngå ConcurrentModificationException
+                    System.out.println(itemName + " ble fjernet helt fra kjøleskapet.");
                 }
-                return; // Avslutter metoden når varen er funnet og behandlet
+            } else {
+                System.out.println("Kan ikke fjerne " + amountToRemove + " av varen " + itemName + " fordi du har kun " + item.getAmount() + " igjen.");
             }
+            return; // Avslutter metoden etter å ha behandlet varen
         }
-         // Hvis varen ikke ble funnet
-        System.out.println(itemName + " finnes ikke i kjøleskapet.");
     }
+    // Hvis varen ikke ble funnet
+    System.out.println(itemName + " finnes ikke i kjøleskapet.");
+}
+
+
+
+    
 
 
 
