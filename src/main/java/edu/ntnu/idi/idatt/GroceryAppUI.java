@@ -24,36 +24,16 @@ public class GroceryAppUI {
         // lage menyvalg, ta imot data osv
         // Tester kun fjerning og logging for enkel feilsøking
 
-        Grocery epler = new Grocery("Epler", 6, "stk", 7, 15.0);
-        fridge.addItem(epler);
+       // Opprett varer med utgått dato
+        Grocery melk = new Grocery("Melk", 1.5, "liter", 0, 20.0); // Melk som gikk ut for 2 dager siden
+    Grocery egg = new Grocery("Egg", 12, "stk", 0, 30.0); // Egg som gikk ut for 1 dag siden
 
-        System.out.println("Før fjerning:");
-        fridge.displayItems();
+        fridge.addItem(melk);
+        fridge.addItem(egg);
 
-        fridge.removeItem("epler", 5);  // Prøv å fjerne 5 epler
+        // Kjør metoden for å vise varer som har gått ut på dato
+        fridge.displayExpiredItemsAndTotalValue();
 
-        System.out.println("Etter fjerning av 5 epler:");
-        fridge.displayItems();
-
-        fridge.removeItem("epler", 1);  // Prøv å fjerne resten av eplene
-
-        System.out.println("Etter fjerning av siste eple:");
-        fridge.displayItems();
-
-        Grocery appelsiner = new Grocery("Appelsiner", 20, "stk", 7, 15.0);
-        fridge.addItem(appelsiner);
-
-        System.out.println("Før fjerning:");
-        fridge.displayItems();
-
-        fridge.removeItem("appelsiner", 21);  // Prøv å fjerne 5 epler
-
-        fridge.removeItem("sukker",20);
-
-        searchAndDisplayItem("epler");
-        searchAndDisplayItem("appelsiner");
-        searchAndDisplayItem("APPELSINER");
-        searchAndDisplayItem("aPpElSiNeR");
 
 
 

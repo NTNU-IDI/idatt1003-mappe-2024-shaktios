@@ -103,12 +103,30 @@ public void removeItem(String itemName, double amountToRemove) {
 }
 
 
+public void displayExpiredItemsAndTotalValue(){
 
-    
+    double totalValue = 0;  //Variabel for å lagre totalverdi av utgåtte varer
+    boolean foundExpiredItems = false; // Flag for å sjekke om det finnes utgåtte varer
+
+    System.out.println("Varer som har gått ut på dato:");
+
+    for(Grocery item: items){
+        if(item.getDaysUntilExpiry()<=0){
+            System.out.println(item);
+            totalValue +=  item.getPricePerUnit() * item.getAmount();  
+            foundExpiredItems = true;
+        }
+
+    }
+
+    if(foundExpiredItems){
+        System.out.println("Den samlede verdien av utgåtte varer er " + totalValue + " NOK");
+    }else{
+        System.out.println("Ingen varer har gått ut på dato enda");
+    }
 
 
-
-
+}
 
 
 }
