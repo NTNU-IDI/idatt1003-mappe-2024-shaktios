@@ -26,17 +26,21 @@ public class GroceryAppUI {
 
        // Opprett varer med utgått dato
         Grocery melk = new Grocery("Melk", 1.5, "liter", 0, 20.0); // Melk som gikk ut for 2 dager siden
-    Grocery egg = new Grocery("Egg", 12, "stk", 0, 30.0); // Egg som gikk ut for 1 dag siden
+        Grocery egg = new Grocery("Egg", 12, "stk", 0, 30.0); // Egg som gikk ut for 1 dag siden
+        Grocery adrak = new Grocery("adrak",12,"stk",20,30);
 
         fridge.addItem(melk);
         fridge.addItem(egg);
+        fridge.addItem(adrak);
+        
+         // Viser alle varer i kjøleskapet
+        fridge.displayItems();
 
         // Kjør metoden for å vise varer som har gått ut på dato
         fridge.displayExpiredItemsAndTotalValue();
 
-
-
-
+        //viser totalverdien i kjøleskapet. 
+        displayTotalValueInFridge();
     }
 
 
@@ -54,6 +58,14 @@ public class GroceryAppUI {
             System.out.println("Varen " + name + " finnes dessverre ikke i kjøleskapet ");
         }
     }
+
+     //metode for å vise totalsummen av varer
+
+     public void displayTotalValueInFridge(){
+        double totalValue = fridge.calculateTotalValue();
+        System.out.println("Den samlede verdien i kjøleskapet er " + totalValue + " NOK");
+
+     }
 
 
     // Hovedmetode som starter applikasjonen

@@ -70,6 +70,19 @@ public class Fridge {
     }
 
 
+
+    //metode for å beregne total sum av varer i kjøleskapet.
+
+    public double calculateTotalValue(){
+        double totalValue = 0; 
+        for (Grocery item : items){
+            totalValue += item.getAmount() *item.getPricePerUnit();
+
+        }
+        return totalValue; 
+    }
+
+
 // Metode for å fjerne vare fra kjøleskapet
 public void removeItem(String itemName, double amountToRemove) {
     Iterator<Grocery> iterator = items.iterator();
