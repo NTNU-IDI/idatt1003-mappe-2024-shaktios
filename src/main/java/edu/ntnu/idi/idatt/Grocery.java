@@ -7,8 +7,8 @@ import java.util.Date;
 public class Grocery {
     private String name; //Navn på matvaren
     private double amount; //mengde matvare
-    private String measuringUnit; //enhet på matvaren
     private Date bestBeforeDate ; //dato med hjelp av java.util bibloteket
+    private MeasuringUnit measuringUnit; //  felt for måleenhet (se MeasuringUnit.java)
     private double pricePerUnit; //pris per enhet 
     private Date today; //dagens dato
     
@@ -17,7 +17,7 @@ public class Grocery {
     
     //konstruktør 
 
-    public Grocery(String name, double amount, String measuringUnit,int daysUntilExpiry ,double pricePerUnit){
+    public Grocery(String name, double amount, MeasuringUnit measuringUnit ,int daysUntilExpiry ,double pricePerUnit){
 
         if (name==null || name.isEmpty()){
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn");
@@ -62,7 +62,7 @@ public class Grocery {
         return amount;
     }
 
-    public String getMeasuringUnit(){
+    public MeasuringUnit getMeasuringUnit(){
         return measuringUnit;
     }
 
@@ -102,9 +102,10 @@ public class Grocery {
         this.amount = amount; 
     }
     
-    public void setMeasuringUnit(String measuringUnit){
+    public void setMeasuringUnit(MeasuringUnit measuringUnit) {
         this.measuringUnit = measuringUnit;
     }
+    
 
     public void setBestBeforeDate(Date bestBeforeDate){
         this.bestBeforeDate = bestBeforeDate; 
@@ -120,16 +121,16 @@ public class Grocery {
 
 
     @Override
-    //tilpaser hvordan objekter blir representert
-    public String toString() {
-        return "Grocery{" +
-                "name='" + name + '\'' +
-                ", amount=" + amount +
-                ", unit='" + measuringUnit + '\'' +
-                ", bestBeforeDate=" + bestBeforeDate +
-                ", pricePerUnit=" + pricePerUnit +
-                '}';
-    }
+public String toString() {
+    return "Grocery{" +
+            "name='" + name + '\'' +
+            ", amount=" + amount +
+            ", unit='" + measuringUnit + '\'' +
+            ", bestBeforeDate=" + bestBeforeDate +
+            ", pricePerUnit=" + pricePerUnit +
+            '}';
+}
+
 }
 
 

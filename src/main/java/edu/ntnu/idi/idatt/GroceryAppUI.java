@@ -24,14 +24,17 @@ public class GroceryAppUI {
         // lage menyvalg, ta imot data osv
         // Tester kun fjerning og logging for enkel feilsøking
 
-       // Opprett varer med utgått dato
-        Grocery melk = new Grocery("Melk", 1.5, "liter", 0, 20.0); // Melk som gikk ut for 2 dager siden
-        Grocery egg = new Grocery("Egg", 12, "stk", 0, 30.0); // Egg som gikk ut for 1 dag siden
-        Grocery adrak = new Grocery("adrak",12,"stk",20,30);
+       
+       // Legg til noen varer med ulike enheter
+       Grocery mel = new Grocery("Mel", 500, MeasuringUnit.GRAM, 10, 20.0); // 500 gram mel
+       Grocery melk = new Grocery("Melk", 2, MeasuringUnit.LITER, 5, 15.0); // 2 liter melk
+       Grocery egg = new Grocery("Egg", 12, MeasuringUnit.PIECE, 3, 3.0);   // 12 stk egg
 
-        fridge.addItem(melk);
-        fridge.addItem(egg);
-        fridge.addItem(adrak);
+       // Legg til varer i kjøleskapet
+       fridge.addItem(mel);
+       fridge.addItem(melk);
+       fridge.addItem(egg);
+
         
          // Viser alle varer i kjøleskapet
         fridge.displayItems();

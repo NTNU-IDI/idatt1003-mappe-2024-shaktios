@@ -71,16 +71,24 @@ public class Fridge {
 
 
 
-    //metode for å beregne total sum av varer i kjøleskapet.
-
-    public double calculateTotalValue(){
-        double totalValue = 0; 
-        for (Grocery item : items){
-            totalValue += item.getAmount() *item.getPricePerUnit();
-
+//metode for å beregne totalverdien av varer i kjøleskapet med enhetskonvertering
+public double calculateTotalValue() {
+    double totalValue = 0;
+    for (Grocery item : items) {
+        double adjustedAmount = item.getAmount();
+        
+        // Sjekk enhetstype og konverter om nødvendig
+        if (item.getMeasuringUnit() == MeasuringUnit.GRAM) {
+            adjustedAmount = item.getAmount() / 1000.0; // Konverter gram til kilo
+        } else if (item.getMeasuringUnit() == MeasuringUnit.MILLILITER) {
+            adjustedAmount = item.getAmount() / 1000.0; // Konverter milliliter til liter
         }
-        return totalValue; 
+        // Beregn pris basert på justert mengde
+        totalValue += adjustedAmount * item.getPricePerUnit();
     }
+    return totalValue;
+}
+
 
 
 // Metode for å fjerne vare fra kjøleskapet
