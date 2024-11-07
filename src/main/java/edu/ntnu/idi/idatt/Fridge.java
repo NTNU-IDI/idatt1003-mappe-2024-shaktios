@@ -16,6 +16,11 @@ public class Fridge {
         this.items = new ArrayList<>();
     }   
 
+    //Metode for å returnere alle varer i kjøleskapet
+    public List<Grocery> getItems() {
+        return items;
+    }
+
     //Legg til vare 
     public void addItem(Grocery item){
         items.add(item);
@@ -72,6 +77,7 @@ public class Fridge {
 
 
 //metode for å beregne totalverdien av varer i kjøleskapet med enhetskonvertering
+
 public double calculateTotalValue() {
     double totalValue = 0;
     for (Grocery item : items) {
@@ -148,7 +154,6 @@ public void displayExpiredItemsAndTotalValue(){
 
 
 }
-
 
 }
 

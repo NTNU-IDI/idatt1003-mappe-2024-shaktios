@@ -1,13 +1,17 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroceryAppUI {
 
     private Fridge fridge; // Legger til et kjøleskap
+    private RecipeManager recipeManager; // Oppretter RecipeManager
 
     // Konstruktør
     public GroceryAppUI() {
         this.fridge = new Fridge();
+        this.recipeManager = new RecipeManager(fridge); // Initialiserer RecipeManager med fridge
     }
 
 
@@ -20,30 +24,26 @@ public class GroceryAppUI {
 
     public void start() {
         System.out.println("Velkommen til Best før appen!");
-        // Kommer til å implementere logikk for å håndtere brukerens input
-        // lage menyvalg, ta imot data osv
-        // Tester kun fjerning og logging for enkel feilsøking
 
-       
-       // Legg til noen varer med ulike enheter
-       Grocery mel = new Grocery("Mel", 500, MeasuringUnit.GRAM, 10, 20.0); // 500 gram mel
-       Grocery melk = new Grocery("Melk", 2, MeasuringUnit.LITER, 5, 15.0); // 2 liter melk
-       Grocery egg = new Grocery("Egg", 12, MeasuringUnit.PIECE, 3, 3.0);   // 12 stk egg
+        // Legg til noen varer med ulike enheter i kjøleskapet
+        fridge.addItem(new Grocery("Mel", 500, MeasuringUnit.GRAM, 10, 20.0)); // 500 gram mel
+        fridge.addItem(new Grocery("Egg", 6, MeasuringUnit.PIECE, 7, 3.0));   // 6 stk egg
 
-       // Legg til varer i kjøleskapet
-       fridge.addItem(mel);
-       fridge.addItem(melk);
-       fridge.addItem(egg);
-
-        
-         // Viser alle varer i kjøleskapet
+        // Viser alle varer i kjøleskapet
         fridge.displayItems();
 
-        // Kjør metoden for å vise varer som har gått ut på dato
-        fridge.displayExpiredItemsAndTotalValue();
+        // Opprett en oppskrift med nødvendige ingredienser
+        List<Grocery> ingredients = new ArrayList<>();
+        ingredients.add(new Grocery("Mel", 300, MeasuringUnit.GRAM, 5, 20.0)); // 300 gram mel
+        ingredients.add(new Grocery("Egg", 4, MeasuringUnit.PIECE, 5, 3.0));   // 4 stk egg
+        Recipe recipe = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients);
 
-        //viser totalverdien i kjøleskapet. 
-        displayTotalValueInFridge();
+        // Sjekk om oppskriften kan lages med ingrediensene i kjøleskapet
+        if (recipeManager.hasIngredients(recipe)) {
+            System.out.println("Du har nok ingredienser til å lage " + recipe.getName());
+        } else {
+            System.out.println("Du mangler noen ingredienser for å lage " + recipe.getName());
+        }
     }
 
 
