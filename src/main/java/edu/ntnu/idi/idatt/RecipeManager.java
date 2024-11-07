@@ -24,7 +24,8 @@ public class RecipeManager {
                     found = true;
 
                     if (fridgeItem.getAmount() < requiredIngredient.getAmount()) {
-                        missingIngredients.add(requiredIngredient.getName() + " (trenger mer mengde)");
+                        double shortage = requiredIngredient.getAmount() - fridgeItem.getAmount();
+                        missingIngredients.add(requiredIngredient.getName() + " (mangler " + shortage + " " + fridgeItem.getMeasuringUnit() + ")");
                     }
                     break;
                 }

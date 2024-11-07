@@ -25,20 +25,24 @@ public class GroceryAppUI {
     public void start() {
         System.out.println("Velkommen til Best før appen!");
 
-        // Legg til noen varer med ulike enheter i kjøleskapet
-        fridge.addItem(new Grocery("Mel", 500, MeasuringUnit.GRAM, 10, 20.0)); // 500 gram mel
-        fridge.addItem(new Grocery("Egg", 6, MeasuringUnit.PIECE, 7, 3.0));   // 6 stk egg
-
+        // Legg til noen varer med mindre mengde enn det oppskriften krever
+        fridge.addItem(new Grocery("Mel", 200, MeasuringUnit.GRAM, 10, 20.0)); // Bare 200 gram mel
+        fridge.addItem(new Grocery("Egg", 2, MeasuringUnit.PIECE, 7, 3.0));    // Bare 2 egg
+    
         // Viser alle varer i kjøleskapet
         fridge.displayItems();
-
-        // Opprett en oppskrift med nødvendige ingredienser
+    
+        // Opprett en oppskrift med ingredienser som kjøleskapet delvis ikke har nok av
         List<Grocery> ingredients = new ArrayList<>();
-        ingredients.add(new Grocery("Mel", 300, MeasuringUnit.GRAM, 5, 20.0)); // 300 gram mel
-        ingredients.add(new Grocery("Egg", 4, MeasuringUnit.PIECE, 5, 3.0));   // 4 stk egg
+        ingredients.add(new Grocery("Mel", 300, MeasuringUnit.GRAM, 5, 20.0)); // Krever 300 gram mel
+        ingredients.add(new Grocery("Egg", 4, MeasuringUnit.PIECE, 5, 3.0));   // Krever 4 egg
+        ingredients.add(new Grocery("Sukker", 100, MeasuringUnit.GRAM, 5, 10.0)); // Krever 100 gram sukker
+    
         Recipe recipe = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients);
-
+    
         // Sjekk om oppskriften kan lages med ingrediensene i kjøleskapet
+        RecipeManager recipeManager = new RecipeManager(fridge);
+    
         if (recipeManager.hasIngredients(recipe)) {
             System.out.println("Du har nok ingredienser til å lage " + recipe.getName());
         } else {
