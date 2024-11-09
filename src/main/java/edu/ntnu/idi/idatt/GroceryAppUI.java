@@ -7,19 +7,18 @@ public class GroceryAppUI {
 
     private Fridge fridge; // Legger til et kjøleskap
     private RecipeManager recipeManager; // Oppretter RecipeManager
+    private Cookbook cookbook; // Oppretter Cookbook
 
     // Konstruktør
     public GroceryAppUI() {
         this.fridge = new Fridge();
         this.recipeManager = new RecipeManager(fridge); // Initialiserer RecipeManager med fridge
+        this.cookbook = new Cookbook(); // Initialiserer Cookbook
     }
 
-
-    //metode for å starte applikasjonen
+    // Metode for å starte applikasjonen
     public void init(){
-
         System.out.println("Applikasjonen startes...");
-
     }
 
     public void start() {
@@ -38,48 +37,44 @@ public class GroceryAppUI {
         ingredients.add(new Grocery("Egg", 4, MeasuringUnit.PIECE, 5, 3.0));   // Krever 4 egg
         ingredients.add(new Grocery("Sukker", 100, MeasuringUnit.GRAM, 5, 10.0)); // Krever 100 gram sukker
     
-        Recipe recipe = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients);
+        Recipe pannekakeOppskrift = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients);
     
         // Sjekk om oppskriften kan lages med ingrediensene i kjøleskapet
-        RecipeManager recipeManager = new RecipeManager(fridge);
-    
-        if (recipeManager.hasIngredients(recipe)) {
-            System.out.println("Du har nok ingredienser til å lage " + recipe.getName());
+        if (recipeManager.hasIngredients(pannekakeOppskrift)) {
+            System.out.println("Du har nok ingredienser til å lage " + pannekakeOppskrift.getName());
         } else {
-            System.out.println("Du mangler noen ingredienser for å lage " + recipe.getName());
+            System.out.println("Du mangler noen ingredienser for å lage " + pannekakeOppskrift.getName());
+        }
+
+        // Opprett flere oppskrifter
+        List<Grocery> omelettIngredienser = new ArrayList<>();
+        omelettIngredienser.add(new Grocery("Egg", 6, MeasuringUnit.PIECE, 7, 3.0));
+        omelettIngredienser.add(new Grocery("Melk", 200, MeasuringUnit.MILLILITER, 5, 15.0));
+        Recipe omelettOppskrift = new Recipe("Omelett", "Enkel omelettoppskrift", "Visp egg og melk og stek", omelettIngredienser);
+
+        // Legg oppskrifter til Cookbook
+        cookbook.addRecipe(pannekakeOppskrift);
+        cookbook.addRecipe(omelettOppskrift);
+
+        // Søk etter oppskrifter basert på navn
+        List<Recipe> funnetNavn = cookbook.searchByName("Pannekaker");
+        System.out.println("Søk etter 'Pannekaker' ga følgende resultater:");
+        for (Recipe r : funnetNavn) {
+            System.out.println(r);
+        }
+
+        // Søk etter oppskrifter basert på ingrediens
+        List<Recipe> funnetIngrediens = cookbook.searchByIngredient("Egg");
+        System.out.println("Søk etter oppskrifter med 'Egg' ga følgende resultater:");
+        for (Recipe r : funnetIngrediens) {
+            System.out.println(r);
         }
     }
-
-
-     // Metode for å skrive ut detaljene for en vare
-     public void printGroceryDetails(Grocery grocery) {
-        System.out.println(grocery);  
-    }
-
-    public void searchAndDisplayItem(String name){
-        Grocery item = fridge.searchItem(name); //bruker søkemetoden vi lagde i fridge.java
-        if (item != null){
-            System.out.println("Varen ble funnet! " + item);
-        }
-        else{
-            System.out.println("Varen " + name + " finnes dessverre ikke i kjøleskapet ");
-        }
-    }
-
-     //metode for å vise totalsummen av varer
-
-     public void displayTotalValueInFridge(){
-        double totalValue = fridge.calculateTotalValue();
-        System.out.println("Den samlede verdien i kjøleskapet er " + totalValue + " NOK");
-
-     }
-
 
     // Hovedmetode som starter applikasjonen
     public static void main(String[] args) {
         GroceryAppUI app = new GroceryAppUI();
-        app.init();  // starter applikasjonen
-        app.start(); // Starter og tester Grocery-klassen
+        app.init();
+        app.start();
     }
-    
 }
