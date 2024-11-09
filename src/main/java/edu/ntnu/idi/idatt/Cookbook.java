@@ -30,6 +30,39 @@ public class Cookbook {
         }
     }
 
+    public List <Recipe> getAllRecipes(){
+        return new ArrayList<>(recipes); //returnerer en kopi av listen. 
+    }
+
+    //søk etter en oppskrift etter navn
+    public List<Recipe> searchByName(String name){
+        List<Recipe> foundRecipes = new ArrayList<>();
+        for (Recipe recipe :recipes){
+            if(recipe.getName().equalsIgnoreCase(name)){
+                foundRecipes.add(recipe);
+            }
+        }
+    return foundRecipes;    
+
+    }
+
+
+    //finner oppskrifter med en spesifikk ingrediens
+    public List<Recipe> searchByIngredient(String ingredientName) {
+        List<Recipe> foundRecipes = new ArrayList<>(); 
+        
+        for (Recipe recipe : recipes) {
+            for (Grocery ingredient : recipe.getIngredients()) {
+                if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
+                    foundRecipes.add(recipe);
+                    break; // Bryter ut av den indre løkken etter å ha funnet ingrediensen
+                }
+            }
+        }
+        
+        return foundRecipes; // Returnerer listen over funnede oppskrifter
+    }
+
 
     
 }
