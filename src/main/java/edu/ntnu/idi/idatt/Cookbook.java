@@ -1,7 +1,10 @@
 package edu.ntnu.idi.idatt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Cookbook {
     private List<Recipe> recipes; // Liste over alle oppskriftene
@@ -60,9 +63,37 @@ public class Cookbook {
             }
         }
         
-        return foundRecipes; // Returnerer listen over funnede oppskrifter
+        return foundRecipes; // Returnerer listen over oppskrifter den har funnet
     }
+   
+
+    // Metode for å foreslå oppskrifter basert på tilgjengelige ingredienser i kjøleskapet
+    public List<Recipe> suggestRecipes(Fridge fridge) {
+        Map<Recipe, Integer> recipeAvailabilityMap = new HashMap<>();
+
+        // Gå gjennom hver oppskrift og sjekk tilgjengelige ingredienser
+        for (Recipe recipe : recipes) {
+            int availableCount = 0;
+
+            // Sjekk om ingrediensene i kjøleskapet dekker oppskriftens behov
+            for (Grocery ingredient : recipe.getIngredients()) {
+                Grocery fridgeItem = fridge.searchItem(ingredient.getName());
+                if (fridgeItem != null && fridgeItem.getAmount() >= ingredient.getAmount()) {
+                    availableCount++;
+                }
+            }
+
+            // Legg oppskrift og antall tilgjengelige ingredienser i hashmapen
+            recipeAvailabilityMap.put(recipe, availableCount);
+        }
+
+        // Sorter oppskriftene basert på antall tilgjengelige ingredienser
+        return recipeAvailabilityMap.entrySet().stream()
+                .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
 
+    }
     
 }
