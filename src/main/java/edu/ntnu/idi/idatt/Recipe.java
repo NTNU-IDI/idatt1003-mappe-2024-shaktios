@@ -7,9 +7,10 @@ public class Recipe {
     private String description;     // En kort beskrivelse av hva oppskriften lager
     private String instructions;    // Instruksjoner for hvordan man kan lage retten
     private List<Grocery> ingredients; // Liste over ingredienser som kreves for oppskriften
+    private int servings;               //hvor mange personen oppskriften er egnet for 
 
     // Konstruktør med validering
-    public Recipe(String name, String description, String instructions, List<Grocery> ingredients) {
+    public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn.");
         }
@@ -22,11 +23,15 @@ public class Recipe {
         if (ingredients == null || ingredients.isEmpty()) {
             throw new IllegalArgumentException("Ingredienslisten kan ikke være tom.");
         }
+        if (servings<=0){
+            throw new IllegalArgumentException("Antall personer oppskriften er egnet må være større enn 0"); 
+        }
 
         this.name = name;
         this.description = description;
         this.instructions = instructions;
         this.ingredients = ingredients;
+        this.servings = servings; 
     }
 
      // Getters
@@ -46,6 +51,10 @@ public class Recipe {
         return ingredients;
     }
 
+    public int getServings(){
+        return servings;
+    }
+
     // Metode for å legge til en ingrediens (valgfritt)
     public void addIngredient(Grocery ingredient) {
         if (ingredient == null) {
@@ -60,8 +69,9 @@ public class Recipe {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", instructions='" + instructions + '\'' +
-                ", ingredients=" + ingredients +
-                '}';
+                ", ingredients=" + ingredients + 
+                ", servings =" + servings +
+                 '}';
     }
 
 }
