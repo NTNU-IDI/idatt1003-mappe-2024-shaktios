@@ -67,33 +67,39 @@ public class Cookbook {
     }
    
 
-    // Metode for å foreslå oppskrifter basert på tilgjengelige ingredienser i kjøleskapet
-    public List<Recipe> suggestRecipes(Fridge fridge) {
+    public List<Recipe> suggestRecipes(Fridge fridge, int desiredServings) {
+        // Lager en hashmap for å holde på oppskrifter og antall tilgjengelige ingredienser
         Map<Recipe, Integer> recipeAvailabilityMap = new HashMap<>();
-
-        // Gå gjennom hver oppskrift og sjekk tilgjengelige ingredienser
+    
+        // Gå gjennom hver oppskrift i kokeboken
         for (Recipe recipe : recipes) {
-            int availableCount = 0;
-
-            // Sjekk om ingrediensene i kjøleskapet dekker oppskriftens behov
+            int availableCount = 0; // Teller antall ingredienser som finnes i riktig mengde
+    
+            // Finn skalering etter ønsket antall porsjoner
+            double scalingFactor = (double) desiredServings / recipe.getServings();
+    
+            // Gå gjennom ingrediensene i oppskriften og sjekk i kjøleskapet
             for (Grocery ingredient : recipe.getIngredients()) {
                 Grocery fridgeItem = fridge.searchItem(ingredient.getName());
-                if (fridgeItem != null && fridgeItem.getAmount() >= ingredient.getAmount()) {
-                    availableCount++;
+    
+                // Justerer mengden som kreves etter ønsket antall porsjoner
+                double adjustedAmountNeeded = ingredient.getAmount() * scalingFactor;
+    
+                // Sjekk kjøleskapet om det er nok av ingrediensen
+                if (fridgeItem != null && fridgeItem.getAmount() >= adjustedAmountNeeded) {
+                    availableCount++; // Øk telleren hvis det er nok ingrediens tilgjengelig
                 }
             }
-
-            // Legg oppskrift og antall tilgjengelige ingredienser i hashmapen
+    
+            // Legg til oppskriften og antall tilgjengelige ingredienser i hashmap
             recipeAvailabilityMap.put(recipe, availableCount);
         }
-
-        // Sorter oppskriftene basert på antall tilgjengelige ingredienser
+    
+        // Sorterer oppskriftene etter antall tilgjengelige ingredienser (høyeste først)
         return recipeAvailabilityMap.entrySet().stream()
                 .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-
-
+                .map(Map.Entry::getKey) // Henter kun oppskriftene, ikke antallet
+                .collect(Collectors.toList()); // Returnerer listen over oppskrifter
     }
     
 }
