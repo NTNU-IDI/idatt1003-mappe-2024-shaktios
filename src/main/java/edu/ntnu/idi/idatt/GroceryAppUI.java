@@ -22,7 +22,7 @@ public class GroceryAppUI {
         System.out.println("Applikasjonen startes...");
     }
 
-    
+
     public void start() {
         // Opprett kjøleskap og kokebok
         Fridge fridge = new Fridge();
@@ -71,3 +71,4 @@ public class GroceryAppUI {
         app.start();
     }
 }
+
