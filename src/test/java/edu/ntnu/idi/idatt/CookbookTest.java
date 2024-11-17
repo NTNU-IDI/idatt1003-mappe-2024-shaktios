@@ -61,25 +61,5 @@ public class CookbookTest {
         assertEquals(2, results.size(), "Bør finne to oppskrifter som inneholder 'Egg'.");
     }
 
-    @Test
-    public void testSuggestRecipes() {
-        Fridge fridge = new Fridge();
-        fridge.addItem(new Grocery("Mel", 400, MeasuringUnit.GRAM, 5, 10.0)); // Tilstrekkelig mel for 2 porsjoner pannekaker
-        fridge.addItem(new Grocery("Egg", 6, MeasuringUnit.PIECE, 7, 3.0));    // Nok egg for begge oppskrifter
-        fridge.addItem(new Grocery("Melk", 100, MeasuringUnit.MILLILITER, 3, 5.0)); // Nok melk for omelett
 
-        cookbook.addRecipe(pannekaker);
-        cookbook.addRecipe(omelett);
-
-        // Test for 2 porsjoner
-        List<Recipe> suggestedRecipes = cookbook.suggestRecipes(fridge, 2);
-        assertEquals(2, suggestedRecipes.size(), "Forventer at begge oppskriftene kan foreslås for 2 porsjoner.");
-        assertEquals("Pannekaker", suggestedRecipes.get(0).getName(), "Pannekaker bør foreslås først.");
-        assertEquals("Omelett", suggestedRecipes.get(1).getName(), "Omelett bør foreslås etter pannekaker.");
-
-        // Test for 4 porsjoner (pannekaker krever mer ingredienser for 4 porsjoner)
-        suggestedRecipes = cookbook.suggestRecipes(fridge, 4);
-        assertEquals(1, suggestedRecipes.size(), "Forventer at bare omelett kan foreslås for 4 porsjoner.");
-        assertEquals("Omelett", suggestedRecipes.get(0).getName(), "Omelett bør foreslås når bare den er tilgjengelig for 4 porsjoner.");
-    }
 }

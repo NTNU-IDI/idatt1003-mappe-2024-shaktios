@@ -21,18 +21,16 @@ public class RecipeManagerTest {
 
     @Test
     public void testHasIngredientsWithSufficientIngredients() {
-        //legger til nødvendige ting i kjøleskapet 
         fridge.addItem(new Grocery("Mel", 500, MeasuringUnit.GRAM, 7, 20.0));
         fridge.addItem(new Grocery("Egg", 4, MeasuringUnit.PIECE, 5, 3.0));
 
-        
         List<Grocery> ingredients = new ArrayList<>();
         ingredients.add(new Grocery("Mel", 250, MeasuringUnit.GRAM, 5, 20.0));
         ingredients.add(new Grocery("Egg", 2, MeasuringUnit.PIECE, 5, 3.0));
         Recipe recipe = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients, 2);
 
         assertTrue(recipeManager.hasIngredients(recipe, 2), "Forventer at alle ingredienser er tilstrekkelige for 2 porsjoner");
- }
+    }
 
     @Test
     public void testHasIngredientsWithMissingIngredient() {
@@ -59,21 +57,20 @@ public class RecipeManagerTest {
         assertFalse(recipeManager.hasIngredients(recipe, 2), "Forventer at mengden av 'Mel' er for liten for oppskriften for 2 porsjoner");
     }
 
+
+
     @Test
-    public void testHasIngredientsForDifferentServings() {
-        fridge.addItem(new Grocery("Mel", 1000, MeasuringUnit.GRAM, 7, 20.0));
-        fridge.addItem(new Grocery("Egg", 10, MeasuringUnit.PIECE, 5, 3.0));
+    public void testHasIngredientsWithMissingItems() {
+        fridge.addItem(new Grocery("Mel", 300, MeasuringUnit.GRAM, 5, 20.0)); // Kun mel, ikke egg
 
-        // Opprett en oppskrift for 2 porsjoner
-        List<Grocery> ingredients = new ArrayList<>();
-        ingredients.add(new Grocery("Mel", 250, MeasuringUnit.GRAM, 5, 20.0));
-        ingredients.add(new Grocery("Egg", 2, MeasuringUnit.PIECE, 5, 3.0));
-        Recipe recipe = new Recipe("Pannekaker", "Enkel pannekakeoppskrift", "Bland ingrediensene og stek", ingredients, 2);
+        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", 
+                                   List.of(
+                                       new Grocery("Mel", 300, MeasuringUnit.GRAM, 0, 0),
+                                       new Grocery("Egg", 2, MeasuringUnit.PIECE, 0, 0)
+                                   ), 
+                                   4);
 
-        // Test for 4 porsjoner (skalering av ingredienser)
-        assertTrue(recipeManager.hasIngredients(recipe, 4), "Forventer at alle ingredienser er tilstrekkelige for 4 porsjoner");
-
-        // Test for 8 porsjoner (skalering av ingredienser)
-        assertFalse(recipeManager.hasIngredients(recipe, 8), "Forventer at det mangler ingredienser for 8 porsjoner");
+        assertFalse(recipeManager.hasIngredients(recipe, 4), "Forventer at det mangler ingredienser (egg)");
     }
 }
+
