@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -153,6 +154,13 @@ public void displayExpiredItemsAndTotalValue(){
     }
 
 
+}
+
+//metode for å sortere matvarer på navn
+public List<Grocery> getSortedItemsByName(){
+    List<Grocery> sortedItems = new ArrayList<>(items); //kopierer listen
+    sortedItems.sort(Comparator.comparing(g -> g.getName().toLowerCase())); // Alfabetisk sortering, case-insensitive
+    return sortedItems;
 }
 
 }
