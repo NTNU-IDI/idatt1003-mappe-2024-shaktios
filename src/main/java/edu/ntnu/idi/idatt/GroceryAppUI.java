@@ -61,6 +61,8 @@ public class GroceryAppUI {
         for (Recipe recipe : suggestedRecipes) {
             System.out.println("- " + recipe.getName());
         }
+
+        
     }
     
 

@@ -81,21 +81,14 @@ public class Fridge {
 
 public double calculateTotalValue() {
     double totalValue = 0;
+
     for (Grocery item : items) {
-        double adjustedAmount = item.getAmount();
-        double adjustedPricePerUnit = item.getPricePerUnit();
-        
-        // Sjekk enhetstype og konverter om nødvendig
-        if (item.getMeasuringUnit() == MeasuringUnit.GRAM) {
-            adjustedAmount = item.getAmount() / 1000.0; // Konverter gram til kilo
-            adjustedPricePerUnit = item.getPricePerUnit() * 1000; // Pris per ml -> Pris per liter
-        } else if (item.getMeasuringUnit() == MeasuringUnit.MILLILITER) {
-            adjustedAmount = item.getAmount() / 1000.0; // Konverter milliliter til liter
-            adjustedPricePerUnit = item.getPricePerUnit() * 1000; // Pris per ml -> Pris per liter
-        }
-        // Beregn pris basert på justert mengde
-        totalValue += adjustedAmount * adjustedPricePerUnit;
+        double amount = item.getAmount(); 
+        double pricePerBaseUnit = item.getPricePerUnit(); 
+        // Legg til verdien av varen til totalverdien
+        totalValue += amount * pricePerBaseUnit;
     }
+
     return totalValue;
 }
 

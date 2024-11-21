@@ -50,14 +50,24 @@ public class FridgeTest {
     @Test
     public void testCalculateTotalValue() {
         Fridge fridge = new Fridge();
-        fridge.addItem(new Grocery("Melk", 1.0, MeasuringUnit.LITER, 5, 20.0));
-        fridge.addItem(new Grocery("Egg", 6, MeasuringUnit.PIECE, 7, 3.0));
-        
+    
+        // Legg til varer
+        fridge.addItem(new Grocery("Mel", 500, MeasuringUnit.GRAM, 7, 20.0)); // 20 kr per kilo
+        fridge.addItem(new Grocery("Melk", 2, MeasuringUnit.LITER, 5, 15.0)); // 15 kr per liter
+        fridge.addItem(new Grocery("Egg", 12, MeasuringUnit.PIECE, 10, 3.0)); // 3 kr per egg
+    
+        // Beregn totalverdi
         double totalValue = fridge.calculateTotalValue();
-
-        // Forventer totalverdien basert på pris per enhet og mengde
-        assertEquals(20.0 + (6 * 3.0), totalValue, 0.01, "Forventer riktig totalverdi i kjøleskapet");
+    
+        // Forventet verdi:
+        // Mel: (500 gram * 20 kr/kilo) = 10000 kr
+        // Melk: (2 liter * 15 kr/liter) = 30 kr
+        // Egg: (12 stykker * 3 kr/stk) = 36 kr
+        // Total: 10 + 30 + 36 = 76 kr
+        assertEquals(10066, totalValue, 0.01, "Totalverdien skal være korrekt beregnet.");
     }
+    
+    
 
     //tester displayExpiringSoon funksjonen.
     @Test
