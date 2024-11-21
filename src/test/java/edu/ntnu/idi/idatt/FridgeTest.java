@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,6 +32,7 @@ public class FridgeTest {
         assertFalse(fridge.getItems().contains(melk), "Forventer at 'Melk' er fjernet fra kjøleskapet");
     }
 
+    //sjekker om den klarer å søke etter ting i kjøleskapet. 
     @Test
     public void testSearchItem() {
         Fridge fridge = new Fridge();
@@ -43,6 +46,7 @@ public class FridgeTest {
         assertEquals("Melk", foundItem.getName());
     }
 
+    //tester om den klarer å kalkulerer totale verdien av matvarene i kjøleskapet. 
     @Test
     public void testCalculateTotalValue() {
         Fridge fridge = new Fridge();
@@ -55,6 +59,7 @@ public class FridgeTest {
         assertEquals(20.0 + (6 * 3.0), totalValue, 0.01, "Forventer riktig totalverdi i kjøleskapet");
     }
 
+    //tester displayExpiringSoon funksjonen.
     @Test
     public void testDisplayExpiringSoon() {
         Fridge fridge = new Fridge();
@@ -83,6 +88,7 @@ public class FridgeTest {
     }
     
 
+    //test for å sjekke om den skjønner hva som har gått ut på dato og klarer å legge sammen verdien for dette.
     @Test
     public void testDisplayExpiredItemsAndTotalValue() {
         Fridge fridge = new Fridge();
@@ -99,6 +105,26 @@ public class FridgeTest {
                                     .filter(item -> item.getDaysUntilExpiry() <= 0)
                                     .count();
         assertEquals(2, expiredItemsCount, "Forventer at 2 varer har gått ut på dato");
+    }
+
+    //test for å sjekke om matvarene blir sortert for navn riktig. 
+    @Test
+    public void testGetSortedItemsByName() {
+        // Oppsett
+        Fridge fridge = new Fridge();
+        fridge.addItem(new Grocery("Melk", 1.0, MeasuringUnit.LITER, 5, 20.0));
+        fridge.addItem(new Grocery("Egg", 12.0, MeasuringUnit.PIECE, 7, 3.0));
+        fridge.addItem(new Grocery("Mel", 500.0, MeasuringUnit.GRAM, 10, 10.0));
+        fridge.addItem(new Grocery("Ost", 0.5, MeasuringUnit.KILOGRAM, 6, 50.0));
+
+        // Utfører
+        List<Grocery> sortedItems = fridge.getSortedItemsByName();
+
+        // Forventede resultater
+        assertEquals("Egg", sortedItems.get(0).getName(), "Første element bør være 'Egg'.");
+        assertEquals("Mel", sortedItems.get(1).getName(), "Andre element bør være 'Mel'.");
+        assertEquals("Melk", sortedItems.get(2).getName(), "Tredje element bør være 'Melk'.");
+        assertEquals("Ost", sortedItems.get(3).getName(), "Fjerde element bør være 'Ost'.");
     }
 
 }
