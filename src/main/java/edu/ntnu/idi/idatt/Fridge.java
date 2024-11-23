@@ -155,10 +155,11 @@ public void displayExpiredItemsAndTotalValue(){
 //metode for å sortere matvarer på navn
 public List<Grocery> getSortedItemsByName(){
     List<Grocery> sortedItems = new ArrayList<>(items); //kopierer listen
-    sortedItems.sort(Comparator.comparing(g -> g.getName().toLowerCase())); // Alfabetisk sortering, case-insensitive
+    sortedItems.sort(Comparator.comparing(item -> item.getName().toLowerCase())); // Alfabetisk sortering, case-insensitive
     return sortedItems;
 }
 
+//velger å bruke stream her, kunne ha løst med en enkel for-løkke og comparator, men lært om stream og syntes det var enklere og mer nyttig å bruke. 
 public List<Grocery> getSortedItemsByExpiry(String name){
     return items.stream()
                 .filter(item -> item.getName().equalsIgnoreCase(name))
