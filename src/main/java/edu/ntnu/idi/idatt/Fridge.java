@@ -93,7 +93,6 @@ public double calculateTotalValue() {
 }
 
 
-
 // Metode for å fjerne bestemt mengde av en fra kjøleskapet
 public void removeItemByAmount(String itemName, double amountToRemove) {
     Iterator<Grocery> iterator = items.iterator();
@@ -152,14 +151,29 @@ public void displayExpiredItemsAndTotalValue(){
 
 }
 
-//metode for å sortere matvarer på navn
+//metode for å sortere matvarer på navn (alfabetisk)
 public List<Grocery> getSortedItemsByName(){
     List<Grocery> sortedItems = new ArrayList<>(items); //kopierer listen
     sortedItems.sort(Comparator.comparing(item -> item.getName().toLowerCase())); // Alfabetisk sortering, case-insensitive
     return sortedItems;
 }
 
-//velger å bruke stream her, kunne ha løst med en enkel for-løkke og comparator, men lært om stream og syntes det var enklere og mer nyttig å bruke. 
+
+//metode for å vise alle utgåtte varer
+public List<Grocery> displayExpiredItems(){
+    List<Grocery> expiredItems = new ArrayList<>(); //kopierer listen
+    for (Grocery item : items){
+        if(item.getDaysUntilExpiry() <= 0){
+            expiredItems.add(item);
+            System.out.println(item);
+        }
+    }
+
+    return expiredItems; 
+}
+
+
+// metode for å sortere spesifikk vare etter utløpsdato. velger å bruke stream her, kunne ha løst med en enkel for-løkke og comparator, men lært om stream og syntes det var enklere og mer nyttig å bruke. 
 public List<Grocery> getSortedItemsByExpiry(String name){
     return items.stream()
                 .filter(item -> item.getName().equalsIgnoreCase(name))
