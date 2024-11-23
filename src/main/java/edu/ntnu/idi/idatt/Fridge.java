@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -27,7 +28,6 @@ public class Fridge {
         items.add(item);
         System.out.println(item.getName() + " er lagt til i kjøleskapet");
     }
-
 
 
     //fjern vare 
@@ -157,6 +157,14 @@ public List<Grocery> getSortedItemsByName(){
     List<Grocery> sortedItems = new ArrayList<>(items); //kopierer listen
     sortedItems.sort(Comparator.comparing(g -> g.getName().toLowerCase())); // Alfabetisk sortering, case-insensitive
     return sortedItems;
+}
+
+public List<Grocery> getSortedItemsByExpiry(String name){
+    return items.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(name))
+                .sorted(Comparator.comparing(Grocery::getBestBeforeDate))
+                .collect(Collectors.toList());
+
 }
 
 }

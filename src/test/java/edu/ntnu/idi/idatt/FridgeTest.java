@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -135,6 +136,40 @@ public class FridgeTest {
         assertEquals("Mel", sortedItems.get(1).getName(), "Andre element bør være 'Mel'.");
         assertEquals("Melk", sortedItems.get(2).getName(), "Tredje element bør være 'Melk'.");
         assertEquals("Ost", sortedItems.get(3).getName(), "Fjerde element bør være 'Ost'.");
+    }
+
+    //test for å sjekke om matvarene blir sortert riktig etter utløpsdato. 
+     @Test
+    public void testGetSortedItemsByExpiry() {
+        // Oppretter et kjøleskap og legger til varer
+        Fridge fridge = new Fridge(); 
+        fridge.addItem(new Grocery("Melk", 1.0, MeasuringUnit.LITER, 5, 20.0)); // Best før: 2024-11-28
+        fridge.addItem(new Grocery("Melk", 1.0, MeasuringUnit.LITER, 10, 20.0)); // Best før: 2024-12-03
+        fridge.addItem(new Grocery("Brød", 1.0, MeasuringUnit.PIECE, 3, 15.0));  // Best før: 2024-11-26
+
+        // Henter ut sorterte varer for "Melk"
+        List<Grocery> sortedMilk = fridge.getSortedItemsByExpiry("Melk");
+
+        // Sjekker at listen ikke er tom
+        assertFalse(sortedMilk.isEmpty(), "Listen over melk bør ikke være tom.");
+
+        // Sjekker antall elementer
+        assertEquals(2, sortedMilk.size(), "Det bør være 2 forekomster av melk i kjøleskapet.");
+
+        // Formateter datoene for sammenligning sånn at man ikke får tid som en error 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String expectedFirstDate = "2024-11-28";
+        String expectedSecondDate = "2024-12-03";
+        String actualFirstDate = dateFormat.format(sortedMilk.get(0).getBestBeforeDate());
+        String actualSecondDate = dateFormat.format(sortedMilk.get(1).getBestBeforeDate());
+
+        // Sjekker rekkefølgen
+        assertEquals(expectedFirstDate, actualFirstDate, "Den første melken bør ha utløpsdato 2024-11-28.");
+        assertEquals(expectedSecondDate, actualSecondDate, "Den andre melken bør ha utløpsdato 2024-12-03.");
+
+        // Test for et navn som ikke finnes
+        List<Grocery> sortedJuice = fridge.getSortedItemsByExpiry("Juice");
+        assertTrue(sortedJuice.isEmpty(), "Listen over 'Juice' bør være tom fordi ingen varer matcher.");
     }
 
 }
