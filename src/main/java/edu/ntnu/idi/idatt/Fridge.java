@@ -30,8 +30,8 @@ public class Fridge {
     }
 
 
-    //fjern vare 
-    public void removeItem(Grocery item){
+    //fjern hele varen 
+    public void removeWholeItem(Grocery item){
         if(items.remove(item)){
             System.out.println(item.getName() + " er fjernet fra kjøleskapet");
         } else{
@@ -94,8 +94,8 @@ public double calculateTotalValue() {
 
 
 
-// Metode for å fjerne vare fra kjøleskapet
-public void removeItem(String itemName, double amountToRemove) {
+// Metode for å fjerne bestemt mengde av en fra kjøleskapet
+public void removeItemByAmount(String itemName, double amountToRemove) {
     Iterator<Grocery> iterator = items.iterator();
     
     while (iterator.hasNext()) {

@@ -22,12 +22,12 @@ public class FridgeTest {
     }
 
     @Test
-    public void testRemoveItem() {
+    public void testRemoveWholeItem() {
         Fridge fridge = new Fridge();
         Grocery melk = new Grocery("Melk", 1.0, MeasuringUnit.LITER, 5, 20.0);
         fridge.addItem(melk);
         
-        fridge.removeItem(melk);
+        fridge.removeWholeItem(melk);
         
         // Sjekk at varen er fjernet
         assertFalse(fridge.getItems().contains(melk), "Forventer at 'Melk' er fjernet fra kjøleskapet");
@@ -156,20 +156,33 @@ public class FridgeTest {
         // Sjekker antall elementer
         assertEquals(2, sortedMilk.size(), "Det bør være 2 forekomster av melk i kjøleskapet.");
 
-        // Formateter datoene for sammenligning sånn at man ikke får tid som en error 
+        // Formateter datoene for sammenligning sånn at man ikke får tid som en error
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String expectedFirstDate = "2024-11-28";
         String expectedSecondDate = "2024-12-03";
         String actualFirstDate = dateFormat.format(sortedMilk.get(0).getBestBeforeDate());
         String actualSecondDate = dateFormat.format(sortedMilk.get(1).getBestBeforeDate());
 
-        // Sjekker rekkefølgen
+        // Sjekk rekkefølgen
         assertEquals(expectedFirstDate, actualFirstDate, "Den første melken bør ha utløpsdato 2024-11-28.");
         assertEquals(expectedSecondDate, actualSecondDate, "Den andre melken bør ha utløpsdato 2024-12-03.");
 
         // Test for et navn som ikke finnes
         List<Grocery> sortedJuice = fridge.getSortedItemsByExpiry("Juice");
         assertTrue(sortedJuice.isEmpty(), "Listen over 'Juice' bør være tom fordi ingen varer matcher.");
+    }
+
+    @Test
+    public void testRemoveItemByAmount() {
+        Fridge fridge = new Fridge();
+        Grocery melk = new Grocery("Melk", 2.0, MeasuringUnit.LITER, 5, 20.0);
+        fridge.addItem(melk);
+
+        fridge.removeItemByAmount("Melk", 1.0); // Fjerner 1 liter melk
+
+        // Sjekk at mengden er oppdatert
+        assertEquals(1.0, melk.getAmount(), 0.01, "Mengden melk bør reduseres til 1.0 liter.");
+        assertTrue(fridge.getItems().contains(melk), "Melk bør fortsatt være i kjøleskapet.");
     }
 
 }
