@@ -190,8 +190,6 @@ public List<Grocery> removeAllExpiredItems(){
 }
 
 
-
-
 // metode for å sortere spesifikk vare etter utløpsdato. velger å bruke stream her, kunne ha løst med en enkel for-løkke og comparator, men lært om stream og syntes det var enklere og mer nyttig å bruke. 
 public List<Grocery> getSortedItemsByExpiry(String name){
     return items.stream()
