@@ -192,5 +192,34 @@ public class FridgeTest {
         assertTrue(expiredItems.stream().anyMatch(item -> item.getName().equals("Mel")), "Mel skal være i listen over utgåtte varer.");
     }
 
+    @Test
+    public void testRemoveAllExpiredItems(){
+        Fridge fridge = new Fridge(); 
+
+        // Lagt til varene Adrak, Agurk og Egg
+        Grocery adrak = new Grocery("Adrak", 200, MeasuringUnit.GRAM, 5, 50.0); // Utløper om 5 dager
+        Grocery agurk = new Grocery("Agurk", 1, MeasuringUnit.PIECE, 2, 10.0);  // Utløper om 2 dager
+        Grocery egg = new Grocery("Egg", 12, MeasuringUnit.PIECE, 0, 3.0);      // Utløper i dag
+
+        fridge.addItem(egg);
+        fridge.addItem(adrak);
+        fridge.addItem(agurk); 
+
+        // Utføre metoden removeAllExpiredItems
+        List<Grocery> removedItems = fridge.removeAllExpiredItems();
+
+        // Verifiserer resultatet
+        // 1. Sjekke at utgåtte varer er fjernet
+        assertFalse(fridge.getItems().contains(egg), "Egg bør være fjernet fra kjøleskapet.");
+        
+        // 2. Sjekke at varer som ikke har gått ut på dato, fortsatt finnes
+        assertTrue(fridge.getItems().contains(adrak), "Adrak bør fortsatt være i kjøleskapet.");
+        assertTrue(fridge.getItems().contains(agurk), "Agurk bør fortsatt være i kjøleskapet.");
+
+        // 3. Sjekke at den returnerte listen med fjernede varer er korrekt
+        assertEquals(1, removedItems.size(), "Listen over fjernede varer bør inneholde én vare.");
+        assertTrue(removedItems.contains(egg), "Listen over fjernede varer bør inneholde 'Egg'.");
+    }
+
 
 }

@@ -172,6 +172,25 @@ public List<Grocery> displayExpiredItems(){
     return expiredItems; 
 }
 
+//metode for å fjerne alle utgåtte varer
+
+public List<Grocery> removeAllExpiredItems(){
+    List<Grocery> expiredItems = new ArrayList<>(); //liste for å lagre varer som har gått ut på dato. 
+
+    for (Grocery item : items){
+        if(item.getDaysUntilExpiry() <= 0){
+            expiredItems.add(item);
+            System.out.println(item + " er fjernet fra kjøleskapet");
+        }
+    }
+
+    items.removeAll(expiredItems); //fjerner alle varer fra hovedlisten
+    return expiredItems; //returnerer varene som har blitt fjernet. 
+    
+}
+
+
+
 
 // metode for å sortere spesifikk vare etter utløpsdato. velger å bruke stream her, kunne ha løst med en enkel for-løkke og comparator, men lært om stream og syntes det var enklere og mer nyttig å bruke. 
 public List<Grocery> getSortedItemsByExpiry(String name){
