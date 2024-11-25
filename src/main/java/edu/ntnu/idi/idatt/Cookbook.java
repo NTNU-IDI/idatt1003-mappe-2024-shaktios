@@ -53,7 +53,7 @@ public class Cookbook {
 
     //finner oppskrifter med en spesifikk ingrediens
     public List<Recipe> searchByIngredient(String ingredientName) {
-        
+
         if (ingredientName == null || ingredientName.trim().isEmpty()) {
             throw new IllegalArgumentException("Ingrediensnavn kan ikke være tomt.");
         }
@@ -121,7 +121,7 @@ public class Cookbook {
 
 
     //Sorterer oppskrifter basert på vanskelighetsgrad i stigende rekkefølge. Bruker stream her også. 
-    public List <Recipe> filterByDifficuilty(){
+    public List <Recipe> sortByDifficuilty(){
         return recipes.stream()
                         .sorted(Comparator.comparing(Recipe::getDifficuilty))
                         .collect(Collectors.toList());
