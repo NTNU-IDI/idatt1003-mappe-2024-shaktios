@@ -3,14 +3,21 @@ package edu.ntnu.idi.idatt;
 import java.util.List;
 
 public class Recipe {
+    
     private String name;           // Navnet på oppskriften
     private String description;     // En kort beskrivelse av hva oppskriften lager
     private String instructions;    // Instruksjoner for hvordan man kan lage retten
     private List<Grocery> ingredients; // Liste over ingredienser som kreves for oppskriften
     private int servings;               //hvor mange personen oppskriften er egnet for 
+    private String category;            //Forrett, dessert, hovedrett osv osv 
+    private int preparationTimeMinutes; //hvor lang tid det tar å lage retten i minutter
+    private DietCategory dietCategory;        // representerer matrettens diettkategori (f.eks. "Vegetar", "Vegansk", "Pescetariansk", "Med kjøtt")
+    private Difficuilty difficuilty;         // hvor vanskelig er det å lage retten? (f.eks. medium, enkelt easy hard osv osv)
+    private String cusine;              // Hvor stammer retten fra? (f.eks. indisk, norsk, somalsk osv osv)
+
 
     // Konstruktør med validering
-    public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings) {
+    public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings, String category, int preparationTimeMinutes, DietCategory dietCategory, Difficuilty difficuilty, String cusine) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn.");
         }
@@ -26,12 +33,34 @@ public class Recipe {
         if (servings<=0){
             throw new IllegalArgumentException("Antall personer oppskriften er egnet må være større enn 0"); 
         }
+        if ( category== null || category.isEmpty()) {
+            throw new IllegalArgumentException(" Kategorien kan ikke være tomt, du må deklarere en kategori (Hovedrett, Forrett, Dessert osv) .");
+        }
+        if (preparationTimeMinutes<=0) {
+            throw new IllegalArgumentException("Oppskriften må ta over 0 minutter å lage");
+        }
+        if (dietCategory== null) {
+            throw new IllegalArgumentException("Diettkategorien kan ikke være tom");
+        }
+        if ( difficuilty== null) {
+            throw new IllegalArgumentException(" Vanskelighetsgraden kan ikke være tom, du må deklarere en vanskelighetsgrad (f.eks lett, vanskelig, medium osv) .");
+        }
+        if (cusine== null || cusine.trim().isEmpty()) {
+            throw new IllegalArgumentException(" Cusine kan ikke være tomt, du må deklarere hvor retten kommer fra (India, Norge, Somalia osv) .");
+        }
+
 
         this.name = name;
         this.description = description;
         this.instructions = instructions;
         this.ingredients = ingredients;
         this.servings = servings; 
+        this.category = category; 
+        this.preparationTimeMinutes = preparationTimeMinutes; 
+        this.dietCategory = dietCategory; 
+        this.difficuilty = difficuilty; 
+        //fjerner ekstra mellomrom rundt hvor retten kommer fra
+        this.cusine = cusine.trim().toLowerCase(); 
     }
 
      // Getters
@@ -55,7 +84,35 @@ public class Recipe {
         return servings;
     }
 
-    // Metode for å legge til en ingrediens (valgfritt)
+    public String getCategory(){
+        return category;
+    }
+    
+    public int getPreperationTimeMinutes(){
+        return preparationTimeMinutes;
+    }
+
+    public DietCategory getDietCategory() {
+        return dietCategory;
+    }
+    
+    public String getDietCategoryDescription() {
+        return dietCategory.getDescription();
+    }
+
+    public Difficuilty getDifficuilty() {
+        return difficuilty;
+    }
+    
+    public String getDifficuiltyDescription() {
+        return difficuilty.getDescription();
+    }
+
+    public String getCusine(){
+        return cusine; 
+    }
+
+    // Metode for å oppdatere en eksisterende oppskrift ved å legge til nye ingredienser. 
     public void addIngredient(Grocery ingredient) {
         if (ingredient == null) {
             throw new IllegalArgumentException("Ingrediensen kan ikke være null.");
@@ -69,9 +126,15 @@ public class Recipe {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", instructions='" + instructions + '\'' +
-                ", ingredients=" + ingredients + 
-                ", servings =" + servings +
-                 '}';
+                ", ingredients=" + ingredients +
+                ", servings=" + servings +
+                ", category='" + category + '\'' +
+                ", preparationTimeMinutes=" + preparationTimeMinutes +
+                ", dietCategory='" + dietCategory.getDescription() + '\'' +
+                ", difficuilty='" + difficuilty.getDescription() + '\'' +
+                ", cusine='" + cusine + '\'' +
+                '}';
     }
+
 
 }
