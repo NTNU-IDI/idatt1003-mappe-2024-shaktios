@@ -122,6 +122,14 @@ public class Cookbook {
                         .collect(Collectors.toList());
     }
 
+    //Filtrerer oppskrifter basert på diettkategori. Brukeren kan for eksempel finne alle oppskrifter som er veganske, vegetariske, pescetarianske, inneholder kjøtt eller tilhører en annen kategori.
+    public List<Recipe> filterByDiet(DietCategory dietCategory) {
+        return recipes.stream()
+                .filter(recipe -> recipe.getDietCategory() == dietCategory)
+                .collect(Collectors.toList());
+    }
+    
+
 }
     
 
