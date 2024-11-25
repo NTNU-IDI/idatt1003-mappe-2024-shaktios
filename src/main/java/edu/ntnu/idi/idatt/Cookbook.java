@@ -53,6 +53,11 @@ public class Cookbook {
 
     //finner oppskrifter med en spesifikk ingrediens
     public List<Recipe> searchByIngredient(String ingredientName) {
+        
+        if (ingredientName == null || ingredientName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingrediensnavn kan ikke være tomt.");
+        }
+
         List<Recipe> foundRecipes = new ArrayList<>(); 
         
         for (Recipe recipe : recipes) {
