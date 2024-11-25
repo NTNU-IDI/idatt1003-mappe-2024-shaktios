@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+/* package edu.ntnu.idi.idatt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,3 +74,4 @@ public class GroceryAppUI {
     }
 }
 
+ */

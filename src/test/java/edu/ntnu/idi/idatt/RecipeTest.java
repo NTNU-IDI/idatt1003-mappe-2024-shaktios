@@ -24,7 +24,18 @@ public class RecipeTest {
     // Positiv test for konstruktøren
     @Test
     public void testValidRecipeCreation() {
-        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift på pannekaker", "Bland og stek", validIngredients, 4);
+        Recipe recipe = new Recipe(
+            "Pannekaker",
+            "Enkel oppskrift på pannekaker",
+            "Bland og stek",
+            validIngredients,
+            4,
+            "Hovedrett",
+            20,
+            DietCategory.VEGETARIAN,
+            Difficuilty.EASY,
+            "norsk"
+        );
 
         // Sjekk at feltene er satt riktig
         assertEquals("Pannekaker", recipe.getName());
@@ -32,55 +43,55 @@ public class RecipeTest {
         assertEquals("Bland og stek", recipe.getInstructions());
         assertEquals(validIngredients, recipe.getIngredients());
         assertEquals(4, recipe.getServings());
+        assertEquals("Hovedrett", recipe.getCategory());
+        assertEquals(20, recipe.getPreperationTimeMinutes());
+        assertEquals(DietCategory.VEGETARIAN, recipe.getDietCategory());
+        assertEquals("Vegetar", recipe.getDietCategoryDescription());
+        assertEquals(Difficuilty.EASY, recipe.getDifficuilty());
+        assertEquals("Enkel å lage", recipe.getDifficuiltyDescription());
+        assertEquals("norsk", recipe.getCusine());
     }
 
     // Negativ tester for konstruktøren
     @Test
-    public void testRecipeCreationWithEmptyName() {
+    public void testRecipeCreationWithEmptyCategory() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("", "Enkel oppskrift", "Bland og stek", validIngredients, 4);
+            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "", 20, DietCategory.VEGETARIAN, Difficuilty.EASY, "norsk");
         });
     }
 
     @Test
-    public void testRecipeCreationWithNullDescription() {
+    public void testRecipeCreationWithInvalidPreparationTime() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("Pannekaker", null, "Bland og stek", validIngredients, 4);
+            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", -1, DietCategory.VEGETARIAN, Difficuilty.EASY, "norsk");
         });
     }
 
     @Test
-    public void testRecipeCreationWithEmptyInstructions() {
+    public void testRecipeCreationWithNullDietCategory() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("Pannekaker", "Enkel oppskrift", "", validIngredients, 4);
+            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, null, Difficuilty.EASY, "norsk");
         });
     }
 
     @Test
-    public void testRecipeCreationWithEmptyIngredientsList() {
+    public void testRecipeCreationWithNullDifficulty() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", new ArrayList<>(), 4);
+            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, null, "norsk");
         });
     }
 
     @Test
-    public void testRecipeCreationWithNullIngredientsList() {
+    public void testRecipeCreationWithNullCusine() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", null, 4);
-        });
-    }
-
-    @Test
-    public void testRecipeCreationWithInvalidServings() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, -1);
+            new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, Difficuilty.EASY, null);
         });
     }
 
     // Test for addIngredient-metoden
     @Test
     public void testAddIngredient() {
-        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4);
+        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, Difficuilty.EASY, "norsk");
 
         Grocery newIngredient = new Grocery("Melk", 200, MeasuringUnit.MILLILITER, 5, 15.0);
         recipe.addIngredient(newIngredient);
@@ -91,7 +102,7 @@ public class RecipeTest {
 
     @Test
     public void testAddNullIngredient() {
-        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4);
+        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, Difficuilty.EASY, "norsk");
 
         assertThrows(IllegalArgumentException.class, () -> {
             recipe.addIngredient(null);

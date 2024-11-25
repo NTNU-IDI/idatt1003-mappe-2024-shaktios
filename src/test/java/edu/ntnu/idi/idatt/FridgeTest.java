@@ -137,6 +137,7 @@ public class FridgeTest {
         assertEquals("Ost", sortedItems.get(3).getName(), "Fjerde element bør være 'Ost'.");
     }
 
+    //tester om sorteringen basert på utløpsdato fungerer ordentlig. 
     @Test
     public void testGetSortedItemsByExpiry() {
         // Oppretter et kjøleskap
@@ -156,14 +157,19 @@ public class FridgeTest {
         // Sjekker antall elementer
         assertEquals(2, sortedMilk.size(), "Det bør være 2 forekomster av melk i kjøleskapet.");
 
+        // Dynamisk beregning av dager til utløp basert på nåværende dato
+        int firstMilkDays = sortedMilk.get(0).getDaysUntilExpiry();
+        int secondMilkDays = sortedMilk.get(1).getDaysUntilExpiry();
+
         // Sjekk rekkefølgen basert på dager til utløp
-        assertEquals(5, sortedMilk.get(0).getDaysUntilExpiry(), "Den første melken bør utløpe om 5 dager.");
-        assertEquals(10, sortedMilk.get(1).getDaysUntilExpiry(), "Den andre melken bør utløpe om 10 dager.");
+        assertTrue(firstMilkDays < secondMilkDays, 
+                "Den første melken bør utløpe før den andre melken.");
 
         // Test for et navn som ikke finnes
         List<Grocery> sortedJuice = fridge.getSortedItemsByExpiry("Juice");
         assertTrue(sortedJuice.isEmpty(), "Listen over 'Juice' bør være tom fordi ingen varer matcher.");
     }
+
 
     @Test
     public void testRemoveItemByAmount() {
