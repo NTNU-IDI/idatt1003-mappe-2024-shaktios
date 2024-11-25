@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +106,16 @@ public class Cookbook {
 
     }
     
+
+    //Sorterer oppskrifter i stigende rekkefølge basert på tilberedningstid. Bruker stream da det er mye enklere enn for-løkke
+    public List <Recipe> sortByPreperationTime(){
+        return recipes.stream()
+                        .sorted(Comparator.comparingInt(Recipe::getPreperationTimeMinutes))
+                        .collect(Collectors.toList()); 
+    }
+
+    public List <Recipe> filterByDifficuilty()
+
 }
     
 
