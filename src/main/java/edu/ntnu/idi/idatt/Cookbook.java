@@ -135,32 +135,54 @@ public class Cookbook {
     }
     
 
-    //Filtrerer oppskrifter basert på flere parametere
-
-    public List<Recipe> filterRecipes(FilterCriteria criteria){
+    public List<Recipe> filterRecipes(FilterCriteria criteria) {
         return recipes.stream()
-        
-                //Filtrerer på diettkategori hvis satt
-                .filter(recipe -> criteria.getDietCategory() == null ||
-                        criteria.getDietCategory().equals(recipe.getDietCategory()))
-
-                // Filtrerer på vanskelighetsgrad hvis satt
-                .filter(recipe -> criteria.getDifficulty() == null ||
-                criteria.getDifficulty().equals(recipe.getDifficulty()))
-
-                // Filtrerer på maks tilberedningstid hvis satt
-                .filter(recipe -> criteria.getMaxPreparationTime() == null ||
-                        recipe.getPreperationTimeMinutes() <= criteria.getMaxPreparationTime())
-
-                // Filtrerer på ingredienser hvis satt
-                .filter(recipe -> criteria.getIngredients() == null || 
-                criteria.getIngredients().isEmpty() ||
-                criteria.getIngredients().stream()
-                        .allMatch(ingredient -> recipe.getIngredients().contains(ingredient)))
-                .collect(Collectors.toList());
-
+            .filter(recipe -> {
+                // Sjekker diettkategori
+                if (criteria.getDietCategory() != null && 
+                    !criteria.getDietCategory().equals(recipe.getDietCategory())) {
+                    return false;
+                }
+    
+                // Sjekker vanskelighetsgrad
+                if (criteria.getDifficulty() != null && 
+                    !criteria.getDifficulty().equals(recipe.getDifficulty())) {
+                    return false;
+                }
+    
+                // Sjekker maks tilberedningstid
+                if (criteria.getMaxPreparationTime() != null && 
+                    recipe.getPreperationTimeMinutes() > criteria.getMaxPreparationTime()) {
+                    return false;
+                }
+    
+                // Sjekker ingredienser
+                if (criteria.getIngredients() != null && 
+                    !criteria.getIngredients().isEmpty() &&
+                    !criteria.getIngredients().stream()
+                        .allMatch(ingredient -> recipe.getIngredients().stream()
+                            .anyMatch(grocery -> grocery.getName().equalsIgnoreCase(ingredient)))) {
+                    return false;
+                }
+    
+                // Sjekker kategori
+                if (criteria.getCategory() != null && 
+                    !criteria.getCategory().equalsIgnoreCase(recipe.getCategory())) {
+                    return false;
+                }
+    
+                // Sjekker cuisine
+                if (criteria.getCuisine() != null && 
+                    !criteria.getCuisine().equalsIgnoreCase(recipe.getCusine())) {
+                    return false;
+                }
+    
+                return true;
+            })
+            .collect(Collectors.toList());
     }
-
+    
+    
 
 }
     

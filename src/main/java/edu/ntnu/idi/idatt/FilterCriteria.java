@@ -31,6 +31,8 @@ import java.util.List;
     private Difficulty difficulty;      // Vanskelighetsgrad, enum
     private Integer maxPreparationTime; // Maks tilberedningstid i minutter
     private List<String> ingredients; // Liste over ingredienser som skal være med
+    private String category; 
+    private String cuisine; 
 
     /**
      * Henter diettkategorien som er valgt for søkekriteriet.
@@ -72,6 +74,10 @@ import java.util.List;
         return maxPreparationTime;
     }
 
+    public void setMaxPreparationTime(Integer maxPreparationTime){
+        this.maxPreparationTime = maxPreparationTime; 
+    }
+
     /**
      * Henter listen over ingredienser som er valgt for søkekriteriet.
      * @return Liste over ingredienser, eller null hvis ingen er satt.
@@ -87,6 +93,38 @@ import java.util.List;
      */
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    /**
+     * Henter kategorien som er valgt for søkekriteriet.
+     * @return String kategori, eller null hvis ingen er satt.
+     */
+    public String getCategory() {
+        return category;
+    }
+
+    /**
+     * Setter kategorien som skal brukes for søk.
+     * @param category Kategori som forrett, hovedrett, dessert, etc.
+     */
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    /**
+     * Henter retten sitt opprinnelsessted som er valgt for søkekriteriet.
+     * @return String cuisine, eller null hvis ingen er satt.
+     */
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    /**
+     * Setter retten sitt opprinnelsessted som skal brukes for søk.
+     * @param cuisine Opprinnelsessted (indisk, norsk, etc.).
+     */
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
     }
 
 }
