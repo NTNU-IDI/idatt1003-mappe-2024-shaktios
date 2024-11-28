@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.List;
+
 /**
  * Representerer søkekriterier for å filtrere oppskrifter i en Cookbook.
  * Denne klassen lar brukeren angi ulike kriterier som kan brukes til å søke etter oppskrifter basert på diettkategori, vanskelighetsgrad, maks tilberedningstid og ønskede ingredienser.
@@ -28,7 +30,7 @@ package edu.ntnu.idi.idatt;
     private DietCategory dietCategory;  // Diett-kategori, enum
     private Difficulty difficulty;      // Vanskelighetsgrad, enum
     private Integer maxPreparationTime; // Maks tilberedningstid i minutter
-    
+    private List<String> ingredients; // Liste over ingredienser som skal være med
 
     /**
      * Henter diettkategorien som er valgt for søkekriteriet.
@@ -68,6 +70,23 @@ package edu.ntnu.idi.idatt;
      */
     public Integer getMaxPreparationTime() {
         return maxPreparationTime;
+    }
+
+    /**
+     * Henter listen over ingredienser som er valgt for søkekriteriet.
+     * @return Liste over ingredienser, eller null hvis ingen er satt.
+     */
+    public List<String> getIngredients() {
+        return ingredients;
+
+    }
+
+     /**
+     * Setter listen over ingredienser som skal brukes for søk.
+     * @param ingredients Liste med ingredienser.
+     */
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
 }
