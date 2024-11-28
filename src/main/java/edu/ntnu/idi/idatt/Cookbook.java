@@ -135,6 +135,33 @@ public class Cookbook {
     }
     
 
+    //Filtrerer oppskrifter basert på flere parametere
+
+    public List<Recipe> filterRecipes(FilterCriteria criteria){
+        return recipes.stream()
+        
+                //Filtrerer på diettkategori hvis satt
+                .filter(recipe -> criteria.getDietCategory() == null ||
+                        criteria.getDietCategory().equals(recipe.getDietCategory()))
+
+                // Filtrerer på vanskelighetsgrad hvis satt
+                .filter(recipe -> criteria.getDifficulty() == null ||
+                criteria.getDifficulty().equals(recipe.getDifficulty()))
+
+                // Filtrerer på maks tilberedningstid hvis satt
+                .filter(recipe -> criteria.getMaxPreparationTime() == null ||
+                        recipe.getPreperationTimeMinutes() <= criteria.getMaxPreparationTime())
+
+                // Filtrerer på ingredienser hvis satt
+                .filter(recipe -> criteria.getIngredients() == null || 
+                criteria.getIngredients().isEmpty() ||
+                criteria.getIngredients().stream()
+                        .allMatch(ingredient -> recipe.getIngredients().contains(ingredient)))
+                .collect(Collectors.toList());
+
+    }
+
+
 }
     
 
