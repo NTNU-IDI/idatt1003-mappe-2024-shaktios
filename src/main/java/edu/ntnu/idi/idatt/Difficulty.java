@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt;
 
 //Valgt å bruke enum da det er mer skalerbart enn en string for disse beskrivelsene 
 
-public enum Difficuilty {
+public enum Difficulty {
 
     EASY("Enkel å lage"),
     MEDIUM("Middels vanskelig"),
@@ -13,7 +13,7 @@ public enum Difficuilty {
 
 
     // Konstruktør for enum som setter beskrivelsen for hver vanskelighetsgrad.
-    Difficuilty(String description) {
+    Difficulty(String description) {
         this.description = description;
     }
 

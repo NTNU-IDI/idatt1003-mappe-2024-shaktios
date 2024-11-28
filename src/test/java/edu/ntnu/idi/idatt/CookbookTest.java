@@ -25,14 +25,14 @@ public class CookbookTest {
         pannekakerIngredienser.add(new Grocery("Egg", 3, MeasuringUnit.PIECE, 7, 3.0));
         pannekaker = new Recipe("Pannekaker", "Enkle pannekaker", "Bland og stek", 
                                 pannekakerIngredienser, 4, "Dessert", 20, 
-                                DietCategory.VEGETARIAN, Difficuilty.EASY, "Norsk");
+                                DietCategory.VEGETARIAN, Difficulty.EASY, "Norsk");
 
         List<Grocery> omelettIngredienser = new ArrayList<>();
         omelettIngredienser.add(new Grocery("Egg", 2, MeasuringUnit.PIECE, 5, 3.0));
         omelettIngredienser.add(new Grocery("Melk", 100, MeasuringUnit.MILLILITER, 3, 5.0));
         omelett = new Recipe("Omelett", "Enkel omelett", "Visp og stek", 
                              omelettIngredienser, 2, "Frokost", 10, 
-                             DietCategory.VEGETARIAN, Difficuilty.EASY, "Fransk");
+                             DietCategory.VEGETARIAN, Difficulty.EASY, "Fransk");
     }
 
     @Test
@@ -87,7 +87,7 @@ public class CookbookTest {
     public void testsortByDifficulty() {
         cookbook.addRecipe(pannekaker);
         cookbook.addRecipe(omelett);
-        List<Recipe> results = cookbook.sortByDifficuilty();
+        List<Recipe> results = cookbook.sortByDifficulty();
         assertEquals(2, results.size(), "Bør finne to oppskrifter sortert etter vanskelighetsgrad.");
         assertEquals("Pannekaker", results.get(0).getName(), "Pannekaker bør være først basert på vanskelighetsgrad.");
     }

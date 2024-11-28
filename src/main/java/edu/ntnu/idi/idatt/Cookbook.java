@@ -121,9 +121,9 @@ public class Cookbook {
 
 
     //Sorterer oppskrifter basert på vanskelighetsgrad i stigende rekkefølge. Bruker stream her også. 
-    public List <Recipe> sortByDifficuilty(){
+    public List <Recipe> sortByDifficulty(){
         return recipes.stream()
-                        .sorted(Comparator.comparing(Recipe::getDifficuilty))
+                        .sorted(Comparator.comparing(Recipe::getDifficulty))
                         .collect(Collectors.toList());
     }
 

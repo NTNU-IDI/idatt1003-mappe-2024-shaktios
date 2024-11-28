@@ -12,12 +12,12 @@ public class Recipe {
     private String category;            //Forrett, dessert, hovedrett osv osv 
     private int preparationTimeMinutes; //hvor lang tid det tar å lage retten i minutter
     private DietCategory dietCategory;        // representerer matrettens diettkategori (f.eks. "Vegetar", "Vegansk", "Pescetariansk", "Med kjøtt")
-    private Difficuilty difficuilty;         // hvor vanskelig er det å lage retten? (f.eks. medium, enkelt easy hard osv osv)
+    private Difficulty Difficulty;         // hvor vanskelig er det å lage retten? (f.eks. medium, enkelt easy hard osv osv)
     private String cusine;              // Hvor stammer retten fra? (f.eks. indisk, norsk, somalsk osv osv)
 
 
     // Konstruktør med validering
-    public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings, String category, int preparationTimeMinutes, DietCategory dietCategory, Difficuilty difficuilty, String cusine) {
+    public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings, String category, int preparationTimeMinutes, DietCategory dietCategory, Difficulty Difficulty, String cusine) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn.");
         }
@@ -42,7 +42,7 @@ public class Recipe {
         if (dietCategory== null) {
             throw new IllegalArgumentException("Diettkategorien kan ikke være tom");
         }
-        if ( difficuilty== null) {
+        if ( Difficulty== null) {
             throw new IllegalArgumentException(" Vanskelighetsgraden kan ikke være tom, du må deklarere en vanskelighetsgrad (f.eks lett, vanskelig, medium osv) .");
         }
         if (cusine== null || cusine.trim().isEmpty()) {
@@ -58,7 +58,7 @@ public class Recipe {
         this.category = category; 
         this.preparationTimeMinutes = preparationTimeMinutes; 
         this.dietCategory = dietCategory; 
-        this.difficuilty = difficuilty; 
+        this.Difficulty = Difficulty; 
         //fjerner ekstra mellomrom rundt hvor retten kommer fra
         this.cusine = cusine.trim().toLowerCase(); 
     }
@@ -100,12 +100,12 @@ public class Recipe {
         return dietCategory.getDescription();
     }
 
-    public Difficuilty getDifficuilty() {
-        return difficuilty;
+    public Difficulty getDifficulty() {
+        return Difficulty;
     }
     
-    public String getDifficuiltyDescription() {
-        return difficuilty.getDescription();
+    public String getDifficultyDescription() {
+        return Difficulty.getDescription();
     }
 
     public String getCusine(){
@@ -131,7 +131,7 @@ public class Recipe {
                 ", category='" + category + '\'' +
                 ", preparationTimeMinutes=" + preparationTimeMinutes +
                 ", dietCategory='" + dietCategory.getDescription() + '\'' +
-                ", difficuilty='" + difficuilty.getDescription() + '\'' +
+                ", Difficulty='" + Difficulty.getDescription() + '\'' +
                 ", cusine='" + cusine + '\'' +
                 '}';
     }
