@@ -31,6 +31,9 @@ public class Grocery {
         if (daysUntilExpiry < 0) {
             throw new IllegalArgumentException("Antall dager til utløp kan ikke være negativt.");
         }
+        if(measuringUnit == null){
+            throw new IllegalArgumentException("Måleenheten kan ikke være tom mengde"); 
+        }
 
         this.name = name; 
         this.amount = amount; 
@@ -108,6 +111,9 @@ public class Grocery {
     
 
     public void setBestBeforeDate(Date bestBeforeDate){
+        if (bestBeforeDate.before(new Date())){
+            throw new IllegalArgumentException("Best før datoen kan ikke være tidligere enn dagens dato.");
+        }
         this.bestBeforeDate = bestBeforeDate; 
     }
 
@@ -117,6 +123,15 @@ public class Grocery {
         }
         this.pricePerUnit = pricePerUnit; 
     }
+
+    public double calculateTotalPrice() {
+        return amount * pricePerUnit;
+    }
+    
+    public boolean isExpired() {
+        return new Date().after(bestBeforeDate);
+    }
+    
 
 
 

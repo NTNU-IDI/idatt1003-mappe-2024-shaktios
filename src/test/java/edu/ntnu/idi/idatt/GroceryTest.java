@@ -42,4 +42,6 @@ public class GroceryTest {
             new Grocery("Melk", 1.0, MeasuringUnit.LITER, -5, 20.0); // Opprett med negativ dager til utløp
         });
     }
+
+
 }
