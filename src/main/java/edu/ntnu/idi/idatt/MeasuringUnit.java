@@ -29,4 +29,13 @@ public enum MeasuringUnit {
     public double fromBaseUnit(double amount) {
         return amount * conversionFactor;
     }
+
+    public static void displayMeasuringUnits() {
+        System.out.println("Tilgjengelige måleenheter:");
+        for (MeasuringUnit unit : MeasuringUnit.values()) {
+            System.out.println("- " + unit.name());
+        }
+    }
+    
+    
 }

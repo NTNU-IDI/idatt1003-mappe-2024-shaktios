@@ -38,7 +38,7 @@ public class Cookbook {
         return new ArrayList<>(recipes); //returnerer en kopi av listen. 
     }
 
-    //søk etter en oppskrift etter navn
+    /* //søk etter en oppskrift etter navn
     public List<Recipe> searchByName(String name){
         List<Recipe> foundRecipes = new ArrayList<>();
         for (Recipe recipe :recipes){
@@ -48,6 +48,21 @@ public class Cookbook {
         }
     return foundRecipes;    
 
+    }
+ */
+    public List<Recipe> searchByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Navnet kan ikke være tomt eller null.");
+        }
+
+        List<Recipe> foundRecipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            if (recipe.getName().equalsIgnoreCase(name.trim())) { // Trimmer whitespace
+                foundRecipes.add(recipe);
+            }
+        }
+
+        return foundRecipes; // Returner alle oppskrifter som matcher
     }
 
 
