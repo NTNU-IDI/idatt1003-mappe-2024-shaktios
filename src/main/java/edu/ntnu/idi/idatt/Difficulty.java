@@ -23,6 +23,13 @@ public enum Difficulty {
         return description;
     }
 
+    public static void displayDifficulties() {
+        System.out.println("Tilgjengelige vanskelighetsgrader:");
+        for (Difficulty difficulty : Difficulty.values()) {
+            System.out.println("- " + difficulty.name() + ": " + difficulty.getDescription());
+        }
+    }
+    
 
 
 }

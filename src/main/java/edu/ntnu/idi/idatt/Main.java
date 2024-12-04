@@ -287,12 +287,19 @@ public class Main {
         String name = readString("Navn: ");
         String description = readString("Beskrivelse: ");
         String instructions = readString("Instruksjoner: ");
-        
         int prepTime = readInt("Tilberedningstid (minutter): ");
-        scanner.nextLine(); // Tøm bufferen etter int-lesing
     
+        // Viser diettkategorier
+        System.out.println("Tilgjengelige diettkategorier:");
+        for (DietCategory category : DietCategory.values()) {
+            System.out.println("- " + category.name() + ": " + category.getDescription());
+        }
         DietCategory dietCategory = DietCategory.valueOf(readString("Diettkategori: ").toUpperCase());
+    
+        // Viser vanskelighetsgrader
+        Difficulty.displayDifficulties();
         Difficulty difficulty = Difficulty.valueOf(readString("Vanskelighetsgrad: ").toUpperCase());
+    
         List<Grocery> ingredients = new ArrayList<>();
     
         while (true) {
@@ -301,22 +308,22 @@ public class Main {
             if (ingredientName.equalsIgnoreCase("ferdig")) break;
     
             double amount = readDouble("Mengde: ");
-            scanner.nextLine(); // Tøm bufferen etter double-lesing
+            MeasuringUnit.displayMeasuringUnits(); // Viser måleenheter
+            MeasuringUnit unit = MeasuringUnit.valueOf(readString("Måleenhet: ").toUpperCase());
+            
+            // Bruk34 standardverdier for dager til utløp og pris
+            int daysUntilExpiry = 0;
+            double pricePerUnit = 0;
     
-            String unit = readString("Måleenhet: ");
-            int days = readInt("Dager til utløp: ");
-            scanner.nextLine(); // Tøm bufferen etter int-lesing
-    
-            double price = readDouble("Pris per enhet: ");
-            scanner.nextLine(); // Tøm bufferen etter double-lesing
-    
-            ingredients.add(new Grocery(ingredientName, amount, MeasuringUnit.valueOf(unit.toUpperCase()), days, price));
+            ingredients.add(new Grocery(ingredientName, amount, unit, daysUntilExpiry, pricePerUnit));
         }
     
         Recipe recipe = new Recipe(name, description, instructions, ingredients, 1, "Hovedrett", prepTime, dietCategory, difficulty, "Internasjonal");
         cookbook.addRecipe(recipe);
     }
-
+    
+    
+    
     private void removeRecipe() {
         System.out.println("\n--- Fjern oppskrift ---");
         String name = readString("Navn: ");
@@ -434,18 +441,16 @@ public class Main {
 
 
     
-    
-
     private int readInt(String prompt) {
         while (true) {
             try {
                 System.out.print(prompt);
                 int value = scanner.nextInt();
-                scanner.nextLine(); // Tømmer bufferen
+                scanner.nextLine(); // Tømmer linjeskift fra bufferen
                 return value;
             } catch (InputMismatchException e) {
                 System.out.println("Ugyldig input. Vennligst skriv inn et heltall.");
-                scanner.nextLine(); // Tømmer bufferen etter feil
+                scanner.nextLine(); // Tømmer ugyldig input fra bufferen
             }
         }
     }
@@ -455,15 +460,15 @@ public class Main {
             try {
                 System.out.print(prompt);
                 double value = scanner.nextDouble();
-                scanner.nextLine(); // Tømmer bufferen
+                scanner.nextLine(); // Tømmer linjeskift fra bufferen
                 return value;
             } catch (InputMismatchException e) {
                 System.out.println("Ugyldig input. Vennligst skriv inn et tall.");
-                scanner.nextLine(); // Tømmer bufferen etter feil
+                scanner.nextLine(); // Tømmer ugyldig input fra bufferen
             }
         }
     }
-
+    
     private MeasuringUnit readMeasuringUnit() {
         while (true) {
             MeasuringUnit.displayMeasuringUnits(); // Viser alternativer
