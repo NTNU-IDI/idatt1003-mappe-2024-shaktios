@@ -90,40 +90,36 @@ public class Cookbook {
 
     public List<Recipe> suggestRecipes(Fridge fridge, int desiredServings) {
         Map<Recipe, Integer> recipeAvailabilityMap = new HashMap<>();
-
+    
         for (Recipe recipe : recipes) {
-            int availableCount = 0;
+            int availableIngredients = 0;
             double scalingFactor = (double) desiredServings / recipe.getServings();
-
+            boolean canMakeRecipe = true;
+    
             for (Grocery ingredient : recipe.getIngredients()) {
                 Grocery fridgeItem = fridge.searchItem(ingredient.getName());
                 double adjustedAmountNeeded = ingredient.getAmount() * scalingFactor;
-
-                if (fridgeItem != null && fridgeItem.getAmount() >= adjustedAmountNeeded) {
-                    availableCount++;
+    
+                // Sjekk om ingrediensen finnes i kjøleskapet og er tilstrekkelig
+                if (fridgeItem == null || fridgeItem.getAmount() < adjustedAmountNeeded) {
+                    canMakeRecipe = false;
+                    break;
+                } else {
+                    availableIngredients++;
                 }
             }
-
-            recipeAvailabilityMap.put(recipe, availableCount);
+    
+            // Legg til oppskriften i resultatet hvis den kan lages
+            if (canMakeRecipe) {
+                recipeAvailabilityMap.put(recipe, availableIngredients);
+            }
         }
-
+    
+        // Returner oppskrifter sortert etter hvor mange ingredienser som finnes i kjøleskapet
         return recipeAvailabilityMap.entrySet().stream()
                 .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-    }
-
-    public List<Recipe> filterByCategory(String category){
-        if(category == null || category.trim().isEmpty()){
-            throw new IllegalArgumentException("Kategorien kan ikke være tom"); 
-        }
-
-        //filtrer basert på kategory med stream. 
-
-        return recipes.stream()
-                        .filter(recipe -> recipe.getCategory().equalsIgnoreCase(category))
-                        .collect(Collectors.toList());
-
     }
     
 
@@ -196,6 +192,15 @@ public class Cookbook {
             })
             .collect(Collectors.toList());
     }
+
+    public List<String> getAllCategories() {
+        return recipes.stream()
+                      .map(Recipe::getCategory) // Henter kategorien for hver oppskrift
+                      .distinct()               // Fjerner duplikater
+                      .sorted()                 // Sorterer alfabetisk
+                      .collect(Collectors.toList());
+    }
+    
     
     
 

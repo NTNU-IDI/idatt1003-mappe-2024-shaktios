@@ -24,14 +24,16 @@ public class Main {
             System.out.println("1. Administrer kjøleskap");
             System.out.println("2. Administrer oppskrifter");
             System.out.println("3. Avansert søk etter oppskrifter (flere kategorier)");
-            System.out.println("4. Avslutt");
+            System.out.println("4. Foreslå oppskrifter basert på det du har i kjøleskapet");
+            System.out.println("5. Avslutt");
 
             int choice = readInt("Velg et alternativ: ");
             switch (choice) {
                 case 1 -> manageFridge();
                 case 2 -> manageRecipes();
                 case 3 -> searchRecipes();
-                case 4 -> {
+                case 4 -> suggestRecipes();
+                case 5 -> {
                     System.out.println("Avslutter programmet. Ha en fin dag!");
                     return;
                 }
@@ -282,45 +284,51 @@ public class Main {
     }
     
 
+
     private void addRecipe() {
         System.out.println("\n--- Legg til oppskrift ---");
+    
         String name = readString("Navn: ");
         String description = readString("Beskrivelse: ");
         String instructions = readString("Instruksjoner: ");
         int prepTime = readInt("Tilberedningstid (minutter): ");
+        int servings = readServings();
+        String category = readCategory();
+        String cuisine = readCuisine();
     
-        // Viser diettkategorier
-        System.out.println("Tilgjengelige diettkategorier:");
-        for (DietCategory category : DietCategory.values()) {
-            System.out.println("- " + category.name() + ": " + category.getDescription());
-        }
-        DietCategory dietCategory = DietCategory.valueOf(readString("Diettkategori: ").toUpperCase());
-    
-        // Viser vanskelighetsgrader
-        Difficulty.displayDifficulties();
-        Difficulty difficulty = Difficulty.valueOf(readString("Vanskelighetsgrad: ").toUpperCase());
+        DietCategory dietCategory = readDietCategory();
+        Difficulty difficulty = readDifficulty();
     
         List<Grocery> ingredients = new ArrayList<>();
-    
         while (true) {
-            System.out.println("\nLegg til en ingrediens (eller skriv 'ferdig' for å avslutte):");
+            System.out.println("\nLegg til en ingrediens (eller skriv 'Q' for å avslutte):");
             String ingredientName = readString("Ingrediensnavn: ");
-            if (ingredientName.equalsIgnoreCase("ferdig")) break;
+            if (ingredientName.equalsIgnoreCase("Q")) {
+                if (ingredients.isEmpty()) {
+                    System.out.println("Du må legge til minst én ingrediens før du avslutter.");
+                    continue;
+                }
+                break;
+            }
     
+            MeasuringUnit unit = readMeasuringUnit();
             double amount = readDouble("Mengde: ");
-            MeasuringUnit.displayMeasuringUnits(); // Viser måleenheter
-            MeasuringUnit unit = MeasuringUnit.valueOf(readString("Måleenhet: ").toUpperCase());
             
-            // Bruk34 standardverdier for dager til utløp og pris
+    
             int daysUntilExpiry = 0;
             double pricePerUnit = 0;
     
             ingredients.add(new Grocery(ingredientName, amount, unit, daysUntilExpiry, pricePerUnit));
         }
     
-        Recipe recipe = new Recipe(name, description, instructions, ingredients, 1, "Hovedrett", prepTime, dietCategory, difficulty, "Internasjonal");
+        // Opprett oppskriften og legg den til i kokeboken
+        Recipe recipe = new Recipe(name, description, instructions, ingredients, servings, category, prepTime, dietCategory, difficulty, cuisine);
         cookbook.addRecipe(recipe);
+        System.out.println("Oppskrift lagt til: " + name);
     }
+    
+    
+    
     
     
     
@@ -392,7 +400,19 @@ public class Main {
 
     private void filterRecipesByCategory() {
         System.out.println("\n--- Filtrer oppskrifter etter kategori ---");
-        String category = readString("Kategori: ");
+    
+        // Hent og vis alle tilgjengelige kategorier
+        List<String> availableCategories = cookbook.getAllCategories();
+        if (availableCategories.isEmpty()) {
+            System.out.println("Ingen kategorier er tilgjengelige.");
+            return;
+        }
+    
+        System.out.println("Tilgjengelige kategorier:");
+        availableCategories.forEach(System.out::println); // Vis hver kategori
+    
+        // La brukeren velge en kategori
+        String category = readString("Skriv inn en kategori for å søke: ");
         List<Recipe> filteredRecipes = cookbook.filterByCategory(category);
         if (filteredRecipes.isEmpty()) {
             System.out.println("Ingen oppskrifter funnet i kategorien: " + category);
@@ -401,6 +421,7 @@ public class Main {
             filteredRecipes.forEach(System.out::println);
         }
     }
+    
 
     private void sortRecipesByPreparationTime() {
         System.out.println("\n--- Sorter oppskrifter etter tilberedningstid ---");
@@ -480,6 +501,97 @@ public class Main {
             }
         }
     }
+
+    private DietCategory readDietCategory() {
+        while (true) {
+            try {
+                // Vis alle tilgjengelige alternativer
+                System.out.println("Tilgjengelige diettkategorier:");
+                for (DietCategory category : DietCategory.values()) {
+                    System.out.println("- " + category.name() + ": " + category.getDescription());
+                }
+                String input = readString("Velg en diettkategori: ");
+                return DietCategory.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig diettkategori. Prøv igjen.");
+            }
+        }
+    }
+
+    private Difficulty readDifficulty() {
+        while (true) {
+            try {
+                // Vis alle tilgjengelige alternativer
+                Difficulty.displayDifficulties();
+                String input = readString("Velg en vanskelighetsgrad: ");
+                return Difficulty.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig vanskelighetsgrad. Prøv igjen.");
+            }
+        }
+    }
+
+    private int readServings() {
+        while (true) {
+            try {
+                int servings = readInt("Antall porsjoner (må være > 0): ");
+                if (servings > 0) {
+                    return servings;
+                } else {
+                    System.out.println("Antall porsjoner må være større enn 0. Prøv igjen.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig input. Prøv igjen.");
+            }
+        }
+    }
+
+    private String readCategory() {
+        while (true) {
+            String category = readString("Kategori (f.eks. Hovedrett, Forrett, Dessert): ");
+            if (!category.isEmpty()) {
+                return category;
+            } else {
+                System.out.println("Kategori kan ikke være tom. Prøv igjen.");
+            }
+        }
+    }
+
+    private String readCuisine() {
+        while (true) {
+            String cuisine = readString("Opphavskjøkken (f.eks. Indisk, Italiensk, Norsk): ");
+            if (!cuisine.isEmpty()) {
+                return cuisine;
+            } else {
+                System.out.println("Opphavskjøkken kan ikke være tomt. Prøv igjen.");
+            }
+        }
+    }
+
+
+    private void suggestRecipes() {
+        System.out.println("\n--- Foreslå oppskrifter ---");
+    
+        // Spør brukeren hvor mange porsjoner de ønsker
+        int desiredServings = readInt("Antall ønskede porsjoner: ");
+    
+        // Foreslå oppskrifter basert på kjøleskapet og ønskede porsjoner
+        List<Recipe> suggestedRecipes = cookbook.suggestRecipes(fridge, desiredServings);
+    
+        // Vis resultatene
+        if (suggestedRecipes.isEmpty()) {
+            System.out.println("Ingen oppskrifter kan foreslås basert på innholdet i kjøleskapet.");
+        } else {
+            System.out.println("Foreslåtte oppskrifter:");
+            suggestedRecipes.forEach(System.out::println);
+        }
+    }
+    
+    
+        
+    
+
+    
     
     
     private String readString(String prompt) {
