@@ -24,7 +24,7 @@ public class Main {
             System.out.println("1. Administrer kjøleskap");
             System.out.println("2. Administrer oppskrifter");
             System.out.println("3. Avansert søk etter oppskrifter (flere kategorier)");
-            System.out.println("4. Foreslå oppskrifter basert på det du har i kjøleskapet");
+            System.out.println("4. Foreslå oppskrifter basert på det du har i kjøleskapet (Foreslår bare oppskrifter der du har alle ingrediensene)");
             System.out.println("5. Avslutt");
 
             int choice = readInt("Velg et alternativ: ");
@@ -440,14 +440,59 @@ public class Main {
     private void searchRecipes() {
         System.out.println("\n--- Søk etter oppskrifter ---");
         FilterCriteria criteria = new FilterCriteria();
-        String diet = readString("Diettkategori (eller 'hopp over'): ");
-        if (!diet.equalsIgnoreCase("hopp over")) {
-            criteria.setDietCategory(DietCategory.valueOf(diet.toUpperCase()));
+    
+        // Velg diettkategori
+        System.out.println("Tilgjengelige diettkategorier:");
+        for (DietCategory category : DietCategory.values()) {
+            System.out.println("- " + category.name() + ": " + category.getDescription());
         }
-        String diff = readString("Vanskelighetsgrad (eller 'hopp over'): ");
-        if (!diff.equalsIgnoreCase("hopp over")) {
-            criteria.setDifficulty(Difficulty.valueOf(diff.toUpperCase()));
+        String diet = readString("Velg diettkategori (eller skriv Q for å hoppe over): ");
+        if (!diet.equalsIgnoreCase("Q")) {
+            try {
+                criteria.setDietCategory(DietCategory.valueOf(diet.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig diettkategori. Hopper over.");
+            }
         }
+    
+        // Velg vanskelighetsgrad
+        System.out.println("Tilgjengelige vanskelighetsgrader:");
+        Difficulty.displayDifficulties();
+        String diff = readString("Velg vanskelighetsgrad (eller skriv Q for å hoppe over) ");
+        if (!diff.equalsIgnoreCase("Q")) {
+            try {
+                criteria.setDifficulty(Difficulty.valueOf(diff.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldig vanskelighetsgrad. Hopper over.");
+            }
+        }
+    
+        // Velg maks tilberedningstid
+        String prepTime = readString("Maks tilberedningstid i minutter (eller skriv Q for å hoppe over): ");
+        if (!prepTime.equalsIgnoreCase("Q")) {
+            try {
+                criteria.setMaxPreparationTime(Integer.parseInt(prepTime));
+            } catch (NumberFormatException e) {
+                System.out.println("Ugyldig tid. Hopper over.");
+            }
+        }
+    
+        // Velg kategori
+        System.out.println("Tilgjengelige kategorier:");
+        List<String> categories = cookbook.getAllCategories();
+        categories.forEach(System.out::println);
+        String category = readString("Velg kategori (eller skriv Q for å hoppe over): ");
+        if (!category.equalsIgnoreCase("Q")) {
+            criteria.setCategory(category);
+        }
+    
+        // Velg opphavskjøkken
+        String cuisine = readString("Opphavskjøkken (eller skriv Q for å hoppe over): ");
+        if (!cuisine.equalsIgnoreCase("Q")) {
+            criteria.setCuisine(cuisine);
+        }
+    
+        // Utfører filtrering
         List<Recipe> filteredRecipes = cookbook.filterRecipes(criteria);
         if (filteredRecipes.isEmpty()) {
             System.out.println("Fant ingen oppskrifter som matcher kriteriene.");
@@ -456,9 +501,7 @@ public class Main {
             filteredRecipes.forEach(System.out::println);
         }
     }
-
-
-
+    
 
 
     
@@ -586,13 +629,6 @@ public class Main {
             suggestedRecipes.forEach(System.out::println);
         }
     }
-    
-    
-        
-    
-
-    
-    
     
     private String readString(String prompt) {
         System.out.print(prompt);
