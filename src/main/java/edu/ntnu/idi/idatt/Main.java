@@ -87,12 +87,35 @@ public class Main {
     private void addGrocery() {
         System.out.println("\n--- Legg til vare ---");
         String name = readString("Navn: ");
-        MeasuringUnit unit = readMeasuringUnit(); // Henter en gyldig måleenhet
-        double amount = readDouble("Mengde: ");
-        int days = readInt("Dager til utløp: ");
-        double price = readDouble("Pris per enhet: ");
-        fridge.addItem(new Grocery(name, amount, unit, days, price));
+        MeasuringUnit unit = readMeasuringUnit();
+        double amount;
+        while (true) {
+            amount = readDouble("Mengde: ");
+            if (amount >= 0) break;
+            System.out.println("Mengden kan ikke være mindre enn 0. Prøv igjen.");
+        }
+    
+        int days;
+        while (true) {
+            days = readInt("Dager til utløp: ");
+            if (days >= 0) break;
+            System.out.println("Dager til utløp kan ikke være mindre enn 0. Prøv igjen.");
+        }
+    
+        double price;
+        while (true) {
+            price = readDouble("Pris per enhet: ");
+            if (price >= 0) break;
+            System.out.println("Pris per enhet kan ikke være mindre enn 0. Prøv igjen.");
+        }
+    
+        try {
+            fridge.addItem(new Grocery(name, amount, unit, days, price));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Feil: " + e.getMessage());
+        }
     }
+    
     
 
     private void removeGrocery() {
@@ -154,98 +177,25 @@ public class Main {
     }
 
     private void displaySortedItemsByName() {
-        List<Grocery> sortedItems = fridge.getSortedItemsByName();
-        System.out.println("Varer sortert etter navn:");
-        sortedItems.forEach(System.out::println);
+        fridge.getSortedItemsByName().forEach(System.out::println);
     }
-
+    
     private void sortItemsByExpiry() {
         String name = readString("Navn på varen som skal sorteres etter utløpsdato: ");
-        List<Grocery> sortedItems = fridge.getSortedItemsByExpiry(name);
-        System.out.println("Varer sortert etter utløpsdato:");
-        sortedItems.forEach(System.out::println);
+        fridge.getSortedItemsByExpiry(name).forEach(System.out::println);
     }
 
-
     private void displayExpiredItems() {
-        System.out.println("\n--- Viser utgåtte varer ---");
-    
-        List<Grocery> items = fridge.getItems();
-    
-        // Filtrer ut utgåtte varer
-        List<Grocery> expiredItems = new ArrayList<>(); 
-        for (Grocery item : items) {
-            if (item.getDaysUntilExpiry() < 0) {
-                expiredItems.add(item);
-            }
-        }
-    
-        // Sjekk om det finnes utgåtte varer
-        if (expiredItems.isEmpty()) {
-            System.out.println("Ingen varer har gått ut på dato.");
-        } else {
-            // Print ut alle utgåtte varer
-            System.out.println("Følgende varer har gått ut på dato:");
-            for (Grocery expiredItem : expiredItems) {
-                System.out.println(expiredItem); 
-            }
-        }
+        fridge.displayExpiredItems();
     }
 
     private void removeAllExpiredItems() {
-        System.out.println("Fjerner alle utgåtte varer...");
-    
-        // Hent alle varer fra kjøleskapet
-        List<Grocery> items = fridge.getItems();
-    
-        // Filtrer ut utgåtte varer
-        List<Grocery> expiredItems = new ArrayList<>();
-        for (Grocery item : items) {
-            if (item.getDaysUntilExpiry() < 0) {
-                expiredItems.add(item);
-            }
-        }
-    
-        // Sjekk om det finnes utgåtte varer
-        if (expiredItems.isEmpty()) {
-            System.out.println("Ingen varer har gått ut på dato.");
-        } else {
-            // Fjern alle utgåtte varer fra kjøleskapet
-            items.removeAll(expiredItems);
-            System.out.println("Følgende utgåtte varer har blitt fjernet:");
-            for (Grocery expiredItem : expiredItems) {
-                System.out.println(expiredItem);
-            }
-        }
+        fridge.removeAllExpiredItems();
     }
-
-
+    
+    
     private void displayExpiredItemsAndTotalValue() {
-        System.out.println("Viser alle utgåtte varer og totalverdien deres...");
-    
-        // Hent alle varer fra kjøleskapet
-        List<Grocery> items = fridge.getItems();
-    
-        // Filtrer ut utgåtte varer
-        List<Grocery> expiredItems = new ArrayList<>();
-        double totalValue = 0; // Deklarer og initialiser totalValue
-        for (Grocery item : items) {
-            if (item.getDaysUntilExpiry() < 0) {
-                expiredItems.add(item);
-                totalValue += item.getAmount() * item.getPricePerUnit(); // Beregn totalverdi
-            }
-        }
-    
-        // Sjekk om det finnes utgåtte varer
-        if (expiredItems.isEmpty()) {
-            System.out.println("Ingen varer har gått ut på dato.");
-        } else {
-            System.out.println("Følgende varer har gått ut på dato:");
-            for (Grocery expiredItem : expiredItems) {
-                System.out.println(expiredItem);
-            }
-            System.out.printf("Den totale verdien av utgåtte varer er: " + totalValue + " NOK");
-        }
+        fridge.displayExpiredItemsAndTotalValue();
     }
     
     
