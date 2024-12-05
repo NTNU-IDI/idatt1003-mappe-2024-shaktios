@@ -83,44 +83,28 @@ public class Main {
         }
     }
     
+    private GroceryInputHelper groceryInputHelper = new GroceryInputHelper(); // Opprett en instans
 
     private void addGrocery() {
         System.out.println("\n--- Legg til vare ---");
-        String name = readString("Navn: ");
-        MeasuringUnit unit = readMeasuringUnit();
-        double amount;
-        while (true) {
-            amount = readDouble("Mengde: ");
-            if (amount >= 0) break;
-            System.out.println("Mengden kan ikke være mindre enn 0. Prøv igjen.");
-        }
-    
-        int days;
-        while (true) {
-            days = readInt("Dager til utløp: ");
-            if (days >= 0) break;
-            System.out.println("Dager til utløp kan ikke være mindre enn 0. Prøv igjen.");
-        }
-    
-        double price;
-        while (true) {
-            price = readDouble("Pris per enhet: ");
-            if (price >= 0) break;
-            System.out.println("Pris per enhet kan ikke være mindre enn 0. Prøv igjen.");
-        }
-    
+        String name = groceryInputHelper.readGroceryName();
+        MeasuringUnit unit = groceryInputHelper.readMeasuringUnit();
+        double amount = groceryInputHelper.readPositiveDouble("Mengde: ");
+        int days = groceryInputHelper.readPositiveInt("Dager til utløp: ");
+        double price = groceryInputHelper.readPositiveDouble("Pris per enhet: ");
+
         try {
-            fridge.addItem(new Grocery(name, amount, unit, days, price));
+            Grocery grocery = new Grocery(name, amount, unit, days, price);
+            fridge.addItem(grocery);
+            System.out.println("Varen " + name + " er lagt til i kjøleskapet.");
         } catch (IllegalArgumentException e) {
             System.out.println("Feil: " + e.getMessage());
         }
     }
-    
-    
 
     private void removeGrocery() {
         System.out.println("\n--- Fjern vare ---");
-        String name = readString("Navn: ");
+        String name = groceryInputHelper.readGroceryName();
         Grocery item = fridge.searchItem(name);
         if (item != null) {
             fridge.removeWholeItem(item);
@@ -151,7 +135,7 @@ public class Main {
 
     private void searchGrocery() {
         System.out.println("\n--- Søk etter vare ---");
-        String name = readString("Navn: ");
+        String name = groceryInputHelper.readGroceryName();
         Grocery item = fridge.searchItem(name);
         if (item != null) {
             System.out.println("Fant varen: " + item);
@@ -161,7 +145,7 @@ public class Main {
     }
 
     private void displayExpiringSoon() {
-        int days = readInt("Vis varer som går ut på dato innen (antall dager): ");
+        int days = groceryInputHelper.readPositiveInt("Vis varer som går ut på dato innen (antall dager): ");
         fridge.displayExpiringSoon(days);
     }
 
@@ -171,8 +155,8 @@ public class Main {
     }
 
     private void removeItemByAmount() {
-        String name = readString("Navn på varen: ");
-        double amount = readDouble("Mengde som skal fjernes: ");
+        String name = groceryInputHelper.readGroceryName();
+        double amount = groceryInputHelper.readPositiveDouble("Mengde som skal fjernes: ");
         fridge.removeItemByAmount(name, amount);
     }
 
@@ -181,18 +165,24 @@ public class Main {
     }
     
     private void sortItemsByExpiry() {
-        String name = readString("Navn på varen som skal sorteres etter utløpsdato: ");
-        fridge.getSortedItemsByExpiry(name).forEach(System.out::println);
+        String name = groceryInputHelper.readGroceryName();
+        List<Grocery> sortedItems = fridge.getSortedItemsByExpiry(name);
+        if (sortedItems.isEmpty()) {
+            System.out.println("Ingen varer med navnet " + name + " finnes i kjøleskapet.");
+        } else {
+            System.out.println("Varer sortert etter utløpsdato:");
+            sortedItems.forEach(System.out::println);
+        }
     }
-
+    
     private void displayExpiredItems() {
         fridge.displayExpiredItems();
     }
 
     private void removeAllExpiredItems() {
         fridge.removeAllExpiredItems();
+        System.out.println("Alle utgåtte varer er fjernet fra kjøleskapet.");
     }
-    
     
     private void displayExpiredItemsAndTotalValue() {
         fridge.displayExpiredItemsAndTotalValue();
@@ -386,7 +376,6 @@ public class Main {
     }
     
     
-
     private void searchRecipes() {
         System.out.println("\n--- Søk etter oppskrifter ---");
         FilterCriteria criteria = new FilterCriteria();

@@ -193,6 +193,21 @@ public class Cookbook {
             .collect(Collectors.toList());
     }
 
+
+    //filtrerer etter kategori
+    public List<Recipe> filterByCategory(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            throw new IllegalArgumentException("Kategorien kan ikke være tom.");
+        }
+    
+        return recipes.stream()
+                .filter(recipe -> recipe.getCategory().equalsIgnoreCase(category.trim()))
+                .collect(Collectors.toList());
+    }
+    
+
+
+
     public List<String> getAllCategories() {
         return recipes.stream()
                       .map(Recipe::getCategory) // Henter kategorien for hver oppskrift
