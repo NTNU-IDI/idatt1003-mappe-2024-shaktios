@@ -174,7 +174,7 @@ public class Main {
             sortedItems.forEach(System.out::println);
         }
     }
-    
+
     private void displayExpiredItems() {
         fridge.displayExpiredItems();
     }
@@ -223,26 +223,26 @@ public class Main {
         }
     }
     
+    private CookbookInputHelper cookbookInputHelper = new CookbookInputHelper();
 
 
     private void addRecipe() {
         System.out.println("\n--- Legg til oppskrift ---");
     
-        String name = readString("Navn: ");
-        String description = readString("Beskrivelse: ");
-        String instructions = readString("Instruksjoner: ");
-        int prepTime = readInt("Tilberedningstid (minutter): ");
-        int servings = readServings();
-        String category = readCategory();
-        String cuisine = readCuisine();
-    
-        DietCategory dietCategory = readDietCategory();
-        Difficulty difficulty = readDifficulty();
+        String name = cookbookInputHelper.readString("Navn på oppskriften: ");
+        String description = cookbookInputHelper.readString("Beskrivelse: ");
+        String instructions = cookbookInputHelper.readString("Instruksjoner: ");
+        int prepTime = cookbookInputHelper.readInt("Tilberedningstid (minutter): ");
+        int servings = cookbookInputHelper.readServings();
+        String category = cookbookInputHelper.readCategory();
+        String cuisine = cookbookInputHelper.readCuisine();
+        DietCategory dietCategory = cookbookInputHelper.readDietCategory();
+        Difficulty difficulty = cookbookInputHelper.readDifficulty();
     
         List<Grocery> ingredients = new ArrayList<>();
         while (true) {
             System.out.println("\nLegg til en ingrediens (eller skriv 'Q' for å avslutte):");
-            String ingredientName = readString("Ingrediensnavn: ");
+            String ingredientName = cookbookInputHelper.readString("Ingrediensnavn: ");
             if (ingredientName.equalsIgnoreCase("Q")) {
                 if (ingredients.isEmpty()) {
                     System.out.println("Du må legge til minst én ingrediens før du avslutter.");
@@ -251,48 +251,45 @@ public class Main {
                 break;
             }
     
-            MeasuringUnit unit = readMeasuringUnit();
-            double amount = readDouble("Mengde: ");
-            
-    
-            int daysUntilExpiry = 0;
-            double pricePerUnit = 0;
-    
-            ingredients.add(new Grocery(ingredientName, amount, unit, daysUntilExpiry, pricePerUnit));
+            MeasuringUnit unit = cookbookInputHelper.readMeasuringUnit();
+            double amount = cookbookInputHelper.readDouble("Mengde: ");
+            ingredients.add(new Grocery(ingredientName, amount, unit, 0, 0));
+            System.out.println("Ingrediens " + ingredientName + " er lagt til.");
         }
     
-        // Opprett oppskriften og legg den til i kokeboken
-        Recipe recipe = new Recipe(name, description, instructions, ingredients, servings, category, prepTime, dietCategory, difficulty, cuisine);
+        Recipe recipe = new Recipe(
+            name, description, instructions, ingredients, servings, category,
+            prepTime, dietCategory, difficulty, cuisine
+        );
         cookbook.addRecipe(recipe);
         System.out.println("Oppskrift lagt til: " + name);
     }
     
     
-    
-    
-    
-    
+
     private void removeRecipe() {
         System.out.println("\n--- Fjern oppskrift ---");
-        String name = readString("Navn: ");
+        String name = cookbookInputHelper.readString("Navn: ");
         List<Recipe> foundRecipes = cookbook.searchByName(name);
     
         if (foundRecipes.isEmpty()) {
             System.out.println("Fant ingen oppskrifter med navnet: " + name);
         } else if (foundRecipes.size() == 1) {
-            cookbook.removeRecipe(foundRecipes.get(0)); // Fjern eneste treff
+            cookbook.removeRecipe(foundRecipes.get(0)); 
+            System.out.println("Oppskriften er fjernet.");
         } else {
             System.out.println("Flere oppskrifter ble funnet med navnet: " + name);
             for (int i = 0; i < foundRecipes.size(); i++) {
                 System.out.println((i + 1) + ": " + foundRecipes.get(i));
             }
     
-            int choice = readInt("Velg hvilken oppskrift som skal fjernes (tast nummer): ");
+            int choice = cookbookInputHelper.readInt("Velg hvilken oppskrift som skal fjernes (tast nummer): ");
             if (choice > 0 && choice <= foundRecipes.size()) {
-                cookbook.removeRecipe(foundRecipes.get(choice - 1)); // Fjern valgt oppskrift
+                cookbook.removeRecipe(foundRecipes.get(choice - 1));
+                System.out.println("Oppskriften er fjernet.");
             } else {
                 System.out.println("Ugyldig valg. Ingen oppskrift ble fjernet.");
-            }
+}
         }
     }
     
@@ -316,7 +313,7 @@ public class Main {
 
     private void searchRecipeByName() {
         System.out.println("\n--- Søk etter oppskrift etter navn ---");
-        String name = readString("Navn på oppskrift: ");
+        String name = cookbookInputHelper.readString("Navn på oppskrift: ");
         List<Recipe> foundRecipes = cookbook.searchByName(name);
         if (foundRecipes.isEmpty()) {
             System.out.println("Ingen oppskrifter funnet med navnet: " + name);
@@ -328,7 +325,7 @@ public class Main {
     
     private void searchRecipeByIngredient() {
         System.out.println("\n--- Søk etter oppskrifter basert på ingrediens ---");
-        String ingredient = readString("Navn på ingrediens: ");
+        String ingredient = cookbookInputHelper.readString("Navn på ingrediens: ");
         List<Recipe> foundRecipes = cookbook.searchByIngredient(ingredient);
         if (foundRecipes.isEmpty()) {
             System.out.println("Ingen oppskrifter funnet med ingrediensen: " + ingredient);
@@ -352,7 +349,7 @@ public class Main {
         availableCategories.forEach(System.out::println); // Vis hver kategori
     
         // La brukeren velge en kategori
-        String category = readString("Skriv inn en kategori for å søke: ");
+        String category = cookbookInputHelper.readString("Skriv inn en kategori for å søke: ");
         List<Recipe> filteredRecipes = cookbook.filterByCategory(category);
         if (filteredRecipes.isEmpty()) {
             System.out.println("Ingen oppskrifter funnet i kategorien: " + category);
@@ -366,7 +363,11 @@ public class Main {
     private void sortRecipesByPreparationTime() {
         System.out.println("\n--- Sorter oppskrifter etter tilberedningstid ---");
         List<Recipe> sortedRecipes = cookbook.sortByPreperationTime();
-        sortedRecipes.forEach(System.out::println);
+        if (sortedRecipes.isEmpty()) {
+            System.out.println("Ingen oppskrifter å vise.");
+        } else {
+            sortedRecipes.forEach(System.out::println);
+        }
     }
     
     private void sortRecipesByDifficulty() {
@@ -374,8 +375,9 @@ public class Main {
         List<Recipe> sortedRecipes = cookbook.sortByDifficulty();
         sortedRecipes.forEach(System.out::println);
     }
-    
-    
+
+
+
     private void searchRecipes() {
         System.out.println("\n--- Søk etter oppskrifter ---");
         FilterCriteria criteria = new FilterCriteria();
@@ -385,172 +387,84 @@ public class Main {
         for (DietCategory category : DietCategory.values()) {
             System.out.println("- " + category.name() + ": " + category.getDescription());
         }
-        String diet = readString("Velg diettkategori (eller skriv Q for å hoppe over): ");
-        if (!diet.equalsIgnoreCase("Q")) {
+        String diet;
+        do {
+            diet = cookbookInputHelper.readString("Velg diettkategori (eller skriv Q for å hoppe over): ");
+            if (diet.equalsIgnoreCase("Q")) break;
             try {
                 criteria.setDietCategory(DietCategory.valueOf(diet.toUpperCase()));
+                break;
             } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig diettkategori. Hopper over.");
+                System.out.println("Ugyldig diettkategori. Prøv igjen.");
             }
-        }
+        } while (true);
     
         // Velg vanskelighetsgrad
         System.out.println("Tilgjengelige vanskelighetsgrader:");
         Difficulty.displayDifficulties();
-        String diff = readString("Velg vanskelighetsgrad (eller skriv Q for å hoppe over) ");
-        if (!diff.equalsIgnoreCase("Q")) {
+        String diff;
+        do {
+            diff = cookbookInputHelper.readString("Velg vanskelighetsgrad (eller skriv Q for å hoppe over): ");
+            if (diff.equalsIgnoreCase("Q")) break;
             try {
                 criteria.setDifficulty(Difficulty.valueOf(diff.toUpperCase()));
+                break;
             } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig vanskelighetsgrad. Hopper over.");
+                System.out.println("Ugyldig vanskelighetsgrad. Prøv igjen.");
             }
-        }
+        } while (true);
     
         // Velg maks tilberedningstid
-        String prepTime = readString("Maks tilberedningstid i minutter (eller skriv Q for å hoppe over): ");
-        if (!prepTime.equalsIgnoreCase("Q")) {
+        while (true) {
+            String prepTime = cookbookInputHelper.readString("Maks tilberedningstid i minutter (eller skriv Q for å hoppe over): ");
+            if (prepTime.equalsIgnoreCase("Q")) break;
             try {
-                criteria.setMaxPreparationTime(Integer.parseInt(prepTime));
+                int time = Integer.parseInt(prepTime);
+                if (time >= 0) {
+                    criteria.setMaxPreparationTime(time);
+                    break;
+                } else {
+                    System.out.println("Tid må være et positivt tall. Prøv igjen.");
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Ugyldig tid. Hopper over.");
+                System.out.println("Ugyldig tid. Vennligst skriv inn et heltall.");
             }
         }
     
         // Velg kategori
         System.out.println("Tilgjengelige kategorier:");
         List<String> categories = cookbook.getAllCategories();
-        categories.forEach(System.out::println);
-        String category = readString("Velg kategori (eller skriv Q for å hoppe over): ");
-        if (!category.equalsIgnoreCase("Q")) {
-            criteria.setCategory(category);
+        if (categories.isEmpty()) {
+            System.out.println("Ingen kategorier tilgjengelige. Hopper over.");
+        } else {
+            categories.forEach(System.out::println);
+            String category = cookbookInputHelper.readString("Velg kategori (eller skriv Q for å hoppe over): ");
+            if (!category.equalsIgnoreCase("Q")) {
+                criteria.setCategory(category);
+            }
         }
     
         // Velg opphavskjøkken
-        String cuisine = readString("Opphavskjøkken (eller skriv Q for å hoppe over): ");
+        String cuisine = cookbookInputHelper.readString("Opphavskjøkken (eller skriv Q for å hoppe over): ");
         if (!cuisine.equalsIgnoreCase("Q")) {
             criteria.setCuisine(cuisine);
         }
     
         // Utfører filtrering
-        List<Recipe> filteredRecipes = cookbook.filterRecipes(criteria);
-        if (filteredRecipes.isEmpty()) {
-            System.out.println("Fant ingen oppskrifter som matcher kriteriene.");
-        } else {
-            System.out.println("Oppskrifter som matcher:");
-            filteredRecipes.forEach(System.out::println);
-        }
-    }
-    
-
-
-    
-    private int readInt(String prompt) {
-        while (true) {
-            try {
-                System.out.print(prompt);
-                int value = scanner.nextInt();
-                scanner.nextLine(); // Tømmer linjeskift fra bufferen
-                return value;
-            } catch (InputMismatchException e) {
-                System.out.println("Ugyldig input. Vennligst skriv inn et heltall.");
-                scanner.nextLine(); // Tømmer ugyldig input fra bufferen
-            }
-        }
-    }
-    
-    private double readDouble(String prompt) {
-        while (true) {
-            try {
-                System.out.print(prompt);
-                double value = scanner.nextDouble();
-                scanner.nextLine(); // Tømmer linjeskift fra bufferen
-                return value;
-            } catch (InputMismatchException e) {
-                System.out.println("Ugyldig input. Vennligst skriv inn et tall.");
-                scanner.nextLine(); // Tømmer ugyldig input fra bufferen
-            }
-        }
-    }
-    
-    private MeasuringUnit readMeasuringUnit() {
-        while (true) {
-            MeasuringUnit.displayMeasuringUnits(); // Viser alternativer
-            String unit = readString("Velg en måleenhet: ");
-            try {
-                return MeasuringUnit.valueOf(unit.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig måleenhet. Prøv igjen.");
-            }
-        }
-    }
-
-    private DietCategory readDietCategory() {
-        while (true) {
-            try {
-                // Vis alle tilgjengelige alternativer
-                System.out.println("Tilgjengelige diettkategorier:");
-                for (DietCategory category : DietCategory.values()) {
-                    System.out.println("- " + category.name() + ": " + category.getDescription());
-                }
-                String input = readString("Velg en diettkategori: ");
-                return DietCategory.valueOf(input.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig diettkategori. Prøv igjen.");
-            }
-        }
-    }
-
-    private Difficulty readDifficulty() {
-        while (true) {
-            try {
-                // Vis alle tilgjengelige alternativer
-                Difficulty.displayDifficulties();
-                String input = readString("Velg en vanskelighetsgrad: ");
-                return Difficulty.valueOf(input.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig vanskelighetsgrad. Prøv igjen.");
-            }
-        }
-    }
-
-    private int readServings() {
-        while (true) {
-            try {
-                int servings = readInt("Antall porsjoner (må være > 0): ");
-                if (servings > 0) {
-                    return servings;
-                } else {
-                    System.out.println("Antall porsjoner må være større enn 0. Prøv igjen.");
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig input. Prøv igjen.");
-            }
-        }
-    }
-
-    private String readCategory() {
-        while (true) {
-            String category = readString("Kategori (f.eks. Hovedrett, Forrett, Dessert): ");
-            if (!category.isEmpty()) {
-                return category;
+        try {
+            List<Recipe> filteredRecipes = cookbook.filterRecipes(criteria);
+            if (filteredRecipes.isEmpty()) {
+                System.out.println("Fant ingen oppskrifter som matcher kriteriene.");
             } else {
-                System.out.println("Kategori kan ikke være tom. Prøv igjen.");
+                System.out.println("Oppskrifter som matcher:");
+                filteredRecipes.forEach(System.out::println);
             }
+        } catch (Exception e) {
+            System.out.println("En feil oppstod under filtrering: " + e.getMessage());
         }
     }
-
-    private String readCuisine() {
-        while (true) {
-            String cuisine = readString("Opphavskjøkken (f.eks. Indisk, Italiensk, Norsk): ");
-            if (!cuisine.isEmpty()) {
-                return cuisine;
-            } else {
-                System.out.println("Opphavskjøkken kan ikke være tomt. Prøv igjen.");
-            }
-        }
-    }
-
-
+    
+        
     private void suggestRecipes() {
         System.out.println("\n--- Foreslå oppskrifter ---");
     
@@ -569,9 +483,18 @@ public class Main {
         }
     }
     
-    private String readString(String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine(); // Les hele linjen
+    private int readInt(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                int value = scanner.nextInt();
+                scanner.nextLine(); // Tømmer linjeskift fra bufferen
+                return value;
+            } catch (InputMismatchException e) {
+                System.out.println("Ugyldig input. Vennligst skriv inn et heltall.");
+                scanner.nextLine(); // Tømmer ugyldig input fra bufferen
+            }
+        }
     }
     
 
