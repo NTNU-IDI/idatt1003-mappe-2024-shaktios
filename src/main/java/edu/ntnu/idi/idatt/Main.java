@@ -17,6 +17,7 @@ public class Main {
         this.cookbook = new Cookbook();
         this.scanner = new Scanner(System.in);
     }
+    
 
     public void start() {
         while (true) {
