@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.models;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.ntnu.idi.idatt.enums.DietCategory;
 import edu.ntnu.idi.idatt.enums.Difficulty;
@@ -123,21 +124,39 @@ public class Recipe {
         ingredients.add(ingredient);
     }
 
+
+    private String formatIngredients() {
+    return ingredients.stream()
+        .map(ingredient -> "\t- " + ingredient.toString()) // Innrykk og listepunkt
+        .collect(Collectors.joining("\n"));
+}
+
+
     @Override
     public String toString() {
-        return "Recipe{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", instructions='" + instructions + '\'' +
-                ", ingredients=" + ingredients +
-                ", servings=" + servings +
-                ", category='" + category + '\'' +
-                ", preparationTimeMinutes=" + preparationTimeMinutes +
-                ", dietCategory='" + dietCategory.getDescription() + '\'' +
-                ", Difficulty='" + difficulty.getDescription() + '\'' +
-                ", cusine='" + cusine + '\'' +
-                '}';
+        return String.format(
+            "Oppskrift: %s\n" +
+            "Beskrivelse: %s\n" +
+            "Instruksjoner: %s\n" +
+            "Ingredienser:\n%s\n" +
+            "Porsjoner: %d\n" +
+            "Kategori: %s\n" +
+            "Tilberedningstid: %d minutter\n" +
+            "Diettkategori: %s\n" +
+            "Vanskelighetsgrad: %s\n" +
+            "Kjøkken: %s",
+            name,
+            description,
+            instructions,
+            formatIngredients(),
+            servings,
+            category,
+            preparationTimeMinutes,
+            dietCategory.getDescription(),
+            difficulty.getDescription(),
+            cusine
+        );
     }
-
+    
 
 }

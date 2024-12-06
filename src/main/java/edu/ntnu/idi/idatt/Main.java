@@ -213,8 +213,8 @@ public class Main {
             System.out.println("2. Fjern oppskrift");
             System.out.println("3. Vis alle oppskrifter");
             System.out.println("4. Søk etter oppskrift etter navn");
-            System.out.println("5. Søk etter oppskrift basert på ingrediens");
-            System.out.println("6. Filtrer oppskrifter etter kategori");
+            System.out.println("5. Søk etter oppskrift basert på en ingrediens");
+            System.out.println("6. Filtrer oppskrifter etter en kategori");
             System.out.println("7. Sorter oppskrifter etter tilberedningstid");
             System.out.println("8. Sorter oppskrifter etter vanskelighetsgrad");
             System.out.println("9. Tilbake til hovedmenyen");
