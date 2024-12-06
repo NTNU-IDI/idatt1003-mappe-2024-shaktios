@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.models;
+package edu.ntnu.idi.idatt;
 
 
 import java.util.ArrayList;
@@ -12,6 +12,10 @@ import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 import edu.ntnu.idi.idatt.helpers.CookbookInputHelper;
 import edu.ntnu.idi.idatt.helpers.GroceryInputHelper;
 import edu.ntnu.idi.idatt.managers.RecipeSearchManager;
+import edu.ntnu.idi.idatt.models.Cookbook;
+import edu.ntnu.idi.idatt.models.Fridge;
+import edu.ntnu.idi.idatt.models.Grocery;
+import edu.ntnu.idi.idatt.models.Recipe;
 
 public class Main {
 
