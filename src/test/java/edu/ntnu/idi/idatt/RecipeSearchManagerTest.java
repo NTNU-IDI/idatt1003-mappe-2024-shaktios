@@ -1,11 +1,19 @@
-package edu.ntnu.idi.idatt;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+package edu.ntnu.idi.idatt.managers;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import edu.ntnu.idi.idatt.enums.DietCategory;
+import edu.ntnu.idi.idatt.enums.Difficulty;
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
+import edu.ntnu.idi.idatt.helpers.CookbookInputHelper;
+import edu.ntnu.idi.idatt.models.Cookbook;
+import edu.ntnu.idi.idatt.models.Grocery;
+import edu.ntnu.idi.idatt.models.Recipe;
+import edu.ntnu.idi.idatt.utils.FilterCriteria;
 
 class RecipeSearchManagerTest {
 
@@ -14,18 +22,27 @@ class RecipeSearchManagerTest {
     private RecipeSearchManager recipeSearchManager;
 
     @BeforeEach
-    void setUp() {
-        // Opprett reelle instanser av Cookbook og CookbookInputHelper
-        cookbook = new Cookbook();
-        cookbookInputHelper = new CookbookInputHelper();
-        recipeSearchManager = new RecipeSearchManager(cookbook, cookbookInputHelper);
+void setUp() {
+    // Opprett reelle instanser av Cookbook og CookbookInputHelper
+    cookbook = new Cookbook();
+    cookbookInputHelper = new CookbookInputHelper();
+    recipeSearchManager = new RecipeSearchManager(cookbook, cookbookInputHelper);
 
-        // Legg til noen testoppskrifter i Cookbook
-        Recipe recipe1 = new Recipe("Pasta", "Enkel pasta", "Kok pasta", List.of(), 2, "Hovedrett", 10, DietCategory.VEGETARIAN, Difficulty.EASY, "Italiensk");
-        Recipe recipe2 = new Recipe("Pizza", "Hjemmelaget pizza", "Lag deig", List.of(), 4, "Hovedrett", 30, DietCategory.NONE, Difficulty.MEDIUM, "Italiensk");
-        cookbook.addRecipe(recipe1);
-        cookbook.addRecipe(recipe2);
-    }
+    // Opprett ingredienser
+    List<Grocery> pastaIngredients = List.of(
+        new Grocery("Pasta", 200, MeasuringUnit.GRAM, 5, 10.0)
+    );
+    List<Grocery> pizzaIngredients = List.of(
+        new Grocery("Deig", 500, MeasuringUnit.GRAM, 5, 20.0),
+        new Grocery("Ost", 200, MeasuringUnit.GRAM, 10, 30.0)
+    );
+
+    // Legg til noen testoppskrifter i Cookbook
+    Recipe recipe1 = new Recipe("Pasta", "Enkel pasta", "Kok pasta", pastaIngredients, 2, "Hovedrett", 10, DietCategory.VEGETARIAN, Difficulty.EASY, "Italiensk");
+    Recipe recipe2 = new Recipe("Pizza", "Hjemmelaget pizza", "Lag deig", pizzaIngredients, 4, "Hovedrett", 30, DietCategory.NONE, Difficulty.MEDIUM, "Italiensk");
+    cookbook.addRecipe(recipe1);
+    cookbook.addRecipe(recipe2);
+}
 
     @Test
     void testSearchRecipesWithDietCategory() {

@@ -1,6 +1,13 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.managers;
 
-import java.util.List; 
+import java.util.List;
+
+import edu.ntnu.idi.idatt.enums.DietCategory;
+import edu.ntnu.idi.idatt.enums.Difficulty;
+import edu.ntnu.idi.idatt.helpers.CookbookInputHelper;
+import edu.ntnu.idi.idatt.models.Cookbook;
+import edu.ntnu.idi.idatt.models.Recipe;
+import edu.ntnu.idi.idatt.utils.FilterCriteria; 
 
 
 public class RecipeSearchManager {

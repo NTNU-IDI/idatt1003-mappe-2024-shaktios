@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import edu.ntnu.idi.idatt.enums.DietCategory;
+import edu.ntnu.idi.idatt.enums.Difficulty;
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
 public class RecipeTest {
 

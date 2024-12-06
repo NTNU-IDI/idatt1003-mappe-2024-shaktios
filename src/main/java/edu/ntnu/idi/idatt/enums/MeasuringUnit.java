@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.enums;
 
 /**
  * Enum som representerer forskjellige måleenheter for varer, hver med en tilknyttet konverteringsfaktor til basisenhet.

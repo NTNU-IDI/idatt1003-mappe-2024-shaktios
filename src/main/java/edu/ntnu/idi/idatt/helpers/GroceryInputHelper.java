@@ -1,7 +1,9 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.helpers;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
 public class GroceryInputHelper {
     private Scanner scanner;

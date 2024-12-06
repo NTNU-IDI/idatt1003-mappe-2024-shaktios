@@ -1,6 +1,9 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.utils;
 
 import java.util.List;
+
+import edu.ntnu.idi.idatt.enums.DietCategory;
+import edu.ntnu.idi.idatt.enums.Difficulty;
 
 /**
  * Representerer søkekriterier for å filtrere oppskrifter i en Cookbook.

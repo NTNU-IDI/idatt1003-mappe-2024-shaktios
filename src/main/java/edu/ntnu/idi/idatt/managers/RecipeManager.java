@@ -1,7 +1,11 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.models.Fridge;
+import edu.ntnu.idi.idatt.models.Grocery;
+import edu.ntnu.idi.idatt.models.Recipe;
 
 public class RecipeManager {
     private Fridge fridge;

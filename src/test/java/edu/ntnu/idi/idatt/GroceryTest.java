@@ -1,9 +1,11 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
 public class GroceryTest {
 

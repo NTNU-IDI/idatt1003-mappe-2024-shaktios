@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.models;
 
 import java.util.List;
 
@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
+import edu.ntnu.idi.idatt.models.Fridge;
+import edu.ntnu.idi.idatt.models.Grocery;
 
 public class FridgeTest {
 

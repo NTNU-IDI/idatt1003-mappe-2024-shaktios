@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.enums;
 
 //Valgt å bruke enum da det er mer skalerbart enn en string for disse beskrivelsene 
 

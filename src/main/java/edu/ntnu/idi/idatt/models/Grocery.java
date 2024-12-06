@@ -1,7 +1,9 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.models;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
 
 public class Grocery {

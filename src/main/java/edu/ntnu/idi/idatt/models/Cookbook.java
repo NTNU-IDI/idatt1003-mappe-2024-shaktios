@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.models;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import edu.ntnu.idi.idatt.enums.DietCategory;
+import edu.ntnu.idi.idatt.utils.FilterCriteria;
 
 public class Cookbook {
     private List<Recipe> recipes; // Liste over alle oppskriftene
