@@ -17,7 +17,7 @@ public class RecipeManager {
     public boolean hasIngredients(Recipe recipe, int desiredServings) {
         double scalingFactor = (double) desiredServings / recipe.getServings();
         List<String> missingIngredients = new ArrayList<>();
-        final double TOLERANCE = 0.01; // Toleransemargin for sammenligning
+        final double TOLERANCE = 0.01; 
     
         for (Grocery requiredIngredient : recipe.getIngredients()) {
             boolean found = false;
@@ -25,12 +25,8 @@ public class RecipeManager {
     
             for (Grocery fridgeItem : fridge.getItems()) {
                 if (fridgeItem.getName().equalsIgnoreCase(requiredIngredient.getName())) {
-                    found = true;
-    
-                    // Debugging: Logg verdier for inspeksjon
-                    System.out.println("Trenger: " + adjustedAmountNeeded + " " + requiredIngredient.getMeasuringUnit() +
-                            ", Har: " + fridgeItem.getAmount() + " " + fridgeItem.getMeasuringUnit());
-    
+                    found = true; 
+                    
                     // Sjekk tilgjengelig mengde med toleransemargin
                     if (fridgeItem.getAmount() + TOLERANCE < adjustedAmountNeeded) {
                         missingIngredients.add(requiredIngredient.getName() +
