@@ -1,25 +1,62 @@
 package edu.ntnu.idi.idatt.enums;
 
-// Valgt å bruke enum da det er mer skalerbart enn en string for disse beskrivelsene 
+/**
+ * Represents various diet categories that can be associated with recipes or meal plans.
+ * Using enums ensures scalability and prevents invalid values compared to plain strings.
+ */
 public enum DietCategory {
 
+    /**
+     * No specific diet category.
+     */
     NONE("Ingen kategori"),
+
+    /**
+     * Vegetarian diet, excludes meat but may include dairy and eggs.
+     */
     VEGETARIAN("Vegetar"),
+
+    /**
+     * Vegan diet, excludes all animal products.
+     */
     VEGAN("Vegansk"),
-    PESCETARIAN("Pescetariansk (inkluderer fisk)"),
-    MEAT("Inkluderer kjøtt"),
+
+    /**
+     * Pescetarian diet, includes fish but excludes other types of meat.
+     */
+    PESCETARIAN("Pescetarian (inneholder fisk)"),
+
+    /**
+     * Diets that include meat.
+     */
+    MEAT("Inneholder kjøtt"),
+
+    /**
+     * Other types of diets that do not fit into predefined categories.
+     */
     OTHER("Annet");
 
-    // Et felt som lagrer en beskrivelse av dietten (for eksempel "Vegetarisk diett").
+    /**
+     * A descriptive string for the diet category.
+     * This provides a user-friendly representation of the enum value.
+     */
     private final String description;
 
-    // Konstruktør for enum som setter beskrivelsen for hver diettkategori.
+    /**
+     * Constructor for initializing the diet category with its description.
+     *
+     * @param description a user-friendly description of the diet category
+     */
     DietCategory(String description) {
         this.description = description;
     }
 
-    // Metode for å hente beskrivelsen av diettkategorien.
-    // Denne gjør det mulig å vise en mer leservennlig tekst i stedet for kun enum-navnet.
+    /**
+     * Retrieves the description of the diet category.
+     * This can be used to display a readable text instead of the enum name.
+     *
+     * @return the description of the diet category
+     */
     public String getDescription() {
         return description;
     }
