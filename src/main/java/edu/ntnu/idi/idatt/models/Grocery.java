@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -133,20 +134,24 @@ public class Grocery {
     public boolean isExpired() {
         return new Date().after(bestBeforeDate);
     }
+
+    private String formatDate(Date date) {
+    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+    return formatter.format(date);
+}
+
     
 
 
 
     @Override
-public String toString() {
-    return "Grocery{" +
-            "name='" + name + '\'' +
-            ", amount=" + amount +
-            ", unit='" + measuringUnit + '\'' +
-            ", bestBeforeDate=" + bestBeforeDate +
-            ", pricePerUnit=" + pricePerUnit +
-            '}';
-}
+    public String toString() {
+        return String.format(
+            "%s (%.1f %s) - Utløpsdato: %s - Pris: %.2f NOK",
+            name, amount, measuringUnit, formatDate(bestBeforeDate), pricePerUnit
+        );
+    }
+    
 
 }
 

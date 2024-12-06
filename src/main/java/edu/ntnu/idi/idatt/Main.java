@@ -143,6 +143,7 @@ public class Main {
         System.out.println("Varer i kjøleskapet:");
         for (Grocery item : items) {
             System.out.println(item); 
+            System.out.println("");
         }
     }
     
