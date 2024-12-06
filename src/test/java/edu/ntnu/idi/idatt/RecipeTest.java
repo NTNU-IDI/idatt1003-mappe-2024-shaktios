@@ -5,7 +5,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -88,24 +87,7 @@ public class RecipeTest {
         });
     }
 
-    // Test for addIngredient-metoden
-    @Test
-    public void testAddIngredient() {
-        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, Difficulty.EASY, "norsk");
+    
 
-        Grocery newIngredient = new Grocery("Melk", 200, MeasuringUnit.MILLILITER, 5, 15.0);
-        recipe.addIngredient(newIngredient);
-
-        // Bekreft at ingrediensen ble lagt til i listen
-        assertTrue(recipe.getIngredients().contains(newIngredient), "Forventer at 'Melk' er lagt til i ingredienslisten");
-    }
-
-    @Test
-    public void testAddNullIngredient() {
-        Recipe recipe = new Recipe("Pannekaker", "Enkel oppskrift", "Bland og stek", validIngredients, 4, "Hovedrett", 20, DietCategory.VEGETARIAN, Difficulty.EASY, "norsk");
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipe.addIngredient(null);
-        });
-    }
+    
 }

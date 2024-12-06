@@ -16,6 +16,8 @@ public class Main {
         this.fridge = new Fridge();
         this.cookbook = new Cookbook();
         this.scanner = new Scanner(System.in);
+        this.cookbookInputHelper = new CookbookInputHelper();
+        this.recipeSearchManager = new RecipeSearchManager(cookbook, cookbookInputHelper);
     }
     
 
@@ -379,93 +381,13 @@ public class Main {
 
 
 
+    private RecipeSearchManager recipeSearchManager;
+
     private void searchRecipes() {
-        System.out.println("\n--- Søk etter oppskrifter ---");
-        FilterCriteria criteria = new FilterCriteria();
-    
-        // Velg diettkategori
-        System.out.println("Tilgjengelige diettkategorier:");
-        for (DietCategory category : DietCategory.values()) {
-            System.out.println("- " + category.name() + ": " + category.getDescription());
-        }
-        String diet;
-        do {
-            diet = cookbookInputHelper.readString("Velg diettkategori (eller skriv Q for å hoppe over): ");
-            if (diet.equalsIgnoreCase("Q")) break;
-            try {
-                criteria.setDietCategory(DietCategory.valueOf(diet.toUpperCase()));
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig diettkategori. Prøv igjen.");
-            }
-        } while (true);
-    
-        // Velg vanskelighetsgrad
-        System.out.println("Tilgjengelige vanskelighetsgrader:");
-        Difficulty.displayDifficulties();
-        String diff;
-        do {
-            diff = cookbookInputHelper.readString("Velg vanskelighetsgrad (eller skriv Q for å hoppe over): ");
-            if (diff.equalsIgnoreCase("Q")) break;
-            try {
-                criteria.setDifficulty(Difficulty.valueOf(diff.toUpperCase()));
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ugyldig vanskelighetsgrad. Prøv igjen.");
-            }
-        } while (true);
-    
-        // Velg maks tilberedningstid
-        while (true) {
-            String prepTime = cookbookInputHelper.readString("Maks tilberedningstid i minutter (eller skriv Q for å hoppe over): ");
-            if (prepTime.equalsIgnoreCase("Q")) break;
-            try {
-                int time = Integer.parseInt(prepTime);
-                if (time >= 0) {
-                    criteria.setMaxPreparationTime(time);
-                    break;
-                } else {
-                    System.out.println("Tid må være et positivt tall. Prøv igjen.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Ugyldig tid. Vennligst skriv inn et heltall.");
-            }
-        }
-    
-        // Velg kategori
-        System.out.println("Tilgjengelige kategorier:");
-        List<String> categories = cookbook.getAllCategories();
-        if (categories.isEmpty()) {
-            System.out.println("Ingen kategorier tilgjengelige. Hopper over.");
-        } else {
-            categories.forEach(System.out::println);
-            String category = cookbookInputHelper.readString("Velg kategori (eller skriv Q for å hoppe over): ");
-            if (!category.equalsIgnoreCase("Q")) {
-                criteria.setCategory(category);
-            }
-        }
-    
-        // Velg opphavskjøkken
-        String cuisine = cookbookInputHelper.readString("Opphavskjøkken (eller skriv Q for å hoppe over): ");
-        if (!cuisine.equalsIgnoreCase("Q")) {
-            criteria.setCuisine(cuisine);
-        }
-    
-        // Utfører filtrering
-        try {
-            List<Recipe> filteredRecipes = cookbook.filterRecipes(criteria);
-            if (filteredRecipes.isEmpty()) {
-                System.out.println("Fant ingen oppskrifter som matcher kriteriene.");
-            } else {
-                System.out.println("Oppskrifter som matcher:");
-                filteredRecipes.forEach(System.out::println);
-            }
-        } catch (Exception e) {
-            System.out.println("En feil oppstod under filtrering: " + e.getMessage());
-        }
+        recipeSearchManager.searchRecipes();
     }
+
     
-        
     private void suggestRecipes() {
         System.out.println("\n--- Foreslå oppskrifter ---");
     

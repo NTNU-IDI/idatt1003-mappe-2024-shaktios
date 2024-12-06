@@ -1,9 +1,9 @@
 package edu.ntnu.idi.idatt;
 
-//Valgt å bruke enum da det er mer skalerbart enn en string for disse beskrivelsene 
-
+// Valgt å bruke enum da det er mer skalerbart enn en string for disse beskrivelsene 
 public enum DietCategory {
 
+    NONE("Ingen kategori"),
     VEGETARIAN("Vegetar"),
     VEGAN("Vegansk"),
     PESCETARIAN("Pescetariansk (inkluderer fisk)"),
@@ -22,6 +22,5 @@ public enum DietCategory {
     // Denne gjør det mulig å vise en mer leservennlig tekst i stedet for kun enum-navnet.
     public String getDescription() {
         return description;
-}
-
+    }
 }
