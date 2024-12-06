@@ -1,4 +1,5 @@
 package edu.ntnu.idi.idatt.models;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

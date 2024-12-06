@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import edu.ntnu.idi.idatt.enums.DietCategory;
 import edu.ntnu.idi.idatt.utils.FilterCriteria;
 
+
 public class Cookbook {
     private List<Recipe> recipes; // Liste over alle oppskriftene
 

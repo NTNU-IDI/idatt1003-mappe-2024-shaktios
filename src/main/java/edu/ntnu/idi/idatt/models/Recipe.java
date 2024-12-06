@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import edu.ntnu.idi.idatt.enums.DietCategory;
 import edu.ntnu.idi.idatt.enums.Difficulty;
 
+
 public class Recipe {
     
     private String name;           // Navnet på oppskriften

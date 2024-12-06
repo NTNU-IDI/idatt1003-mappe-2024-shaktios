@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
+
 public class GroceryInputHelper {
     private Scanner scanner;
 

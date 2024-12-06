@@ -7,7 +7,8 @@ import edu.ntnu.idi.idatt.enums.Difficulty;
 import edu.ntnu.idi.idatt.helpers.CookbookInputHelper;
 import edu.ntnu.idi.idatt.models.Cookbook;
 import edu.ntnu.idi.idatt.models.Recipe;
-import edu.ntnu.idi.idatt.utils.FilterCriteria; 
+import edu.ntnu.idi.idatt.utils.FilterCriteria;
+
 
 
 public class RecipeSearchManager {
