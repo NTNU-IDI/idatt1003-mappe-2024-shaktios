@@ -146,10 +146,14 @@ public class Recipe {
 
 
     private String formatIngredients() {
-    return ingredients.stream()
-        .map(ingredient -> "\t- " + ingredient.toString()) // Innrykk og listepunkt
-        .collect(Collectors.joining("\n"));
-}
+        return ingredients.stream()
+            .map(ingredient -> String.format("\t- %s (%.2f %s)", 
+                    ingredient.getName(), 
+                    ingredient.getAmount(), 
+                    ingredient.getMeasuringUnit()))
+            .collect(Collectors.joining("\n"));
+    }
+    
 
 
     @Override

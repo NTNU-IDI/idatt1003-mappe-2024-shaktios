@@ -203,7 +203,7 @@ public class Grocery {
     @Override
     public String toString() {
         return String.format(
-            "%s (%.1f %s) - Utløpsdato: %s - Pris: %.2f NOK",
+            "%s (%.1f %s) - Utløpsdato: %s - Pris per enhet: %.2f NOK",
             name, amount, measuringUnit, formatDate(bestBeforeDate), pricePerUnit
         );
     }

@@ -3,7 +3,7 @@
     "java.format.settings.profile": "GoogleStyle",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
     },
     "java.checkstyle.configuration": "${workspaceFolder}/google_checks.xml",
     "java.checkstyle.enabled": true,
