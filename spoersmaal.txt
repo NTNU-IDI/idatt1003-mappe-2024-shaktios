@@ -1,6 +1,0 @@
-hva skal jeg ha i pom filen?? må jeg ha noe i pom.xml?? fikk 500 feilmeldinger og skjønte seriøst ikke hvorfor . løst, måtte bare sette det i riktig gren
-
-
-hvor mye trenger jeg å bruke mvn/maven? 
-
-hvordan sitere kilder osv, hva slags siteringstype?? 

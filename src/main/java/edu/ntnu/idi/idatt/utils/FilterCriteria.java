@@ -17,8 +17,6 @@ import edu.ntnu.idi.idatt.enums.Difficulty;
  * this to restrict possible values and make the code more robust.
  * - "Integer" is used instead of "int" for "maxPreparationTime" because it allows a "null" value,
  *  indicating "no criteria specified" (i.e., the user has not selected a maximum time).
- *   Without Integer, it would not be possible to differentiate between 0 and "null"
- *  (as a value type).
  * - "List<String>" is used for ingredients to provide flexibility
  * ^supports multiple ingredients in the search.
  * 
