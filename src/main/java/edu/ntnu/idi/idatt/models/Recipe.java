@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 import edu.ntnu.idi.idatt.enums.DietCategory;
 import edu.ntnu.idi.idatt.enums.Difficulty;
 
-
+/**
+ * Represents a recipe with details such as name, description, instructions,
+ * ingredients, category, and preparation details.
+ */
 public class Recipe {
     
     private String name;           // Navnet på oppskriften
@@ -20,8 +23,20 @@ public class Recipe {
     private Difficulty difficulty;         // hvor vanskelig er det å lage retten? (f.eks. medium, enkelt easy hard osv osv)
     private String cusine;              // Hvor stammer retten fra? (f.eks. indisk, norsk, somalsk osv osv)
 
-
-    // Konstruktør med validering
+    /**
+     * Constructs a Recipe with the given attributes.
+     *
+     * @param name                  the name of the recipe
+     * @param description           a short description of the recipe
+     * @param instructions          the steps to prepare the recipe
+     * @param ingredients           the list of required ingredients
+     * @param servings              the number of servings the recipe makes
+     * @param category              the category of the recipe (e.g., main course, dessert)
+     * @param preparationTimeMinutes the preparation time in minutes
+     * @param dietCategory          the dietary category of the recipe
+     * @param difficulty            the difficulty level of the recipe
+     * @param cuisine               the cuisine origin of the recipe
+     */
     public Recipe(String name, String description, String instructions, List<Grocery> ingredients, int servings, String category, int preparationTimeMinutes, DietCategory dietCategory, Difficulty difficulty, String cusine) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn.");
@@ -117,7 +132,11 @@ public class Recipe {
         return cusine; 
     }
 
-    // Metode for å oppdatere en eksisterende oppskrift ved å legge til nye ingredienser. 
+    /**
+     * Adds a new ingredient to the recipe.
+     *
+     * @param ingredient the ingredient to add
+     */
     public void addIngredient(Grocery ingredient) {
         if (ingredient == null) {
             throw new IllegalArgumentException("Ingrediensen kan ikke være null.");

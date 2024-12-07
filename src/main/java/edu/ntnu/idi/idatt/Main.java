@@ -17,8 +17,22 @@ import edu.ntnu.idi.idatt.models.Fridge;
 import edu.ntnu.idi.idatt.models.Grocery;
 import edu.ntnu.idi.idatt.models.Recipe;
 
+
+/**
+ * Main class for the application.
+ * 
+ * This class serves as the entry point for the program 
+ * provides a menu-driven interface for managing
+ * recipes, groceries, and other related functionalities. 
+ * It integrates with various helper classes and
+ * managers to handle user inputs, process commands, and display results.
+ */
+
 public class Main {
 
+     /**
+     * Constructor to initialize the application components.
+     */
     private Fridge fridge;
     private Cookbook cookbook;
     private Scanner scanner;
@@ -31,7 +45,10 @@ public class Main {
         this.recipeSearchManager = new RecipeSearchManager(cookbook, cookbookInputHelper);
     }
     
-
+     /**
+     * Starts the application and displays the main menu.
+     * The application runs in a loop until the user chooses to exit.
+     */
     public void start() {
         while (true) {
             System.out.println("\n--- Hovedmeny ---");
@@ -56,8 +73,11 @@ public class Main {
         }
     }
 
-
+     /**
+     * Displays the fridge management menu and handles user interactions.
+     */
     private void manageFridge() {
+        //Fridge management logic
         while (true) {
             System.out.println("\n--- Kjøleskapsmeny ---");
             System.out.println("1. Legg til vare");
@@ -65,7 +85,7 @@ public class Main {
             System.out.println("3. Vis alle varer");
             System.out.println("4. Søk etter en vare");
             System.out.println("5. Vis varer som går ut på dato snart");
-            System.out.println("6. Vis totalverdien av varer");
+            System.out.println("6. Vis totalverdien av alle varene i kjøleskapet");
             System.out.println("7. Fjern en bestemt mengde av en vare");
             System.out.println("8. Vis utgåtte varer");
             System.out.println("9. Fjern alle utgåtte varer");
@@ -97,8 +117,12 @@ public class Main {
         }
     }
     
-    private GroceryInputHelper groceryInputHelper = new GroceryInputHelper(); // Opprett en instans
+    private GroceryInputHelper groceryInputHelper = new GroceryInputHelper(); // Creating an instance
 
+    /**
+     * Adds a new grocery item to the fridge.
+     * Prompts the user for grocery details.
+     */
     private void addGrocery() {
         System.out.println("\n--- Legg til vare ---");
         String name = groceryInputHelper.readGroceryName();
@@ -116,6 +140,9 @@ public class Main {
         }
     }
 
+     /**
+     * Removes a grocery item completely from the fridge based on the user's input.
+     */
     private void removeGrocery() {
         System.out.println("\n--- Fjern vare ---");
         String name = groceryInputHelper.readGroceryName();
@@ -127,19 +154,22 @@ public class Main {
         }
     }
 
+    /**
+     * Displays all items currently in the fridge.
+     */
     private void displayItems() {
         System.out.println("\n--- Viser alle varer ---");
     
-        // Hent varer fra kjøleskapet
+        // Getting groceries from the fridge
         List<Grocery> items = fridge.getItems();
     
-        // Hvis listen er tom, skriv ut melding og avslutt
+        // if the list is empty, print the message and melding og exit
         if (items.isEmpty()) {
             System.out.println("Det er ingen varer i kjøleskapet, det er tomt.");
             return;
         }
     
-        // Hvis det finnes varer, skriv dem ut
+        // If there is groceries, print them out. 
         System.out.println("Varer i kjøleskapet:");
         for (Grocery item : items) {
             System.out.println(item); 
@@ -148,6 +178,9 @@ public class Main {
     }
     
 
+    /**
+     * Searches for a grocery item by name in the fridge.
+     */
     private void searchGrocery() {
         System.out.println("\n--- Søk etter vare ---");
         String name = groceryInputHelper.readGroceryName();
@@ -159,26 +192,42 @@ public class Main {
         }
     }
 
+     /**
+     * Displays items in the fridge that are expiring soon.
+     * Prompts the user to specify the number of days.
+     */
     private void displayExpiringSoon() {
         int days = groceryInputHelper.readPositiveInt("Vis varer som går ut på dato innen (antall dager): ");
         fridge.displayExpiringSoon(days);
     }
 
+    /**
+     * Calculates and displays the total value of all items in the fridge.
+     */
     private void displayTotalValue() {
         double totalValue = fridge.calculateTotalValue();
         System.out.println("Den totale verdien av varer i kjøleskapet er: " + totalValue + " NOK");
     }
 
+    /**
+     * Removes a specified amount of a grocery item from the fridge.
+     */
     private void removeItemByAmount() {
         String name = groceryInputHelper.readGroceryName();
         double amount = groceryInputHelper.readPositiveDouble("Mengde som skal fjernes: ");
         fridge.removeItemByAmount(name, amount);
     }
 
+    /**
+     * Displays all items in the fridge sorted alphabetically by name.
+     */
     private void displaySortedItemsByName() {
         fridge.getSortedItemsByName().forEach(System.out::println);
     }
-    
+
+    /**
+     * Sorts and displays items with the same name by their expiry dates.
+     */
     private void sortItemsByExpiry() {
         String name = groceryInputHelper.readGroceryName();
         List<Grocery> sortedItems = fridge.getSortedItemsByExpiry(name);
@@ -190,22 +239,31 @@ public class Main {
         }
     }
 
+    /**
+     * Displays all expired items in the fridge.
+     */
     private void displayExpiredItems() {
         fridge.displayExpiredItems();
     }
 
+    /**
+     * Removes all expired items from the fridge.
+     */
     private void removeAllExpiredItems() {
         fridge.removeAllExpiredItems();
         System.out.println("Alle utgåtte varer er fjernet fra kjøleskapet.");
     }
     
+    /**
+     * Displays expired items and calculates their total value.
+     */
     private void displayExpiredItemsAndTotalValue() {
         fridge.displayExpiredItemsAndTotalValue();
     }
     
-    
-    
-
+    /**
+     * Displays the recipe management menu and handles user interactions.
+     */
     private void manageRecipes() {
         while (true) {
             System.out.println("\n--- Oppskriftsmeny ---");
@@ -237,10 +295,14 @@ public class Main {
             }
         }
     }
+
     
     private CookbookInputHelper cookbookInputHelper = new CookbookInputHelper();
 
-
+    /**
+     * Adds a new recipe to the cookbook.
+     * Prompts the user for recipe details.
+     */
     private void addRecipe() {
         System.out.println("\n--- Legg til oppskrift ---");
     
@@ -281,7 +343,10 @@ public class Main {
     }
     
     
-
+    /**
+     * Removes a recipe from the cookbook.
+     * Handles cases where multiple recipes with the same name exist.
+     */
     private void removeRecipe() {
         System.out.println("\n--- Fjern oppskrift ---");
         String name = cookbookInputHelper.readString("Navn: ");
@@ -309,7 +374,9 @@ public class Main {
     }
     
     
-
+    /**
+     * Displays all recipes in the cookbook.
+     */
     private void displayAllRecipes() {
         List<Recipe> recipes = cookbook.getAllRecipes();
         if (recipes.isEmpty()) {
@@ -326,6 +393,9 @@ public class Main {
     }
     
 
+    /**
+     * Searches for recipes by name in the cookbook.
+     */
     private void searchRecipeByName() {
         System.out.println("\n--- Søk etter oppskrift etter navn ---");
         String name = cookbookInputHelper.readString("Navn på oppskrift: ");
@@ -338,6 +408,9 @@ public class Main {
         }
     }
     
+    /**
+     * Searches for recipes containing a specific ingredient.
+     */
     private void searchRecipeByIngredient() {
         System.out.println("\n--- Søk etter oppskrifter basert på ingrediens ---");
         String ingredient = cookbookInputHelper.readString("Navn på ingrediens: ");
@@ -350,6 +423,9 @@ public class Main {
         }
     }
 
+    /**
+     * Filters recipes in the cookbook by a specific category.
+     */
     private void filterRecipesByCategory() {
         System.out.println("\n--- Filtrer oppskrifter etter kategori ---");
     
@@ -374,7 +450,9 @@ public class Main {
         }
     }
     
-
+    /**
+     * Sorts recipes in the cookbook by preparation time.
+     */
     private void sortRecipesByPreparationTime() {
         System.out.println("\n--- Sorter oppskrifter etter tilberedningstid ---");
         List<Recipe> sortedRecipes = cookbook.sortByPreperationTime();
@@ -385,6 +463,9 @@ public class Main {
         }
     }
     
+    /**
+     * Sorts recipes in the cookbook by difficulty level.
+     */
     private void sortRecipesByDifficulty() {
         System.out.println("\n--- Sorter oppskrifter etter vanskelighetsgrad ---");
         List<Recipe> sortedRecipes = cookbook.sortByDifficulty();
@@ -395,11 +476,16 @@ public class Main {
 
     private RecipeSearchManager recipeSearchManager;
 
+    /**
+     * Initiates a multi-category recipe search using the recipe search manager.
+     */
     private void searchRecipes() {
         recipeSearchManager.searchRecipes();
     }
 
-    
+    /**
+     * Suggests recipes based on the contents of the fridge and the desired servings.
+     */
     private void suggestRecipes() {
         System.out.println("\n--- Foreslå oppskrifter ---");
     
@@ -418,6 +504,13 @@ public class Main {
         }
     }
     
+    /**
+     * Reads an integer input from the user with the provided prompt.
+     *
+     * @param prompt The prompt message to display to the user.
+     * @return The integer input from the user.
+     */
+    
     private int readInt(String prompt) {
         while (true) {
             try {
@@ -433,6 +526,12 @@ public class Main {
     }
     
 
+
+    /**
+     * Main method - entry point of the application.
+     *
+     * @param args Command-line arguments (not used in this program).
+     */
     public static void main(String[] args) {
         new Main().start();
     }

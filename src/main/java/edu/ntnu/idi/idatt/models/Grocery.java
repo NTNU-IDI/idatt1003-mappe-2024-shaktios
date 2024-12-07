@@ -6,143 +6,199 @@ import java.util.Date;
 
 import edu.ntnu.idi.idatt.enums.MeasuringUnit;
 
-
+/**
+ * Represents a grocery item with attributes such as name, amount, best-before date, and price per unit.
+ */
 public class Grocery {
-    private String name; //Navn på matvaren
-    private double amount; //mengde matvare
-    private Date bestBeforeDate ; //dato med hjelp av java.util bibloteket
-    private MeasuringUnit measuringUnit; //  felt for måleenhet (se MeasuringUnit.java)
-    private double pricePerUnit; //pris per enhet 
-    private Date today; //dagens dato
-    
+    private String name;
+    private double amount;
+    private Date bestBeforeDate;
+    private MeasuringUnit measuringUnit;
+    private double pricePerUnit;
+    private Date today;
 
-    //har ingen "daysUntilExpiry", koden er dynamisk og oppdaterer seg hver gang den kjøres på denne måten.  
-    
-    //konstruktør 
+    /**
+     * Constructs a grocery item with specified attributes.
+     *
+     * @param name           the name of the grocery item
+     * @param amount         the quantity of the grocery item
+     * @param measuringUnit  the unit of measurement for the item
+     * @param daysUntilExpiry the number of days until the item expires
+     * @param pricePerUnit   the price per unit of the item
+     */
+    public Grocery(String name, double amount, MeasuringUnit measuringUnit,
+                   int daysUntilExpiry, double pricePerUnit) {
 
-    public Grocery(String name, double amount, MeasuringUnit measuringUnit ,int daysUntilExpiry ,double pricePerUnit){
-
-        if (name==null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke være tomt, du må deklarere et navn");
         }
-        if (amount<0){
-            throw new IllegalArgumentException("Mengden kan ikke være mindre enn 0/negativ ");
+        if (amount < 0) {
+            throw new IllegalArgumentException("Mengden kan ikke være mindre enn 0/negativ");
         }
-        if(pricePerUnit<0){
+        if (pricePerUnit < 0) {
             throw new IllegalArgumentException("Pris per enhet kan ikke være mindre enn 0");
         }
         if (daysUntilExpiry < 0) {
             throw new IllegalArgumentException("Antall dager til utløp kan ikke være negativt.");
         }
-        if(measuringUnit == null){
-            throw new IllegalArgumentException("Måleenheten kan ikke være tom mengde"); 
+        if (measuringUnit == null) {
+            throw new IllegalArgumentException("Måleenheten kan ikke være tom mengde");
         }
 
-        this.name = name; 
-        this.amount = amount; 
-        this.measuringUnit = measuringUnit; 
-        this.pricePerUnit = pricePerUnit; 
-    
+        this.name = name;
+        this.amount = amount;
+        this.measuringUnit = measuringUnit;
+        this.pricePerUnit = pricePerUnit;
 
-        //setter dagens dato
         this.today = new Date();
-
-        //setter best før dato ved å legge til dager til dagens dato
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        cal.add(Calendar.DAY_OF_YEAR,daysUntilExpiry);
+        cal.add(Calendar.DAY_OF_YEAR, daysUntilExpiry);
         this.bestBeforeDate = cal.getTime();
-        
     }
 
-    //setter opp mine gettere og settere 
-
-    //getters
-
-    public String getName(){
+    /**
+     * Gets the name of the grocery item.
+     *
+     * @return the name of the item
+     */
+    public String getName() {
         return name;
     }
 
-    public double getAmount(){
+    /**
+     * Gets the amount of the grocery item.
+     *
+     * @return the amount
+     */
+    public double getAmount() {
         return amount;
     }
 
-    public MeasuringUnit getMeasuringUnit(){
+    /**
+     * Gets the unit of measurement for the grocery item.
+     *
+     * @return the measuring unit
+     */
+    public MeasuringUnit getMeasuringUnit() {
         return measuringUnit;
     }
 
-    public Date getBestBeforeDate(){
-        return bestBeforeDate; 
+    /**
+     * Gets the best-before date of the grocery item.
+     *
+     * @return the best-before date
+     */
+    public Date getBestBeforeDate() {
+        return bestBeforeDate;
     }
 
-    public double getPricePerUnit(){
+    /**
+     * Gets the price per unit of the grocery item.
+     *
+     * @return the price per unit
+     */
+    public double getPricePerUnit() {
         return pricePerUnit;
     }
 
-    
-    
+    /**
+     * Calculates the number of days until the item expires.
+     *
+     * @return the number of days until expiry
+     */
     public int getDaysUntilExpiry() {
-        Date currentDate = new Date(); // Hent dagens faktiske dato
-        long diffInMillies = bestBeforeDate.getTime() - currentDate.getTime(); // Forskjell i millisekunder
-        int daysUntilExpiry = (int) (diffInMillies / (1000 * 60 * 60 * 24)); // Konverter millisekunder til dager
-        return daysUntilExpiry;
+        Date currentDate = new Date();
+        long diffInMillies = bestBeforeDate.getTime() - currentDate.getTime();
+        return (int) (diffInMillies / (1000 * 60 * 60 * 24));
     }
 
-    
-   
-    //setters; 
-
-    public void setName(String name){
-        if(name==null || name.isEmpty()){
+    /**
+     * Sets the name of the grocery item.
+     *
+     * @param name the new name of the item
+     */
+    public void setName(String name) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Navnet kan ikke vært tomt");
-        } 
+        }
         this.name = name;
-
     }
 
-    public void setAmount(double amount){
-        if(amount<0){
+    /**
+     * Sets the amount of the grocery item.
+     *
+     * @param amount the new amount
+     */
+    public void setAmount(double amount) {
+        if (amount < 0) {
             throw new IllegalArgumentException("Mengden kan ikke være mindre enn 0 eller være negativ.");
         }
-        this.amount = amount; 
+        this.amount = amount;
     }
-    
+
+    /**
+     * Sets the measuring unit of the grocery item.
+     *
+     * @param measuringUnit the new measuring unit
+     */
     public void setMeasuringUnit(MeasuringUnit measuringUnit) {
         this.measuringUnit = measuringUnit;
     }
-    
 
-    public void setBestBeforeDate(Date bestBeforeDate){
-        if (bestBeforeDate.before(new Date())){
+    /**
+     * Sets the best-before date of the grocery item.
+     *
+     * @param bestBeforeDate the new best-before date
+     */
+    public void setBestBeforeDate(Date bestBeforeDate) {
+        if (bestBeforeDate.before(new Date())) {
             throw new IllegalArgumentException("Best før datoen kan ikke være tidligere enn dagens dato.");
         }
-        this.bestBeforeDate = bestBeforeDate; 
+        this.bestBeforeDate = bestBeforeDate;
     }
 
-    public void setPricePerUnit(double pricePerUnit){
-        if(pricePerUnit<0){
+    /**
+     * Sets the price per unit of the grocery item.
+     *
+     * @param pricePerUnit the new price per unit
+     */
+    public void setPricePerUnit(double pricePerUnit) {
+        if (pricePerUnit < 0) {
             throw new IllegalArgumentException("Pris per enhet kan ikke være negativ/mindre enn 0");
         }
-        this.pricePerUnit = pricePerUnit; 
+        this.pricePerUnit = pricePerUnit;
     }
 
+    /**
+     * Calculates the total price of the grocery item.
+     *
+     * @return the total price
+     */
     public double calculateTotalPrice() {
         return amount * pricePerUnit;
     }
-    
+
+    /**
+     * Checks if the grocery item is expired.
+     *
+     * @return true if the item is expired, false otherwise
+     */
     public boolean isExpired() {
         return new Date().after(bestBeforeDate);
     }
 
+    /**
+     * Formats a date to "dd.MM.yyyy".
+     *
+     * @param date the date to format
+     * @return the formatted date string
+     */
     private String formatDate(Date date) {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-    return formatter.format(date);
-}
-
-    
-
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return formatter.format(date);
+    }
 
     @Override
     public String toString() {
@@ -151,11 +207,4 @@ public class Grocery {
             name, amount, measuringUnit, formatDate(bestBeforeDate), pricePerUnit
         );
     }
-    
-
 }
-
-
-
-    
-
