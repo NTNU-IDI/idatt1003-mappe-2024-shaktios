@@ -10,219 +10,228 @@ import java.util.stream.Collectors;
 import edu.ntnu.idi.idatt.enums.DietCategory;
 import edu.ntnu.idi.idatt.utils.FilterCriteria;
 
-
-public class Cookbook {
-    private List<Recipe> recipes; // Liste over alle oppskriftene
-
-    // Konstruktør
-      public Cookbook(){
-        this.recipes = new ArrayList<>(); // starter oppskriftslisten
-    }
-
-    // Legg til en oppskrift
-    public void addRecipe(Recipe recipe) {
-        if (recipe != null && !recipes.contains(recipe)) {
-            recipes.add(recipe);
-            System.out.println("Oppskrift lagt til: " + recipe.getName());
-        } else {
-            System.out.println("Oppskriften finnes allerede eller er ugyldig.");
-        }
-    }
-
-    // Fjern en oppskrift
-    public void removeRecipe(Recipe recipe) {
-        if (recipes.remove(recipe)) {
-            System.out.println("Oppskrift fjernet: " + recipe.getName());
-        } else {
-            System.out.println("Oppskriften ble ikke funnet.");
-        }
-    }
-
-    public List <Recipe> getAllRecipes(){
-        return new ArrayList<>(recipes); //returnerer en kopi av listen. 
-    }
-
-    /* //søk etter en oppskrift etter navn
-    public List<Recipe> searchByName(String name){
-        List<Recipe> foundRecipes = new ArrayList<>();
-        for (Recipe recipe :recipes){
-            if(recipe.getName().equalsIgnoreCase(name)){
-                foundRecipes.add(recipe);
-            }
-        }
-    return foundRecipes;    
-
-    }
+/**
+ * Represents a cookbook that stores and manages recipes.
  */
-    public List<Recipe> searchByName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Navnet kan ikke være tomt eller null.");
+public class Cookbook {
+  private final List<Recipe> recipes;
+
+  /**
+   * Constructs a new Cookbook.
+   */
+  public Cookbook() {
+    this.recipes = new ArrayList<>();
+  }
+
+  /**
+   * Adds a recipe to the cookbook.
+   *
+   * @param recipe the recipe to add
+   */
+  public void addRecipe(Recipe recipe) {
+    if (recipe != null && !recipes.contains(recipe)) {
+      recipes.add(recipe);
+      System.out.println("Oppskrift lagt til: " + recipe.getName());
+    } else {
+      System.out.println("Oppskriften finnes allerede eller er ugyldig.");
+    }
+  }
+
+  /**
+   * Removes a recipe from the cookbook.
+   *
+   * @param recipe the recipe to remove
+   */
+  public void removeRecipe(Recipe recipe) {
+    if (recipes.remove(recipe)) {
+      System.out.println("Oppskrift fjernet: " + recipe.getName());
+    } else {
+      System.out.println("Oppskriften ble ikke funnet.");
+    }
+  }
+
+  /**
+   * Gets all recipes in the cookbook.
+   *
+   * @return a list of all recipes
+   */
+  public List<Recipe> getAllRecipes() {
+    return new ArrayList<>(recipes);
+  }
+
+  /**
+   * Searches for recipes by name.
+   *
+   * @param name the name to search for
+   * @return a list of recipes matching the name
+   * @throws IllegalArgumentException if the name is null or empty
+   */
+  public List<Recipe> searchByName(String name) {
+    if (name == null || name.trim().isEmpty()) {
+      throw new IllegalArgumentException("Navnet kan ikke være tomt eller null.");
+    }
+    return recipes.stream()
+        .filter(recipe -> recipe.getName().equalsIgnoreCase(name.trim()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Searches for recipes containing a specific ingredient.
+   *
+   * @param ingredientName the name of the ingredient
+   * @return a list of recipes containing the ingredient
+   * @throws IllegalArgumentException if the ingredient name is null or empty
+   */
+  public List<Recipe> searchByIngredient(String ingredientName) {
+    if (ingredientName == null || ingredientName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Ingrediensnavn kan ikke være tomt.");
+    }
+    return recipes.stream()
+        .filter(recipe -> recipe.getIngredients().stream()
+            .anyMatch(ingredient -> ingredient.getName().equalsIgnoreCase(ingredientName)))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Suggests recipes based on available ingredients in the fridge.
+   *
+   * @param fridge the fridge containing available ingredients
+   * @param desiredServings the number of servings desired
+   * @return a list of suggested recipes sorted by availability of ingredients
+   */
+  public List<Recipe> suggestRecipes(Fridge fridge, int desiredServings) {
+    Map<Recipe, Integer> recipeAvailabilityMap = new HashMap<>();
+    for (Recipe recipe : recipes) {
+      int availableIngredients = 0;
+      double scalingFactor = (double) desiredServings / recipe.getServings();
+      boolean canMakeRecipe = true;
+
+      for (Grocery ingredient : recipe.getIngredients()) {
+        Grocery fridgeItem = fridge.searchItem(ingredient.getName());
+        double adjustedAmountNeeded = ingredient.getAmount() * scalingFactor;
+
+        if (fridgeItem == null || fridgeItem.getAmount() < adjustedAmountNeeded) {
+          canMakeRecipe = false;
+          break;
+        } else {
+          availableIngredients++;
         }
+      }
 
-        List<Recipe> foundRecipes = new ArrayList<>();
-        for (Recipe recipe : recipes) {
-            if (recipe.getName().equalsIgnoreCase(name.trim())) { // Trimmer whitespace
-                foundRecipes.add(recipe);
-            }
-        }
-
-        return foundRecipes; // Returner alle oppskrifter som matcher
+      if (canMakeRecipe) {
+        recipeAvailabilityMap.put(recipe, availableIngredients);
+      }
     }
 
+    return recipeAvailabilityMap.entrySet().stream()
+        .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
+  }
 
-    //finner oppskrifter med en spesifikk ingrediens
-    public List<Recipe> searchByIngredient(String ingredientName) {
+  /**
+   * Sorts recipes by preparation time in ascending order.
+   *
+   * @return a list of recipes sorted by preparation time
+   */
+  public List<Recipe> sortByPreperationTime() {
+    return recipes.stream()
+        .sorted(Comparator.comparingInt(Recipe::getPreperationTimeMinutes))
+        .collect(Collectors.toList());
+  }
 
-        if (ingredientName == null || ingredientName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ingrediensnavn kan ikke være tomt.");
-        }
+  /**
+   * Sorts recipes by difficulty in ascending order.
+   *
+   * @return a list of recipes sorted by difficulty
+   */
+  public List<Recipe> sortByDifficulty() {
+    return recipes.stream()
+        .sorted(Comparator.comparing(Recipe::getDifficulty))
+        .collect(Collectors.toList());
+  }
 
-        List<Recipe> foundRecipes = new ArrayList<>(); 
-        
-        for (Recipe recipe : recipes) {
-            for (Grocery ingredient : recipe.getIngredients()) {
-                if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
-                    foundRecipes.add(recipe);
-                    break; // Bryter ut av den indre løkken etter å ha funnet ingrediensen
-                }
-            }
-        }
-        
-        return foundRecipes; // Returnerer listen over oppskrifter den har funnet
+  /**
+   * Filters recipes by diet category.
+   *
+   * @param dietCategory the diet category to filter by
+   * @return a list of recipes matching the diet category
+   */
+  public List<Recipe> filterByDiet(DietCategory dietCategory) {
+    return recipes.stream()
+        .filter(recipe -> recipe.getDietCategory() == dietCategory)
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Filters recipes based on various criteria.
+   *
+   * @param criteria the filter criteria
+   * @return a list of recipes matching the criteria
+   */
+  public List<Recipe> filterRecipes(FilterCriteria criteria) {
+    return recipes.stream()
+        .filter(recipe -> {
+          if (criteria.getDietCategory() != null &&
+              !criteria.getDietCategory().equals(recipe.getDietCategory())) {
+            return false;
+          }
+          if (criteria.getDifficulty() != null &&
+              !criteria.getDifficulty().equals(recipe.getDifficulty())) {
+            return false;
+          }
+          if (criteria.getMaxPreparationTime() != null &&
+              recipe.getPreperationTimeMinutes() > criteria.getMaxPreparationTime()) {
+            return false;
+          }
+          if (criteria.getIngredients() != null &&
+              !criteria.getIngredients().isEmpty() &&
+              !criteria.getIngredients().stream()
+                  .allMatch(ingredient -> recipe.getIngredients().stream()
+                      .anyMatch(grocery -> grocery.getName().equalsIgnoreCase(ingredient)))) {
+            return false;
+          }
+          if (criteria.getCategory() != null &&
+              !criteria.getCategory().equalsIgnoreCase(recipe.getCategory())) {
+            return false;
+          }
+          if (criteria.getCuisine() != null &&
+              !criteria.getCuisine().equalsIgnoreCase(recipe.getCusine())) {
+            return false;
+          }
+          return true;
+        })
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Filters recipes by category.
+   *
+   * @param category the category to filter by
+   * @return a list of recipes matching the category
+   * @throws IllegalArgumentException if the category is null or empty
+   */
+  public List<Recipe> filterByCategory(String category) {
+    if (category == null || category.trim().isEmpty()) {
+      throw new IllegalArgumentException("Kategorien kan ikke være tom.");
     }
-   
+    return recipes.stream()
+        .filter(recipe -> recipe.getCategory().equalsIgnoreCase(category.trim()))
+        .collect(Collectors.toList());
+  }
 
-    public List<Recipe> suggestRecipes(Fridge fridge, int desiredServings) {
-        Map<Recipe, Integer> recipeAvailabilityMap = new HashMap<>();
-    
-        for (Recipe recipe : recipes) {
-            int availableIngredients = 0;
-            double scalingFactor = (double) desiredServings / recipe.getServings();
-            boolean canMakeRecipe = true;
-    
-            for (Grocery ingredient : recipe.getIngredients()) {
-                Grocery fridgeItem = fridge.searchItem(ingredient.getName());
-                double adjustedAmountNeeded = ingredient.getAmount() * scalingFactor;
-    
-                // Sjekk om ingrediensen finnes i kjøleskapet og er tilstrekkelig
-                if (fridgeItem == null || fridgeItem.getAmount() < adjustedAmountNeeded) {
-                    canMakeRecipe = false;
-                    break;
-                } else {
-                    availableIngredients++;
-                }
-            }
-    
-            // Legg til oppskriften i resultatet hvis den kan lages
-            if (canMakeRecipe) {
-                recipeAvailabilityMap.put(recipe, availableIngredients);
-            }
-        }
-    
-        // Returner oppskrifter sortert etter hvor mange ingredienser som finnes i kjøleskapet
-        return recipeAvailabilityMap.entrySet().stream()
-                .sorted((entry1, entry2) -> Integer.compare(entry2.getValue(), entry1.getValue()))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-    
-
-    //Sorterer oppskrifter i stigende rekkefølge basert på tilberedningstid. Bruker stream da det er mye enklere enn for-løkke
-    public List <Recipe> sortByPreperationTime(){
-        return recipes.stream()
-                        .sorted(Comparator.comparingInt(Recipe::getPreperationTimeMinutes))
-                        .collect(Collectors.toList()); 
-    }
-
-
-    //Sorterer oppskrifter basert på vanskelighetsgrad i stigende rekkefølge. Bruker stream her også. 
-    public List <Recipe> sortByDifficulty(){
-        return recipes.stream()
-                        .sorted(Comparator.comparing(Recipe::getDifficulty))
-                        .collect(Collectors.toList());
-    }
-
-    //Filtrerer oppskrifter basert på diettkategori. Brukeren kan for eksempel finne alle oppskrifter som er veganske, vegetariske, pescetarianske, inneholder kjøtt eller tilhører en annen kategori.
-    public List<Recipe> filterByDiet(DietCategory dietCategory) {
-        return recipes.stream()
-                .filter(recipe -> recipe.getDietCategory() == dietCategory)
-                .collect(Collectors.toList());
-    }
-    
-
-    public List<Recipe> filterRecipes(FilterCriteria criteria) {
-        return recipes.stream()
-            .filter(recipe -> {
-                // Sjekker diettkategori
-                if (criteria.getDietCategory() != null && 
-                    !criteria.getDietCategory().equals(recipe.getDietCategory())) {
-                    return false;
-                }
-    
-                // Sjekker vanskelighetsgrad
-                if (criteria.getDifficulty() != null && 
-                    !criteria.getDifficulty().equals(recipe.getDifficulty())) {
-                    return false;
-                }
-    
-                // Sjekker maks tilberedningstid
-                if (criteria.getMaxPreparationTime() != null && 
-                    recipe.getPreperationTimeMinutes() > criteria.getMaxPreparationTime()) {
-                    return false;
-                }
-    
-                // Sjekker ingredienser
-                if (criteria.getIngredients() != null && 
-                    !criteria.getIngredients().isEmpty() &&
-                    !criteria.getIngredients().stream()
-                        .allMatch(ingredient -> recipe.getIngredients().stream()
-                            .anyMatch(grocery -> grocery.getName().equalsIgnoreCase(ingredient)))) {
-                    return false;
-                }
-    
-                // Sjekker kategori
-                if (criteria.getCategory() != null && 
-                    !criteria.getCategory().equalsIgnoreCase(recipe.getCategory())) {
-                    return false;
-                }
-    
-                // Sjekker cuisine
-                if (criteria.getCuisine() != null && 
-                    !criteria.getCuisine().equalsIgnoreCase(recipe.getCusine())) {
-                    return false;
-                }
-    
-                return true;
-            })
-            .collect(Collectors.toList());
-    }
-
-
-    //filtrerer etter kategori
-    public List<Recipe> filterByCategory(String category) {
-        if (category == null || category.trim().isEmpty()) {
-            throw new IllegalArgumentException("Kategorien kan ikke være tom.");
-        }
-    
-        return recipes.stream()
-                .filter(recipe -> recipe.getCategory().equalsIgnoreCase(category.trim()))
-                .collect(Collectors.toList());
-    }
-    
-
-
-
-    public List<String> getAllCategories() {
-        return recipes.stream()
-                      .map(Recipe::getCategory) // Henter kategorien for hver oppskrift
-                      .distinct()               // Fjerner duplikater
-                      .sorted()                 // Sorterer alfabetisk
-                      .collect(Collectors.toList());
-    }
-    
-    
-    
-    
+  /**
+   * Gets all unique recipe categories in the cookbook.
+   *
+   * @return a sorted list of unique categories
+   */
+  public List<String> getAllCategories() {
+    return recipes.stream()
+        .map(Recipe::getCategory)
+        .distinct()
+        .sorted()
+        .collect(Collectors.toList());
+  }
 }
-    
+
 

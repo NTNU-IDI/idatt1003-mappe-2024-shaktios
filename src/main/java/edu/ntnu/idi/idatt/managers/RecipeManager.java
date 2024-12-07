@@ -11,7 +11,7 @@ import edu.ntnu.idi.idatt.models.Recipe;
  * Manages recipes and checks if required ingredients are available in the fridge.
  */
 public class RecipeManager {
-  private final Fridge fridge;
+  private Fridge fridge;
 
   /**
    * Constructs a RecipeManager with a given fridge.
