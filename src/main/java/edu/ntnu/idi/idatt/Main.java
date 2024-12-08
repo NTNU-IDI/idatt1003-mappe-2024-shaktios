@@ -19,7 +19,7 @@ public class Main {
         kitchenManager.init();
 
         kitchenManager.start();
-    }
+  }
 }
 
 
