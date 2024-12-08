@@ -1,2 +1,25 @@
-#forteller til git å ignorere maven mappen target
+# Ignore compiled Java-code
+*.class
+
+# Ignore Maven-folders
 target/
+
+# Ignore logs
+*.log
+
+# Ignore IDE-spesific files
+.vscode/
+.idea/
+*.iml
+
+# Ignore testresults
+test-output/
+
+# Ignore systemfiles
+.DS_Store
+Thumbs.db
+
+# Ignore generated files
+*.jar
+*.war
+*.ear
