@@ -130,5 +130,19 @@ To run the test classes, navigate to the project root directory and execute the 
 
 
 ## References
-[//]: # (TODO: Include references here, if any. For example, if you have used code from the course book, include a reference to the chapter.  
-Or if you have used code from a website or other source, include a link to the source.)
+
+1. C. S. Horstmann, Core Java Volume I - Fundamentals, 11. utg., Pearson, 2018. ISBN: 978-0-13-516630-7.
+2. "Checkstyle – Checkstyle 10.18.2," Checkstyle.org, 2024. [Online]. Available at: [https://checkstyle.org/](https://checkstyle.org/). [Accessed: 20. okt. 2024].
+3. "Google Java Style Guide," Github.io, 2024. [Online]. Available at: [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html). [Accessed: 25. okt. 2024].
+4. Google, "GitHub," Github.com, 15. okt. 2024. [Online]. Available at: [https://github.com/google](https://github.com/google). [Accessed: 25. okt. 2024].
+5. "Checkstyle – Google’s Style," Checkstyle.org, 2024. [Online]. Available at: [https://checkstyle.org/google_style.html](https://checkstyle.org/google_style.html). [Accessed: 25. okt. 2024].
+6. E. Beddari, "Hvorfor er matsvinn et problem?," 2022. [Online]. Available at: [https://www.framtiden.no/artikler/hvorfor-er-matsvinn-et-problem](https://www.framtiden.no/artikler/hvorfor-er-matsvinn-et-problem). [Accessed: 5. nov. 2024].
+7. S. Å. Grolid, "Den iterative prosessen - Konseptutvikling og kommunikasjon (IM-MED vg2) - Ressurssamling," NDLA, 2021. [Online]. Available at: [https://ndla.no/nb/subject:a453ed64-da44-4d85-93a1-2962e597ff6a/topic:66d29293-c551-4988-8c80-4fab8b96827e/resource:aa889537-daaf-418b-ac44-6f21de1147fa](https://ndla.no/nb/subject:a453ed64-da44-4d85-93a1-2962e597ff6a/topic:66d29293-c551-4988-8c80-4fab8b96827e/resource:aa889537-daaf-418b-ac44-6f21de1147fa). [Accessed: 10. nov. 2024].
+8. "Java Enums," W3Schools.com. [Online]. Available at: [https://www.w3schools.com/java/java_enums.asp](https://www.w3schools.com/java/java_enums.asp). [Accessed: 15. nov. 2024].
+9. "Enum Types," Oracle.com. [Online]. Available at: [https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html). [Accessed: 19. nov. 2024].
+10. "Comparator (Java Platform SE 8)," Oracle.com. [Online]. Available at: [https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html). [Accessed: 21. nov. 2024].
+11. "Integer (Java Platform SE 8)," Oracle.com. [Online]. Available at: [https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html). [Accessed: 22. nov. 2024].
+12. "Stream Package Summary (Java Platform SE 8)," Oracle.com. [Online]. Available at: [https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html). [Accessed: 32. nov. 2024].
+13. A. Styve, "Designprinsipper innen OOP - IDATx1003/IDATx2003 Programmering 1 og 2," NTNU Wikihotell, 2023. [Online]. Available at: [https://www.ntnu.no/wiki/display/idatx1001/Designprinsipper+innen+OOP](https://www.ntnu.no/wiki/display/idatx1001/Designprinsipper+innen+OOP). [Accessed: 5. des. 2024].
+14. "Innkapsling - Objektorientert programmering med Java," NTNU Wikihotell, 2015. [Online]. Available at: [https://www.ntnu.no/wiki/display/tdt4100/Innkapsling](https://www.ntnu.no/wiki/display/tdt4100/Innkapsling). [Accessed: 5. des. 2024].
+15. A. Styve, "Maven - IDATx1003/IDATx2003 Programmering 1 og 2," NTNU Wikihotell, 2024. [Online]. Available at: [https://www.ntnu.no/wiki/display/idatx1001/Maven](https://www.ntnu.no/wiki/display/idatx1001/Maven). [Accessed: 5. des. 2024].
