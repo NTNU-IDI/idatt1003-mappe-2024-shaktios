@@ -7,7 +7,7 @@ This file uses Mark Down syntax. For more information see [here](https://www.mar
 
 
 STUDENT NAME = "Shakti Om Sharma"  
-STUDENT ID = "Shaktios"
+STUDENT ID = "10129"
 
 ## Project description
 This project is developed as the final assignment for the course IDATT1003. The objective of the project is to create a user-friendly system for managing a fridge inventory and a recipe collection. The system allows users to track groceries, manage their expiration dates, and suggest recipes based on the available ingredients. 
