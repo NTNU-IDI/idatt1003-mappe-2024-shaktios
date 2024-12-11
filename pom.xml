@@ -44,15 +44,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version> <!-- Oppdatert versjon -->
-                <executions>
-                    <execution>
-                        <phase>validate</phase> <!-- Kjør Checkstyle under validate-fasen -->
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <version>3.3.0</version> <!-- Oppdatert versjon -->
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.12.0</version> <!-- Nyeste versjon -->
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <configLocation>google_checks.xml</configLocation> <!-- Checkstyle-konfigurasjonsfil (google checkstyle) -->
                     <encoding>UTF-8</encoding> <!-- riktig filkoding -->

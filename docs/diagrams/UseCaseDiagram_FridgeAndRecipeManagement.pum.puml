@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+
+actor "User" as U
+
+rectangle System {
+    ' Nivå 1: MVP
+    usecase "Create Grocery" as CG
+    usecase "Add Grocery to Fridge" as AG
+    usecase "Search for Grocery" as SG
+    usecase "Remove Grocery Amount" as RG
+    usecase "View Fridge Contents" as VF
+    usecase "View Expired Groceries and Total Value" as VE
+    usecase "Calculate Total Value of Groceries" as CV
+
+    ' Nivå 2: Utvidet funksjonalitet
+    usecase "Create Recipe" as CR
+    usecase "Check Ingredients for Recipe" as CIR
+    usecase "Add Recipe to Cookbook" as ARC
+    usecase "Get Recipe Suggestions" as GRS
+}
+
+' Nivå 1 interaksjoner
+U --> CG : "Manage groceries"
+U --> AG
+U --> SG
+U --> RG
+U --> VF
+U --> VE
+U --> CV
+
+' Nivå 2 interaksjoner
+U --> CR : "Manage recipes"
+U --> CIR
+U --> ARC
+U --> GRS
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+
+class Fridge {
+  - items: List<Grocery>
+  ---
+  + Fridge()
+  + getItems(): List<Grocery>
+  + addItem(item: Grocery): void
+  + removeItem(item: Grocery): void
+  + displayItems(): void
+  + displayExpiringSoon(daysUntilExpiry: int): void
+  + searchItem(name: String): Grocery
+  + calculateTotalValue(): double
+  + removeItem(itemName: String, amountToRemove: double): void
+  + displayExpiredItemsAndTotalValue(): void
+}
+
+class Grocery {
+  + getName(): String
+  + getAmount(): double
+  + getPricePerUnit(): double
+  + getMeasuringUnit(): MeasuringUnit
+  + getDaysUntilExpiry(): int
+  + setAmount(amount: double): void
+}
+
+enum MeasuringUnit {
+  GRAM
+  KILOGRAM
+  MILLILITER
+  LITER
+}
+
+Fridge "1" --> "0..*" Grocery
+Grocery --> MeasuringUnit
+
+@enduml
