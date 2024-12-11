@@ -86,6 +86,7 @@ This project is structured using packages to organize the source code logically.
   Contains classes responsible for managing the core functionality:
   - `RecipeManager` - Handles recipe storage and operations.
   - `RecipeSearchManager` - Provides advanced search functionality for recipes.
+  - `Kitchenmanager` - Manages the fridge and recipe functionalities, provides the main application logic.
 
 - **`models`**:
   Contains the core data models used throughout the application:
@@ -96,7 +97,6 @@ This project is structured using packages to organize the source code logically.
 
 - **`utils`**:
   Contains utility and high-level management classes:
-  - `Kitchenmanager` - Manages the fridge and recipe functionalities, provides the main application logic.
   - `FilterCriteria` - Provides filtering options for recipes and groceries.
 
 - **`Main.java`**:
