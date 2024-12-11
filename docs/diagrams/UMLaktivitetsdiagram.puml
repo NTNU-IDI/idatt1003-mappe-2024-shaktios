@@ -1,0 +1,9 @@
+@startuml
+start
+:Bruker velger "Legg til vare";
+:Kitchenmanager kaller GroceryInputHelper;
+:GroceryInputHelper validerer input;
+:Grocery opprettes;
+:Vare legges til i Fridge;
+stop
+@enduml

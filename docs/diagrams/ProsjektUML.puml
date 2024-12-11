@@ -1,0 +1,100 @@
+@startuml
+class Kitchenmanager {
+    - Fridge fridge
+    - Cookbook cookbook
+    - Scanner scanner
+    + init(): void
+    + start(): void
+}
+
+class Fridge {
+    - List<Grocery> items
+    + addItem(Grocery item): void
+    + removeWholeItem(Grocery item): void
+    + getItems(): List<Grocery>
+    + searchItem(String name): Grocery
+    + displayItems(): void
+    + calculateTotalValue(): double
+}
+
+class Cookbook {
+    - List<Recipe> recipes
+    + addRecipe(Recipe recipe): void
+    + removeRecipe(Recipe recipe): void
+    + searchByName(String name): List<Recipe>
+    + suggestRecipes(Fridge fridge, int servings): List<Recipe>
+    + filterRecipes(FilterCriteria criteria): List<Recipe>
+}
+
+class Recipe {
+    - String name
+    - List<Grocery> ingredients
+    - DietCategory dietCategory
+    - Difficulty difficulty
+    + getName(): String
+    + getIngredients(): List<Grocery>
+    + getDietCategory(): DietCategory
+    + getDifficulty(): Difficulty
+    + addIngredient(Grocery ingredient): void
+}
+
+class Grocery {
+    - String name
+    - double amount
+    - MeasuringUnit measuringUnit
+    - Date bestBeforeDate
+    + getName(): String
+    + getAmount(): double
+    + getMeasuringUnit(): MeasuringUnit
+    + getBestBeforeDate(): Date
+    + calculateTotalPrice(): double
+    + isExpired(): boolean
+}
+
+class RecipeSearchManager {
+    - Cookbook cookbook
+    + searchRecipes(): void
+    + displayFilteredRecipes(FilterCriteria criteria): void
+}
+
+class GroceryInputHelper {
+    + readGroceryName(): String
+    + readMeasuringUnit(): MeasuringUnit
+    + readPositiveDouble(String prompt): double
+}
+
+class CookbookInputHelper {
+    + readDietCategory(): DietCategory
+    + readDifficulty(): Difficulty
+    + readServings(): int
+    + readCategory(): String
+    + readCuisine(): String
+}
+
+class FilterCriteria {
+    - DietCategory dietCategory
+    - Difficulty difficulty
+    - Integer maxPreparationTime
+    - List<String> ingredients
+    + setDietCategory(DietCategory category): void
+    + setDifficulty(Difficulty difficulty): void
+    + setMaxPreparationTime(Integer time): void
+}
+
+enum DietCategory
+enum Difficulty
+enum MeasuringUnit
+
+Kitchenmanager --> Fridge
+Kitchenmanager --> Cookbook
+Cookbook --> Recipe
+Recipe --> Grocery
+Recipe --> DietCategory
+Recipe --> Difficulty
+Grocery --> MeasuringUnit
+RecipeSearchManager --> Cookbook
+GroceryInputHelper --> Grocery
+CookbookInputHelper --> Recipe
+FilterCriteria --> DietCategory
+FilterCriteria --> Difficulty
+@enduml

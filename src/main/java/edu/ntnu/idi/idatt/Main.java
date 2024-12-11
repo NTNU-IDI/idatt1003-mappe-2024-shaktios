@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.utils.Kitchenmanager;
+import edu.ntnu.idi.idatt.managers.Kitchenmanager;
 
 /**
  * Wrapper class for the static main method to run the application.
