@@ -1,0 +1,64 @@
+@startuml
+left to right direction
+
+actor "Bruker" as U
+
+rectangle "MVP Funksjonalitet" as MVP {
+    usecase "Opprette vare/ingrediens" as UC_CreateGrocery
+    usecase "Legge til vare i kjøleskap" as UC_AddToFridge
+    usecase "Søke etter vare i kjøleskap" as UC_SearchGrocery
+    usecase "Fjerne mengde av en vare" as UC_RemoveGrocery
+    usecase "Vis oversikt over varer" as UC_ViewFridgeContents
+    usecase "Vis oversikt over utgåtte varer" as UC_ViewExpiredGroceries
+    usecase "Beregn totalverdi av varer" as UC_CalculateTotalValue
+    usecase "Avslutte programmet" as UC_Exit
+}
+
+rectangle "Utvidet Funksjonalitet" as Extended {
+    usecase "Opprette oppskrift" as UC_CreateRecipe
+    usecase "Lagre oppskrift i kokebok" as UC_AddToCookbook
+    usecase "Fjerne oppskrift" as UC_RemoveRecipe
+    usecase "Søk etter oppskrift etter navn" as UC_SearchRecipeByName
+    usecase "Søk etter oppskrift basert på en ingrediens" as UC_SearchRecipeByIngredient
+    usecase "Filtrer oppskrifter etter en kategori" as UC_FilterRecipesByCategory
+    usecase "Sjekke ingredienser for oppskrift" as UC_CheckIngredients
+    usecase "Få oppskriftforslag" as UC_GetRecipeSuggestions
+    usecase "Avansert søk etter oppskrifter" as UC_AdvancedRecipeSearch
+    usecase "Foreslå oppskrifter basert på kjøleskap" as UC_SuggestRecipes
+}
+
+rectangle "Egendefinert Funksjonalitet" as Custom {
+    usecase "Vis alle oppskrifter" as UC_ViewAllRecipes
+    usecase "Sorter oppskrifter etter tilberedningstid" as UC_SortRecipesByPrepTime
+    usecase "Sorter oppskrifter etter vanskelighetsgrad" as UC_SortRecipesByDifficulty
+}
+
+' Nivå 1 interaksjoner
+U --> UC_CreateGrocery : "Administrere matvarer"
+U --> UC_AddToFridge
+U --> UC_SearchGrocery
+U --> UC_RemoveGrocery
+U --> UC_ViewFridgeContents
+U --> UC_ViewExpiredGroceries
+U --> UC_CalculateTotalValue
+U --> UC_Exit
+
+' Nivå 2 interaksjoner
+U --> UC_CreateRecipe : "Administrere oppskrifter"
+U --> UC_AddToCookbook
+U --> UC_RemoveRecipe
+U --> UC_SearchRecipeByName
+U --> UC_SearchRecipeByIngredient
+U --> UC_FilterRecipesByCategory
+U --> UC_CheckIngredients
+U --> UC_GetRecipeSuggestions
+U --> UC_AdvancedRecipeSearch
+U --> UC_SuggestRecipes
+
+' Egendefinerte funksjoner
+U -->UC_SortRecipesByDifficulty
+U --> UC_SortRecipesByPrepTime
+U --> UC_ViewAllRecipes
+
+
+@enduml
